@@ -4,6 +4,35 @@ body{
     font-family: 'poppins';
 }
 
+:root {
+    --primaryTextColor: #000000;
+    --secondaryTextColor: #000000e8;
+    --borderInputColor: #00000034;
+}
+
 h2, p{
     margin: 0;
+}
+
+p{
+    font-size: 13px;
+    color: var(--secondaryTextColor);
+}
+
+h2{
+    font-weight: 600;
+    font-size: 26px;
+}
+
+label{
+    font-size: 14px;
+    color: var(--secondaryTextColor);
+}
+
+button{
+    border: none;
+    border-radius: 5px;
+    color: #FFFF;
+    font-size: 14px;
+    background-color: #409BBB;
 }
