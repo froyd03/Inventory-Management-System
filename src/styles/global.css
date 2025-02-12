@@ -36,3 +36,10 @@ button{
     font-size: 14px;
     background-color: #409BBB;
 }
+
+input{
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+}

@@ -42,7 +42,6 @@ section{
 
 .inputFields{
     margin-top: 1rem;
-    gap: 1rem;
     width: 100%;
 }
 
@@ -53,13 +52,16 @@ section{
     border-radius: 8px;
     padding: 8px;
     margin-bottom: 1rem;
-}
+    position: relative;
 
-input{
-    border: none;
-    outline: none;
-    width: 100%;
-    font-size: 14px;
+    &::after{
+        content: var(--dynamicText, "");
+        position: absolute;
+        top: -22px;
+        font-size: 12px;
+        color: #ff0000c4;
+        left: 30%;
+    }
 }
 
 @media (max-width: 500px) {
