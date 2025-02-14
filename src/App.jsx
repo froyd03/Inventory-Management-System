@@ -1,8 +1,14 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Login from './pages/Login/Login.jsx'
+import Nav from './components/nav.jsx'
+import Header from './components/Header.jsx'
 
 function App() {
   return (
-    <Login />
+    <BrowserRouter>
+     <Nav />
+     <Header />
+   </BrowserRouter>
   )
 }
 

@@ -1,0 +1,78 @@
+body{
+    background-color: #f0f1f3;
+}
+
+:root {
+    --primaryTextColor: #000000;
+    --secondaryTextColor: #000000b3;
+    --borderInputColor: #00000034;
+    --borderRadius: .5rem
+}
+
+nav{
+    background-color: #FFFF;
+    position: fixed;
+    height: 100%;
+    width: 240px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 2px 2px 3px #00000012;
+}
+
+.nav-header{
+    margin: 1rem;
+}
+
+.navBtn{
+    display: flex;
+    flex-direction: row;
+    margin: .5em;
+    gap: 1rem;
+    height: 2rem;
+    padding: 10px 20px 0px 10px;
+    border-radius: .5rem;
+    cursor: pointer;
+    transition: .2;
+    position: relative;
+}
+
+.navBtn:hover{
+    background-color: rgba(0, 0, 0, 0.137);
+}
+
+a{
+    text-decoration: none;
+    width: 100%;
+    color: var(--secondaryTextColor);
+}
+
+.active{
+    color: #ffffffda;
+    background-color: #409bbb;
+    border-radius: var(--borderRadius);
+}
+
+.nav-footer{
+    border-radius: var(--borderRadius);
+    background-color: #f5212174;
+    position: absolute;
+    bottom: 25px;
+    display: flex;
+    width: 80%;     
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    color: #FFFF;
+}
+
+@media (max-width: 800px) {
+    nav{
+        left: -250px;
+        transition: left 0.3s ease-in-out;
+    }
+
+    nav.active {
+        left: 0;
+    }
+}

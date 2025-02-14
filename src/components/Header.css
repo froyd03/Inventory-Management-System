@@ -1,0 +1,83 @@
+header{
+    background-color: #FFFF;
+    margin-left: 241px;
+    height: 65px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 2.5rem;
+    justify-content: space-between;
+    box-shadow: -2px 2px 3px #00000012;
+}
+
+:root {
+    --primaryTextColor: #000000;
+    --secondaryTextColor: #000000b3;
+    --borderInputColor: #00000034;
+    --buttonColor: #409bbb;
+    --borderRadius: .5rem
+}
+
+h4{
+    color: var(--secondaryTextColor);
+    margin: 0;
+}
+
+.menu-btn{
+    display: none;
+}
+
+
+.notifications{
+    border: 1px solid var(--borderInputColor);
+    color: var(--buttonColor);
+    display: flex;
+    padding: 5px 12px;
+    align-items: center;
+    border-radius: var(--borderRadius);
+}
+
+.settings{
+    border: 1px solid var(--borderInputColor);
+    display: flex;
+    align-items: center;
+    padding: 0 5px;
+    color: var(--buttonColor);
+    border-radius: var(--borderRadius);
+}
+
+.footer{
+    display: flex;
+    gap: 1rem;
+}
+
+.inp-search{
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    width: 15%;
+    min-width: 150px;
+    color: var(--secondaryTextColor);
+    border-radius: var(--borderRadius);
+    border: 1px solid var(--borderInputColor);
+}
+
+@media (max-width: 500px) {
+    .inp-search{
+        display: none;
+    }
+}
+
+@media (max-width: 800px) {
+    header{
+        margin: 0;
+
+        & > h4{
+            display: none;
+        }
+    }
+
+    .menu-btn{
+        display: block;
+    }
+}
