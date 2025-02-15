@@ -7,13 +7,13 @@ body{
     --secondaryTextColor: #000000b3;
     --borderInputColor: #00000034;
     --borderRadius: .5rem
-}
+}   
 
 nav{
     background-color: #FFFF;
     position: fixed;
     height: 100%;
-    width: 240px;
+    width: 230px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -47,7 +47,7 @@ a{
     color: var(--secondaryTextColor);
 }
 
-.active{
+.active, .navBtn.active:hover{
     color: #ffffffda;
     background-color: #409bbb;
     border-radius: var(--borderRadius);

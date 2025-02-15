@@ -1,4 +1,5 @@
 import './Header.css'
+import logo from '../assets/logo.png'
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
@@ -20,7 +21,11 @@ export default function Header(){
                 <SearchOutlinedIcon />
                 <input type="text" placeholder='Search'/>
             </div>
+            <img src={logo} width='50px' className='logo' alt="" />
             <div className='footer'>
+                <div className="search-icon">
+                    <SearchOutlinedIcon />z
+                </div>
                 <div className="notifications">
                     <NotificationsIcon />
                 </div>
@@ -28,7 +33,6 @@ export default function Header(){
                     <SettingsOutlinedIcon />
                 </div>
             </div>
-            
         </header>
     )
 }
