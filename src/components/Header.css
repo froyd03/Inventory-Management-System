@@ -55,24 +55,37 @@ h4{
     display: flex;
     flex-direction: row;
     padding: 5px;
-    width: 20%;
-    min-width: 180px;
+    width: 30%;
+    min-width: 120px;
     color: var(--secondaryTextColor);
     border-radius: var(--borderRadius);
     border: 1px solid var(--borderInputColor);
 }
 
-.logo{
+.logo, .search-icon{
     display: none;
 }
 
 @media (max-width: 500px) {
+    header{
+        padding: 0 .8rem;
+    }
+    
     .inp-search{
         display: none;
     }
 
-    .logo{
-        display: block;
+    .search-icon{
+        border: 1px solid var(--borderInputColor);
+        display: flex;
+        align-items: center;
+        padding: 0 5px;
+        color: var(--buttonColor);
+        border-radius: var(--borderRadius);
+    }
+
+    .footer{
+        gap: .5rem;
     }
 }
 
