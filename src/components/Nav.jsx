@@ -60,7 +60,7 @@ export default function Nav(){
 
     const closeIconRef = useRef();
     function handleClose(){
-        closeIconRef.current.classList.remove('active');
+        closeIconRef.current.classList.remove('sideBarActive');
     }
 
     return (
@@ -74,6 +74,7 @@ export default function Nav(){
            {navigationBtn.map((item, index) => 
                 <Link key={index}  to='/ ' onClick={() => handleActiveBtn(index)}>
                     <div    className='navBtn'
+                            onClick={handleClose}
                             ref={(el) => activePageRef.current[index] = el}>
                             {item.btnIcon}
                             <span>{item.btnName}</span>

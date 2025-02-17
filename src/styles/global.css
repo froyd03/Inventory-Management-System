@@ -10,7 +10,7 @@ body{
     --borderInputColor: #00000034;
 }
 
-h2, p{
+h2, p, h3{
     margin: 0;
 }
 
@@ -42,4 +42,24 @@ input{
     outline: none;
     width: 100%;
     font-size: 14px;
+}
+
+hr{
+    border-top: 1px solid #00000010;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #FFFF;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #88888897;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #5555550a;
 }

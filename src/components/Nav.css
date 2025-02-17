@@ -79,7 +79,7 @@ a{
         transition: left 0.15s cubic-bezier(.4, 0, .2, 1);
     }
 
-    nav.active {
+    nav.sideBarActive {
         left: 0;
     }
 

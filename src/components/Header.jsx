@@ -1,7 +1,9 @@
 import "./Header.css";
 import logo from "../assets/logo.png";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import SettingsIcon from '@mui/icons-material/Settings';
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import Nav from './Nav.jsx'
@@ -21,12 +23,16 @@ export default function Header() {
 
         const handleDocumentClick = (event) => {
             if (!activeNotifRef.current.contains(event.target)) {
-                activeNotifRef.current.classList.remove('activeNotif');
+                setActiveNotif(false);
+            }
+
+            if (!activeSettingsRef.current.contains(event.target)) {
+                SetActiveSetting(false);
             }
 
             const Navigation = document.querySelector('nav');
             if(!Navigation.contains(event.target)){
-                Navigation.classList.remove('active');
+                Navigation.classList.remove('sideBarActive');
             }
         };
 
@@ -47,17 +53,28 @@ export default function Header() {
     }, [searchVisible]);
 
     const activeNotifRef = useRef();
+    const [activeNotif, setActiveNotif] = useState(false);
     function handleToggleNotif(event){
-        activeNotifRef.current.classList.toggle('activeNotif');
-        document.querySelector('nav').classList.remove("active");
+        document.querySelector('nav').classList.remove("sideBarActive");
+        SetActiveSetting(false);
+        setActiveNotif(a => !a);
+        event.stopPropagation();
+    }
+
+    const activeSettingsRef = useRef();
+    const [activeSetting, SetActiveSetting] = useState(false);
+    function handleToggleSettings(event){
+        document.querySelector('nav').classList.remove("sideBarActive");
+        setActiveNotif(false)
+        SetActiveSetting(a => !a);
         event.stopPropagation();
     }
 
     function toggleMenu(event){
-        document.querySelector('nav').classList.toggle("active");
-        activeNotifRef.current.classList.remove('activeNotif');
+        document.querySelector('nav').classList.toggle("sideBarActive");
+        SetActiveSetting(false);
+        setActiveNotif(false)
         event.stopPropagation();
-
     }
 
     return (
@@ -96,17 +113,34 @@ export default function Header() {
                         <SearchOutlinedIcon />
                     </div>
                 )}
-                <div className="notifications">
+                <div className="notif-container" ref={activeNotifRef}>
                     <div className="notif-icon" onClick={handleToggleNotif}>
-                        <NotificationsIcon />
+                        {activeNotif ? <NotificationsIcon /> : <NotificationsOutlinedIcon /> }
                     </div>
-                    <div className="notif-item" ref={activeNotifRef}>
-                        <b><p>Item Delivered</p></b>
-                    </div>
+                    {activeNotif && <div className="notifications">
+                        <h3>Notifications</h3>
+                        <hr />
+                        <div className="notif-items">
+                            <b><p>Item Delivered</p></b>
+                            <p>your item has been delivered.</p>
+                            <hr />
+                        </div>
+                    </div>}
                 
                 </div>
-                <div className="settings">
-                    <SettingsOutlinedIcon />
+                <div className="" ref={activeSettingsRef}>
+                   <div className="notif-icon" onClick={handleToggleSettings}>
+                        {activeSetting ? < SettingsIcon />  : <SettingsOutlinedIcon />}
+                    </div>
+                   {activeSetting && <div className="notifications">
+                        <h3>Settings</h3>
+                        <hr />
+                        <div className="notif-items">
+                            <b><p>Item Delivered</p></b>
+                            <p>your item has been delivered.</p>
+                            <hr />
+                        </div>
+                    </div>}
                 </div>
             </div>
         </header>
