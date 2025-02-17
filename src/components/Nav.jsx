@@ -4,6 +4,7 @@ import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
+import CloseIcon from '@mui/icons-material/Close';
 import logo from '../assets/logo.png';
 import { Link } from "react-router-dom";
 import { useRef, useState, useEffect } from 'react';
@@ -55,11 +56,18 @@ export default function Nav(){
         })
         setClickedIndex(index);
         activePageRef.current[index].classList.add('active');
+    }
 
+    const closeIconRef = useRef();
+    function handleClose(){
+        closeIconRef.current.classList.remove('active');
     }
 
     return (
-        <nav>
+        <nav ref={closeIconRef}>
+            <div className="close" onClick={handleClose}>
+                <CloseIcon />
+            </div>
            <div className="nav-header">
                 <img src={logo} width='80px'/>
            </div>
@@ -72,10 +80,7 @@ export default function Nav(){
                     </div>
                 </Link>
             )}
-            <div className="nav-footer">
-                <LogoutOutlinedIcon />
-                <span>Log Out</span>
-            </div>
+           
         </nav>
     )
 }

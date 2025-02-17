@@ -6,7 +6,6 @@ import Header from './components/Header.jsx'
 function App() {
   return (
     <BrowserRouter>
-     <Nav />
      <Header />
    </BrowserRouter>
   )

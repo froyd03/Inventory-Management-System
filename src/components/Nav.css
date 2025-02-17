@@ -66,13 +66,25 @@ a{
     color: #FFFF;
 }
 
-@media (max-width: 800px) {
+.close{
+    position: absolute;
+    display: none;
+    top: 10px;
+    right: 10px;
+}
+
+@media only screen and (max-width: 800px) {
     nav{
         left: -250px;
-        transition: left 0.3s ease-in-out;
+        transition: left 0.15s cubic-bezier(.4, 0, .2, 1);
     }
 
     nav.active {
         left: 0;
     }
+
+    .close{
+        display: block;
+    }
+    
 }
