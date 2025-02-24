@@ -15,7 +15,7 @@ export default function Nav(){
     const navigationBtn = [
         {
             btnName:'Dashboard', 
-            path: '/',
+            path: '/dashboard',
             btnIcon: <HomeOutlinedIcon sx={{fontSize: 25}}/>
         },
         {
@@ -44,7 +44,7 @@ export default function Nav(){
     const [clickedIndex, setClickedIndex] = useState(0);
 
     useEffect(() => {
-        handleActiveBtn(clickedIndex)
+        handleActiveBtn(clickedIndex);
     }, [clickedIndex])
 
     

@@ -106,7 +106,7 @@ export default function Header() {
                 </>
             ) }
 
-            <img src={logo} width="50px" className="logo" alt="Logo" />
+            <img src={logo} width="50px" className="logo-img" alt="Logo" />
             <div className="footer">
                 {!searchVisible && (
                     <div onClick={() => setSearchVisible(true)} className="search-icon">

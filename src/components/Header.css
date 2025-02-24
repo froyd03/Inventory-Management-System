@@ -84,7 +84,7 @@ h4{
     border: 1px solid var(--borderInputColor);
 }
 
-.logo, .search-icon{
+.logo-img, .search-icon{
     display: none;
 
     & > svg {

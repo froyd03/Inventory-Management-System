@@ -6,8 +6,17 @@ import Header from './components/Header.jsx'
 function App() {
   return (
     <BrowserRouter>
-     <Header />
-   </BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Login />}/>
+        <Route path='/dashboard' 
+              element={
+                <>
+                <Nav /> 
+                <Header />
+                </>
+              }/>
+      </Routes>
+    </BrowserRouter>
   )
 }
 
