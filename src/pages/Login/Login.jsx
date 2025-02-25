@@ -9,7 +9,23 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function Login(){
+    const navigate = useNavigate();
 
+    useEffect(() => {
+        fetch("http://localhost/Inventory-Management-System/backend/session.php", {
+            method: "GET", 
+            credentials:"include"
+        })
+        .then(response => response.json())
+        .then(value => {
+            if(value.isRedirect){
+                navigate("/dashboard");
+            }else{
+                navigate("/");
+            }
+        });
+    }, [])
+    
     const [isShowPassword, setShowPassword] = useState(false);
     function handleShowPassword(){
         setShowPassword(p => !p);
@@ -116,8 +132,6 @@ export default function Login(){
     }
 
     const [loginMessage, setLoginMessage] = useState("");
-    const navigate = useNavigate();
-
     async function loginSubmitForm(event){
         event.preventDefault();
         const formData = new FormData();
@@ -128,11 +142,13 @@ export default function Login(){
             try{
                 const response = await fetch('http://localhost/Inventory-Management-System/backend/login.php', {
                     method: "POST",
+                    credentials: "include",
                     body: formData
                 });
 
                 const result = await response.json();
                 if(result.isAuth){
+                    console.log(result.isAuth);
                     navigate("/dashboard");
                 }else{
                     setLoginMessage("Incorrect username and password.");
@@ -158,12 +174,12 @@ export default function Login(){
                     <label>Email</label>
                     <div className="inp-container">
                         <PersonOutlineOutlinedIcon color='primary'/>
-                        <input type="text" name='email' onChange={handleLoginEmail} placeholder='delacruz@gmail.com' />
+                        <input type="text" onChange={handleLoginEmail} placeholder='delacruz@gmail.com' />
                     </div>
                     <label>Password</label>
                     <div className="inp-container">
                         <HttpsOutlinedIcon color='primary'/>
-                        <input type={isShowPassword ? "text":"password"} onChange={handleLoginPassword} name='password' placeholder='Password'/>
+                        <input type={isShowPassword ? "text":"password"} onChange={handleLoginPassword} placeholder='Password'/>
                         {isShowPassword ? <RemoveRedEyeOutlinedIcon onClick={handleShowPassword} />  : 
                                           <VisibilityOffOutlinedIcon onClick={handleShowPassword } />}
                     </div>
@@ -181,15 +197,15 @@ export default function Login(){
                 <div className="inputFields">
                     <label>Name*</label>
                     <div ref={NEWnameRef} className="inp-container">
-                        <input onChange={handleCreateName} name='name' type="text" placeholder='Juan Dela Cruz' />
+                        <input onChange={handleCreateName} type="text" placeholder='Juan Dela Cruz' />
                     </div>
                     <label>Email*</label>
                     <div ref={NEWgmailRef} className="inp-container">
-                        <input onChange={handleCreateEmail} name='email' type="email" placeholder='delacruz@gmail.com' />
+                        <input onChange={handleCreateEmail} type="email" placeholder='delacruz@gmail.com' />
                     </div>
                     <label>Password*</label>
                     <div ref={NEWpasswordRef} className="inp-container">
-                        <input onChange={handleCreatePass} name='password' type={isShowPassword ? "text":"password"} placeholder='Password'/>
+                        <input onChange={handleCreatePass} type={isShowPassword ? "text":"password"} placeholder='Password'/>
                         {isShowPassword ? <RemoveRedEyeOutlinedIcon onClick={handleShowPassword} />  : 
                                         <VisibilityOffOutlinedIcon onClick={handleShowPassword } />}
                     </div>

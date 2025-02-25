@@ -8,8 +8,11 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import Nav from './Nav.jsx'
 import { useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
+    const [greetUser, setGreetUser] = useState();
+
     const inputRef = useRef(); // Reference for input
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [searchVisible, setSearchVisible] = useState(false);
@@ -77,6 +80,18 @@ export default function Header() {
         event.stopPropagation();
     }
 
+    const navigate = useNavigate();
+    function logOut(){
+        fetch("http://localhost/Inventory-Management-System/backend/logout.php", {method:"GET", credentials:"include"})
+            .then(response => response.json())
+            .then(value => {
+                if(!value.isRedirect){
+                    navigate("/", {replace: true});
+                }
+            })
+            .catch(error => console.error("fetched failed", error));
+    }
+
     return (
         <>
         <Nav/>
@@ -136,9 +151,7 @@ export default function Header() {
                         <h3>Settings</h3>
                         <hr />
                         <div className="notif-items">
-                            <b><p>Item Delivered</p></b>
-                            <p>your item has been delivered.</p>
-                            <hr />
+                           <button onClick={logOut}>logout</button>
                         </div>
                     </div>}
                 </div>

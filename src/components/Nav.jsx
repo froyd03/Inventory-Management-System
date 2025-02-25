@@ -72,7 +72,7 @@ export default function Nav(){
                 <img src={logo} width='80px'/>
            </div>
            {navigationBtn.map((item, index) => 
-                <Link key={index}  to='/ ' onClick={() => handleActiveBtn(index)}>
+                <Link key={index} to={item.path} onClick={() => handleActiveBtn(index)}>
                     <div    className='navBtn'
                             onClick={handleClose}
                             ref={(el) => activePageRef.current[index] = el}>
