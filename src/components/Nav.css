@@ -2,13 +2,6 @@ body{
     background-color: #f0f1f3;
 }
 
-:root {
-    --primaryTextColor: #000000;
-    --secondaryTextColor: #000000b3;
-    --borderInputColor: #00000034;
-    --borderRadius: .5rem
-}   
-
 nav{
     background-color: #FFFF;
     position: fixed;

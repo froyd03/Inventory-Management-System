@@ -160,7 +160,7 @@ export default function Login(){
     }
 
     return(
-        <section>
+        <div className='main-container'>
             <div className="logo">
                <img src={logoBrand} width='220px' alt="" />
             </div>
@@ -169,7 +169,7 @@ export default function Login(){
             <form onSubmit={loginSubmitForm} className="login">
                <img src={logoBrand} width='60px' alt="dasd" />
                 <h2>Log in to your account</h2>
-                <p>"Welcome back! Please enter your details."</p>
+                <p>Welcome back! Please enter your details.</p>
                 <div className="inputFields">
                     <label>Email</label>
                     <div className="inp-container">
@@ -214,6 +214,6 @@ export default function Login(){
                 <button className='sign-in'>Get Started</button>
                 <button className='createAcc' onClick={handleCreateAccount}>Sign Up</button>
             </form>}
-        </section>
+        </div>
     )
 }

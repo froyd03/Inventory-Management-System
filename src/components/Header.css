@@ -10,14 +10,6 @@ header{
     box-shadow: -2px 2px 3px #00000012;
 }
 
-:root {
-    --primaryTextColor: #000000;
-    --secondaryTextColor: #000000b3;
-    --borderInputColor: #00000034;
-    --buttonColor: #409bbb;
-    --borderRadius: .5rem
-}
-
 h4{
     color: var(--secondaryTextColor);
     margin: 0;
@@ -77,10 +69,10 @@ h4{
 .inp-search{
     display: flex;
     flex-direction: row;
-    padding: 5px;
+    padding: 5px 8px;
     width: 30%;
     color: var(--secondaryTextColor);
-    border-radius: var(--borderRadius);
+    border-radius: 50px;
     border: 1px solid var(--borderInputColor);
 }
 

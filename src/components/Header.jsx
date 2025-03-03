@@ -18,6 +18,7 @@ export default function Header() {
     const [searchVisible, setSearchVisible] = useState(false);
 
     useEffect(() => {
+        
         const handleWindowResize = () => {
             const width = window.innerWidth;
             setWindowWidth(width);
@@ -94,7 +95,6 @@ export default function Header() {
 
     return (
         <>
-        <Nav/>
         <header>
             <div className="menu-btn" onClick={toggleMenu}>
                 <MenuOutlinedIcon />
@@ -104,7 +104,7 @@ export default function Header() {
             {windowWidth > 500 ? (
                 <div className="inp-search">
                     <SearchOutlinedIcon />
-                    <input type="text" placeholder="Search" />
+                    <input type="text" placeholder="Search product, supplier, order" />
                 </div>
             ) : (
                 <>
@@ -114,7 +114,7 @@ export default function Header() {
                         <input 
                             type="text" 
                             ref={inputRef} 
-                            placeholder="Search" 
+                            placeholder="Search product, supplier, order" 
                             onBlur={() => setSearchVisible(false)}/>
                     </div>
                 ) }
