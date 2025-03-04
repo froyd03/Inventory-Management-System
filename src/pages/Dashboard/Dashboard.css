@@ -1,37 +1,35 @@
 
 .container{
     display: flex;
+    flex-wrap: nowrap;
     width: 90%; max-width: 1200px;
     flex-direction: row;
     gap: 1rem;
 }
 
-.overview, .summary{
+.layout, .layout2{
     display: flex;
     padding: 15px;
+    flex-grow: 0;
     flex-direction: column;
     background-color: white;
-    border-radius: 8px;
-
-    & > h3{
-        font-weight: 500;
-        color: var(--secondaryTextColor);
-    }
+    border-radius: var(--borderRadius);
 }
 
-.summary{
+.layout2{
     width: 30%;
+    text-align: center;
 }
 
-.overview{
+.layout{
     width: 70%;
+    justify-content: center;
 }
 
 .overview-item{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    align-items: center;
     margin-top: 10px;
     gap: 1rem;
 }
@@ -51,10 +49,11 @@
     flex-direction: row;
     margin-top: 15px;
     justify-content: space-around;
-    align-items: center;
+
     & > .item{
         gap: 0;
         align-items: center;
+       
     }
 }
 
@@ -62,4 +61,37 @@
     display: flex;
     flex-direction: row;
     gap: 1rem;
+}
+
+.top-sell{
+    width: 30%;
+    background-color: #FFFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    text-align: center;
+    border-radius: var(--borderRadius);
+}
+
+.product{
+    margin: auto;
+}
+
+@media only screen and (max-width: 850px) {
+    .container{
+        flex-wrap: wrap;
+    }
+
+    .layout2, .layout{
+        flex-grow: 1;
+        text-align: center;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .sales{
+        flex-direction: column;
+        align-items: center;
+    }
 }

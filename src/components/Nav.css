@@ -66,7 +66,7 @@ a{
     right: 10px;
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 850px) {
     nav{
         left: -250px;
         transition: left 0.15s cubic-bezier(.4, 0, .2, 1);
