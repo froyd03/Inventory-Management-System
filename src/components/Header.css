@@ -1,11 +1,14 @@
 header{
     background-color: #FFFF;
-    margin-left: 232px;
     height: 62px;
     display: flex;
     flex-direction: row;
     align-items: center;
     padding: 0 2.5rem;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: calc(94% - 232px);
     justify-content: space-between;
     box-shadow: -2px 2px 3px #00000012;
 }
@@ -21,6 +24,17 @@ h4{
 
 .notif-container{
     position: relative;
+}
+
+.notif-container::after{
+    content: "";
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #aa3128d0;
 }
 
 .notif-icon{
@@ -88,6 +102,8 @@ h4{
     header {
         margin: 0;
         gap: 15%;
+        left: 0;
+        width: 92%;
     }
 
     header > h4 {
