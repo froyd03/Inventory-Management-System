@@ -1,21 +1,36 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Dashboard from "../pages/Dashboard/Dashboard";
 
-export default function Protected( {children} ){
-
-    const navigate = useNavigate();
-    const [component, setComponent] = useState();
-    useEffect(() => {
+const Protected = ({ children }) => {
+        const navigate = useNavigate();
+        const [isAuthorized, setIsAuthorized] = useState(true);
+    
+        useEffect(() => {
             fetch("http://localhost/Inventory-Management-System/backend/session.php", {
-                method: "GET", 
-                credentials:"include"
+                method: "GET",
+                credentials: "include"
             })
             .then(response => response.json())
             .then(value => {
-                const element = value.isRedirect ? children : navigate("/");
-                setComponent(element);
+                if (value.isRedirect) {
+                    setIsAuthorized(true);
+                } else {
+                    navigate("/");
+                }
             })
-    }, [])
+            .catch(error => {
+                console.error("Error checking session:", error);
+                navigate("/");
+            });
+        }, [navigate]);
+    
+        if (isAuthorized === null) {
+            return <p>Loading...</p>; // Show a loading state while checking session
+        }   
+    
+        return <>{children}</>; // Render children only if session is valid
+};
 
-    return component;
-}
+
+export default Protected;

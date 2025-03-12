@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { useRef, useState, useEffect } from 'react';
 import './Nav.css';
 
-export default function Nav(){
+export default function Nav(props){
 
     const navigationBtn = [
         {
@@ -20,7 +20,7 @@ export default function Nav(){
         },
         {
             btnName:'Inventory', 
-            path: '/slot',
+            path: '/inventory',
             btnIcon:  <Inventory2OutlinedIcon sx={{fontSize: 25}}/>
         },
         {
@@ -55,7 +55,7 @@ export default function Nav(){
             }
         })
         setClickedIndex(index);
-        activePageRef.current[index].classList.add('active');
+        activePageRef.current[props.index].classList.add('active');
     }
 
     const closeIconRef = useRef();

@@ -8,18 +8,29 @@ import retrn from '../../assets/return-on-investmentC.png';
 import purchase from '../../assets/checklistC.png';
 import box from '../../assets/boxC.png';
 import delivery from '../../assets/deliveryC.png';
-import {dataGraphYearly, dataGraphWeekly} from '../../utils/dataGraph'
+import {dataGraphMonthly, dataGraphWeekly, dataGraphYearly} from '../../utils/dataGraph'
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import { BarChart } from '@mui/x-charts/BarChart';
 import logo from '../../assets/logo.png'
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
+import Nav from '../../components/Nav';
+import Header from '../../components/Header';
 import { useEffect, useRef, useState } from 'react';
 
 export default function Dashboard(){
-
+    const [dataGraph, setDataGraph] = useState(dataGraphMonthly);
     function handleSelectDate(e){
-        console.log(e.target.value);
+        const selectedDate = e.target.value;
+
+        switch(selectedDate){
+            case 'Monthly': setDataGraph(dataGraphMonthly); 
+                break;
+            case 'Weekly': setDataGraph(dataGraphWeekly); 
+                break;
+            case 'Yearly': setDataGraph(dataGraphYearly); 
+                break;
+        }
     }
 
     const containerRef = useRef(null);
@@ -35,7 +46,7 @@ export default function Dashboard(){
                     containerRef.current.scrollWidth
                 ) {
                     setTimeout(() => {
-                    containerRef.current.scrollTo({ left: 0 });
+                        containerRef.current.scrollTo({ left: 0 });
                     }, 100);
                 }
             }
@@ -44,6 +55,9 @@ export default function Dashboard(){
     }, []);
 
     return (
+        <>
+        <Header />
+        <Nav index={0} />
         <section>
             <div className="container">
                 <div className="layout">
@@ -144,29 +158,31 @@ export default function Dashboard(){
                         <div className="slctDate">
                             <CalendarTodayOutlinedIcon />
                             <select onChange={handleSelectDate}>
-                                <option value="Monthly">Weekly</option>
                                 <option value="Monthly">Monthly</option>
+                                <option value="Weekly">Weekly</option>
                                 <option value="Yearly">Yearly</option>
                             </select>
                         </div>
                     </div>
-                    <BarChart 
-                        dataset={dataGraphYearly}
-                        xAxis={[
-                            {
-                            dataKey: 'date',
-                            scaleType: 'band',
-                            categoryGapRatio: 0.5,
-                            barGapRatio: 0.3,
-                            },
-                        ]}
-                        series={[
-                            {dataKey: 'sales', color: '#1E214C', label: 'purchase'}, 
-                            {dataKey: 'purchase', color: '#409BBB', label: 'sales'},
-                        ]}
-                        borderRadius={20}
-                        style={{width:'90%', height:'300px'}}
-                    />
+                    <div>
+                        <BarChart 
+                            dataset={dataGraph}
+                            xAxis={[
+                                {
+                                dataKey: 'date',
+                                scaleType: 'band',
+                                categoryGapRatio: 0.5,
+                                barGapRatio: 0.3,
+                                },
+                            ]}
+                            series={[
+                                {dataKey: 'sales', color: '#1E214C', label: 'purchase'}, 
+                                {dataKey: 'purchase', color: '#409BBB', label: 'sales'},
+                            ]}
+                            borderRadius={20}
+                            style={{width:'90%', height:'300px'}}
+                        />
+                    </div>
                 </div>
                 <div className="top-sell">
                     <h3>Top Selling Product</h3>
@@ -189,7 +205,7 @@ export default function Dashboard(){
                     </div>
                 </div>
             </div>
-            <div className='lowStockItem'>
+            <div className='tblContainer'>
                 <h3>Low Quantity Stock</h3>
                 <table>
                     <thead>
@@ -217,5 +233,6 @@ export default function Dashboard(){
                 </table>
             </div>
         </section>
+        </>
     )
 }

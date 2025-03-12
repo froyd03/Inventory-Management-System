@@ -18,13 +18,15 @@ export default function Login(){
         })
         .then(response => response.json())
         .then(value => {
-            if(value.isRedirect){
-                navigate("/dashboard");
-            }else{
-                navigate("/");
-            }
+           
         });
-    }, [])
+
+        if(true){
+            navigate("/dashboard");
+        }else{
+            navigate("/");
+        }
+    }, []);
     
     const [isShowPassword, setShowPassword] = useState(false);
     function handleShowPassword(){
@@ -118,7 +120,6 @@ export default function Login(){
             setMessage('input all fields before submitting.')
         }
     }
-
     const [loginEmail, setLoginEmail] = useState("");
     function handleLoginEmail(e){
         setLoginEmail(e.target.value);
