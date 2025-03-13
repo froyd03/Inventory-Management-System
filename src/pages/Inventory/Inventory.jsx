@@ -5,6 +5,7 @@ import Header from '../../components/Header.jsx'
 import Pagination from '../../components/Pagination.jsx'
 import { useEffect, useRef, useState } from 'react'
 import FilterListIcon from '@mui/icons-material/FilterList';
+import AddProduct from '../../components/AddProduct.jsx'
 
 export default function Inventory(){
     const [position, setPosition] = useState(0);
@@ -30,49 +31,8 @@ export default function Inventory(){
         }
     }
 
-    const previewImageRef  = useRef(null);
-    const textRef  = useRef(null);
-
-    function handleImage(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                previewImageRef.current.src = e.target.result;
-                previewImageRef.current.style.display = 'block';
-                textRef.current.style.display = 'none';
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
-    const imageContainerRef = useRef();
-    function handleDragOver(e) {
-        e.preventDefault();
-        imageContainerRef.current.style.borderColor = '#1092A4';
-    };
-
-    function handleDragLeave() {
-        imageContainerRef.current.style.borderColor = '#ccc';
-    };
-
-    function handleDrop(e) {
-        e.preventDefault();
-        imageContainerRef.current.style.borderColor = '#ccc';
-        const file = e.dataTransfer.files[0];
-        if (file) {
-            imageInput.files = e.dataTransfer.files;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                previewImageRef.current.src = e.target.result;
-                previewImageRef.current.style.display = 'block';
-                textRef.current.style.display = 'none';
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
     const [isShowAddProduct, setShowAddProduct] = useState(false);
+    const [productionForm, showProductionForm] = useState(true);
 
     return (
         <>
@@ -237,47 +197,35 @@ export default function Inventory(){
         </div>
         </section>
 
-        { isShowAddProduct && <div className="modal">
-            <div className="newProd">
-                <h3>New Product</h3>
-                <div className="inputs">
-
-                    <label htmlFor="imageInput"
-                            ref={imageContainerRef} 
-                            onDragOver={handleDragOver} 
-                            onDragLeave={handleDragLeave}
-                            onDrop={handleDrop}
-                            id='imageContainer'>
-                        <span ref={textRef}>Drag image here<br/>or<br/><b>Browse image</b></span>
-                        <img id="previewImage" ref={previewImageRef} alt="Selected Image"></img>
-                    </label>
-                    <input type="file" id="imageInput" onChange={handleImage} accept="image/*" />
-
-                    <div className='inp-prod'>
-                        <label>Product Name</label>
-                        <input type="text" placeholder='Enter product name'/>
-                    </div>
-                    <div className='inp-prod'>
-                        <label>Product ID</label>
-                        <input type="text" placeholder='Enter product ID'/>
-                    </div>
-                    <div className='inp-prod'>
-                        <label>Selling Price</label>
-                        <input type="number" placeholder='Enter selling price'/>
-                    </div>
-                    <div className='inp-prod'>
-                        <label>Measurement Unit</label>
-                        <input type="number" placeholder='Enter selling price'/>
-                    </div>
+        {isShowAddProduct && <AddProduct showState={() => setShowAddProduct(p => !p)} />}
+        {productionForm && 
+            <div className='modal'>
+                <div className="newProduction">
+                    <h3>New Production</h3>
+                    <div className="materials-need">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Available Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td ><label>Wood Plank</label></td>
+                                <td className='quantity-count'>200 pcs</td>
+                            </tr>
+                            <tr>
+                                <td><label>Screws</label></td>
+                                <td className='quantity-count'>500 pcs</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                   
                 </div>
-                <div className="actions-btn">
-                    <button className='discard' onClick={() => setShowAddProduct(p => !p)}>Discard</button>
-                    <button >Add Product</button>
                 </div>
             </div>
-            
-        </div>}
-        
+        }
         </>
     )
 }

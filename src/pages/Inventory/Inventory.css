@@ -106,7 +106,6 @@
 .inputs{
     display: flex;
     flex-direction: column;
-    margin-top: 1rem;
     gap: 1rem;
 
     & > hr{
@@ -192,4 +191,48 @@ input[type="file"] {
 .order{
     padding: 5px 8px;
     background-color: var(--secondaryButtonColor);
+}
+
+.materials-need{
+    height: 110px;
+    padding: 8px;
+    overflow-y: auto;
+    border: 1px solid var(--borderInputColor);
+    border-radius: var(--borderRadius);
+
+    table{
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    tr{
+        border-bottom: 1px solid #0000002a;
+    }
+
+    td, th, tr{
+        padding: 8px;
+        text-align: center;
+        font-size: 14px;
+        color: var(--secondaryTextColor);
+    }
+}
+
+.quantity{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 20%;
+}
+
+.quantity-count{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.newProduction{
+    padding: 20px;
+    width: 25%;
+    max-width: 450px;
+    background-color: #FFFF;
 }
