@@ -199,6 +199,8 @@ input[type="file"] {
     overflow-y: auto;
     border: 1px solid var(--borderInputColor);
     border-radius: var(--borderRadius);
+    text-align:left;
+
 
     table{
         width: 100%;
@@ -211,7 +213,6 @@ input[type="file"] {
 
     td, th, tr{
         padding: 8px;
-        text-align: center;
         font-size: 14px;
         color: var(--secondaryTextColor);
     }
@@ -233,6 +234,95 @@ input[type="file"] {
 .newProduction{
     padding: 20px;
     width: 25%;
-    max-width: 450px;
+    display: flex;
+    flex-direction: column;
     background-color: #FFFF;
+    border-radius: var(--borderRadius);
+}
+
+.prodContainer{
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+    max-height: 110px;
+    overflow-x: auto;
+    padding: 12px;
+    border: 2px solid var(--borderInputColor);
+    border-radius: var(--borderRadius);
+}
+
+.availProduct{
+    border: 1px solid var(--borderInputColor);
+    border-radius: var(--borderRadius);
+    padding: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.availProduct:hover{
+    transform: scale(1.03);
+}
+
+.productionDetails{
+    margin-top: 1rem;
+    position: relative;
+
+    & > label{
+        font-size: 14px;
+    }
+
+    & > label::after{
+        position: absolute;
+        top: 12px;
+        right: 0px;
+        content: "";
+        width: 58%;
+        height: 2px;
+        background-color: var(--borderInputColor);
+    }
+}
+
+.detailsContainer{
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-around;
+}
+
+.count{
+    gap: 2rem;
+
+    & > label{
+        font-size: 16px;
+    }
+}
+
+.materialsRequire{
+    display: flex;
+    margin-top: .5rem;
+    gap: 30%;
+    justify-content: space-around;
+}
+
+.selected{
+    background-color: var(--buttonColor);
+    border: none;
+}
+
+.materialContainer{
+    margin: 1rem 0 0 1.5rem;
+}
+
+.details{
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+
+    & > label{
+        width: 40%;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--secondaryTextColor);
+    }
 }

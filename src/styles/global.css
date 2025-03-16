@@ -127,14 +127,14 @@ select{
 }
 
 .tblContainer{
-    width: 85%; max-width: 1180px;
+    width: 90%; max-width: 1200px;
     padding: 15px;
     background-color: white;
     border-radius: var(--borderRadius);
+    text-align:left;
 
     td, th, tr{
         padding: 15px;
-        text-align: center;
         font-size: 16px;
         color: var(--secondaryTextColor);
     }
@@ -157,6 +157,10 @@ select{
 
 input[type="checkbox"]{
     width: max-content;
+}
+
+.invalidInput{
+    border-color: red !important;
 }
 
 ::-webkit-scrollbar {

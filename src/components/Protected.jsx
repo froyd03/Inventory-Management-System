@@ -4,7 +4,7 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 
 const Protected = ({ children }) => {
         const navigate = useNavigate();
-        const [isAuthorized, setIsAuthorized] = useState(true);
+        const [isAuthorized, setIsAuthorized] = useState(false);
     
         useEffect(() => {
             fetch("http://localhost/Inventory-Management-System/backend/session.php", {

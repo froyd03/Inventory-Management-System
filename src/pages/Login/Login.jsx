@@ -9,24 +9,26 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function Login(){
-    const navigate = useNavigate();
+    const navigate = useNavigate();   
 
     useEffect(() => {
         fetch("http://localhost/Inventory-Management-System/backend/session.php", {
-            method: "GET", 
-            credentials:"include"
+            method: "GET",
+            credentials: "include"
         })
         .then(response => response.json())
         .then(value => {
-           
-        });
-
-        if(true){
-            navigate("/dashboard");
-        }else{
+            if (value.isRedirect) {
+                navigate("/dashboard");
+            } else {
+                navigate("/");
+            }
+        })
+        .catch(error => {
+            console.error("Error checking session:", error);
             navigate("/");
-        }
-    }, []);
+        });
+    }, [navigate]);
     
     const [isShowPassword, setShowPassword] = useState(false);
     function handleShowPassword(){
@@ -71,25 +73,22 @@ export default function Login(){
     const [password, setPassword] = useState();
     function handleCreatePass(e){
         const userPassword = e.target.value;
-        const includeSymbols = /[-@/_$#]/.test(userPassword);
-        const includeNumbers = /[1234567890]/.test(userPassword);
-
-        setPassword('');
-        if(userPassword.length < 8){
-            NEWpasswordRef.current.style.setProperty("--dynamicText", '"at least 8 characters length"');
-        }else if(!includeSymbols){
-            NEWpasswordRef.current.style.setProperty("--dynamicText", '"at least one symbol character"');
-        }else if(!includeNumbers){
-            NEWpasswordRef.current.style.setProperty("--dynamicText", '"include some numbers"')
+        const correctPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&\-_])[A-Za-z\d@$!%*?&\-_]{8,}$/.test(userPassword);
+        
+        if(!correctPattern){
+            setMessage("Minimum 8 characters, at least one uppercase letter (A-Z), one lowercase letter (a-z), one number (0-9), and one special character (@, $, !, %, *, ?, &, -, _)");
+            NEWpasswordRef.current.classList.add("invalidInput");
+            setPassword('');
         }else{
-            NEWpasswordRef.current.style.setProperty("--dynamicText", '""');
+            setMessage('');
+            NEWpasswordRef.current.classList.remove("invalidInput");
             setPassword(userPassword);
         }
     }
 
     const [validPassword, setValidPassword] = useState(false);
     useEffect(() => {
-        setMessage('');
+        
         setValidPassword(name && gmail && password);
  
     }, [name, gmail, password]);
@@ -117,7 +116,7 @@ export default function Login(){
                 console.error("Error submitting form:", error);
             }
         }else{
-            setMessage('input all fields before submitting.')
+            setMessage('Complete all fields before submitting.')
         }
     }
     const [loginEmail, setLoginEmail] = useState("");
@@ -146,10 +145,11 @@ export default function Login(){
                     credentials: "include",
                     body: formData
                 });
-
+                
                 const result = await response.json();
-                if(result.isAuth){
-                    console.log(result.isAuth);
+                console.log(result.isAuthenticated);
+                if(result.isAuthenticated){
+                    console.log(result.isAuthenticated);
                     navigate("/dashboard");
                 }else{
                     setLoginMessage("Incorrect username and password.");

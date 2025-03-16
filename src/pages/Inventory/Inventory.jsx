@@ -6,6 +6,8 @@ import Pagination from '../../components/Pagination.jsx'
 import { useEffect, useRef, useState } from 'react'
 import FilterListIcon from '@mui/icons-material/FilterList';
 import AddProduct from '../../components/AddProduct.jsx'
+import Production from '../../components/Production.jsx'
+import OrderForm from '../../components/OrderForm.jsx'
 
 export default function Inventory(){
     const [position, setPosition] = useState(0);
@@ -32,7 +34,45 @@ export default function Inventory(){
     }
 
     const [isShowAddProduct, setShowAddProduct] = useState(false);
-    const [productionForm, showProductionForm] = useState(true);
+    const [productionForm, showProductionForm] = useState(false);
+
+    const materials = [
+        {
+            materialName: "Wood Plank",
+            buyingPrice: 2500,
+            quantity: 43,
+            availability: "out of stock"
+        },
+        {
+            materialName: "Screws",
+            buyingPrice: 300,
+            quantity: 88,
+            availability: "in-stock"
+        },
+        {
+            materialName: "barnish",
+            buyingPrice: 150,
+            quantity: 23,
+            availability: "low stock"
+        },
+        {
+            materialName: "Wooden Glue",
+            buyingPrice: 50,
+            quantity: 15,
+            availability: "in-stock"
+        },
+    ]
+
+    const [showOrderForm, setShOrderForm] = useState(false);
+    const [OrderIndex, setOrderIndex] = useState();
+    function handleOrderItem(index) {
+        setShOrderForm(s => !s);
+        setOrderIndex(index);
+    }
+
+    function discardBtn() {
+        setShOrderForm(s => !s);
+    }
 
     return (
         <>
@@ -85,35 +125,35 @@ export default function Inventory(){
                                 <th>Items</th>
                                 <th>Buying Price</th>
                                 <th>Quantity</th>
-                                <th>Expiry Date</th>
                                 <th>Availability</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Wood Plank</td>
-                                <td>₱2,500</td>
-                                <td>43 packets</td>
-                                <td>N/A</td>
-                                <td>out of stock</td>
-                                <td><button className="order">Order now</button></td>
+                            {materials.map((item, index) => 
+                            <tr key={index}>
+                                <td>{item.materialName}</td>
+                                <td>${item.buyingPrice}</td>
+                                <td>{item.quantity} packets</td>
+                                <td>{item.availability}</td>
+                                <td><button 
+                                        onClick={() => handleOrderItem(index)} 
+                                        className="order">Order now
+                                    </button>
+                                </td>
                             </tr>
-                            <tr>
-                                <td>Screws</td>
-                                <td>₱300</td>
-                                <td>88 packets</td>
-                                <td>N/A</td>
-                                <td>in-stock</td>
-                                <td><button className="order">Order now</button></td>
-                            </tr>
+                            )}
                         </tbody>
                     </table>
                     <Pagination numberOfData={15} maxPerPage={2}/>
                 </div>
                 <div className="tblInventory">
                     <div className="actions">
-                        <button className="addProduct">New Production</button>
+                        <button 
+                            className="addProduct" 
+                            onClick={() => showProductionForm(p => !p)}
+                                >New Production
+                        </button>
                         <div className="filter">
                             <FilterListIcon />
                             <select>
@@ -125,22 +165,25 @@ export default function Inventory(){
                         <thead>
                             <tr>
                                 <th>Product</th>
-                                <th>Status</th>
+                                <th>Time-left</th>
                                 <th>Progress</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>Monitor</td>
-                                <td>Finished</td>
+                                <td>18mins</td>
                                 <td>🔵🔵🔵🔵🔵 (100%)</td>
+                                <td>Finished</td>
                                 <td><button className='finishProd'>Move</button></td>
                             </tr>
                             <tr>
                                 <td>Keyboard</td>
-                                <td>In Production</td>
+                                <td>1hr</td>
                                 <td>🔵🔵⚪⚪⚪ (40%)</td>
+                                <td>In Production</td>
                                 <td><button className="stop">Cancel</button></td>
                             </tr>
                         </tbody>
@@ -161,33 +204,33 @@ export default function Inventory(){
                         <thead>
                             <tr>
                                 <th>Product Name</th>
+                                <th>Selling Price</th>
                                 <th>Quantity</th>
-                                <th>Stock</th>
-                                <th>Price</th>
+                                <th>Expiration</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>Wooden Chair</td>
-                                <td>43 packets</td>
-                                <td>10 pcs</td>
                                 <td>$50</td>
-                                <td><button className='sell'>Sell</button></td>
+                                <td>43 packets</td>
+                                <td>N/A</td>
+                                <td><button className='sell'>Sold</button></td>
                             </tr>
                             <tr>
                                 <td>Dining Table</td>
-                                <td>88 packets</td>
-                                <td>5 pcs</td>
                                 <td>$120</td>
-                                <td><button className='sell'>Sell</button></td>
+                                <td>88 packets</td>
+                                <td>N/A</td>
+                                <td><button className='sell'>Sold</button></td>
                             </tr>
                             <tr>
                                 <td>Organizer</td>
-                                <td>0 packets</td>
-                                <td>0 pcs</td>
                                 <td>$110</td>
-                                <td><button className='sell'>Sell</button></td>
+                                <td>0 packets</td>
+                                <td>N/A</td>
+                                <td><button className='sell'>Sold</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -198,34 +241,8 @@ export default function Inventory(){
         </section>
 
         {isShowAddProduct && <AddProduct showState={() => setShowAddProduct(p => !p)} />}
-        {productionForm && 
-            <div className='modal'>
-                <div className="newProduction">
-                    <h3>New Production</h3>
-                    <div className="materials-need">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Product Name</th>
-                                <th>Available Quantity</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td ><label>Wood Plank</label></td>
-                                <td className='quantity-count'>200 pcs</td>
-                            </tr>
-                            <tr>
-                                <td><label>Screws</label></td>
-                                <td className='quantity-count'>500 pcs</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                   
-                </div>
-                </div>
-            </div>
-        }
+        {productionForm && <Production showState={() => showProductionForm(p => !p)} />}
+        {showOrderForm && <OrderForm materials={materials} index={OrderIndex} discardBtn={discardBtn} />}
         </>
     )
 }

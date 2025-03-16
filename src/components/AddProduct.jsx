@@ -9,7 +9,7 @@ export default function AddProduct(props){
     }
 
     const previewImageRef  = useRef(null);
-    const textRef  = useRef(null);
+    const textRef = useRef(null);
 
     function handleImage(event) {
         const file = event.target.files[0];
@@ -151,12 +151,12 @@ export default function AddProduct(props){
                                 <td className='quantity-count'>
                                     <button 
                                         disabled={isDisabled[0]} 
-                                        onClick={() => QuantityAddCount(0)}>+
+                                        onClick={() => QuantitySubCount(0)}>-
                                     </button>
                                     <label>{quantityCount[0]}</label>
                                     <button 
                                         disabled={isDisabled[0]} 
-                                        onClick={() => QuantitySubCount(0)}>-
+                                        onClick={() => QuantityAddCount(0)}>+
                                     </button>
                                 </td>
                             </tr>
@@ -172,9 +172,9 @@ export default function AddProduct(props){
                                     <label>Screws</label>
                                 </td>
                                 <td className='quantity-count'>
-                                    <button disabled={isDisabled[1]} onClick={() => QuantityAddCount(1)}>+</button>
-                                    <label>{quantityCount[1]}</label>
                                     <button disabled={isDisabled[1]} onClick={() => QuantitySubCount(1)}>-</button>
+                                    <label>{quantityCount[1]}</label>
+                                    <button disabled={isDisabled[1]} onClick={() => QuantityAddCount(1)}>+</button>
                                 </td>
                             </tr>
                         </tbody>
