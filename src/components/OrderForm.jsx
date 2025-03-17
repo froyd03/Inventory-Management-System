@@ -7,19 +7,18 @@ export default function OrderForm(props){
     const [materialQuantity, setQuantity] = useState(1);
     function handlePriceValue(event){
         setQuantity(event.target.value);
-        
     }
 
     const [totalPrice, setTotalPrice] = useState();
     useEffect(() => {
-        const total = materialQuantity * props.materials[props.index].buyingPrice;
+        const total = materialQuantity * props.materials[props.index].price;
         setTotalPrice(total);
     }, [materialQuantity])
 
     return(
         <div className="modal">
             <div className="newProd">
-                <h3>{props.materials[props.index].materialName}</h3>
+                <h3>{props.materials[props.index].name}</h3>
                 <div className="inputs materialContainer">
                     <div className="inp-prod">
                         <label>Total Quantity: </label>

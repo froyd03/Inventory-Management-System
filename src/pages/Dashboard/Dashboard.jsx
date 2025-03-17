@@ -33,6 +33,23 @@ export default function Dashboard(){
         }
     }
 
+    function setLoading(){
+        return userData?.sales ?? <div className='modal-loading'>
+            <h1>Loading...</h1>
+        </div>
+    }
+
+    const [userData, setUserData] = useState();
+    useEffect(() => {
+        fetch('http://localhost/Inventory-Management-System/backend/pages/dashboard.php', {
+            method: "GET",
+            credentials: "include"
+        })
+        .then(response => response.json())
+        .then(value => setUserData(value));      
+
+    }, []);
+
     const containerRef = useRef(null);
     useEffect(() => {
         const interval = setInterval(() => {
@@ -67,7 +84,7 @@ export default function Dashboard(){
                             <p>Sales</p>
                             <div className='sales'>
                                 <img width={'30px'} alt='error' height={'30px'} src={sales}/>
-                                <h4>₱ 00.00</h4>
+                                <h4>₱ {userData?.salesOverview.sales}</h4>
                             </div>
                         </div>
                         <span className="vl"></span>
@@ -75,7 +92,7 @@ export default function Dashboard(){
                             <p>Revenue</p>
                             <div className='sales'>
                                 <img width={'30px'} alt='error' height={'30px'} src={revenue}/>
-                                <h4>₱ 00.00</h4>
+                                <h4>₱ {userData?.salesOverview.revenue}</h4>
                             </div>
                         </div>
                         <span className="vl"></span>
@@ -83,7 +100,7 @@ export default function Dashboard(){
                             <p>Profit</p>
                             <div className='sales'>
                                 <img width={'30px'} alt='error' height={'30px'} src={profit}/>
-                                <h4>₱ 00.00</h4>
+                                <h4>₱ {userData?.salesOverview.profit}</h4>
                             </div>
                         </div>
                     </div>
@@ -113,7 +130,7 @@ export default function Dashboard(){
                             <p>Purchase</p>
                             <div className='sales'>
                                 <img width={'40px'} alt='error' height={'40px'} src={purchase}/>
-                                <h4>₱ 00.00</h4>
+                                <h4>₱ {userData?.purchaseOverview.purchase}</h4>
                             </div>
                         </div>
                         <span className="vl"></span>
@@ -121,7 +138,7 @@ export default function Dashboard(){
                             <p>Cost</p>
                             <div className='sales'>
                                 <img width={'30px'} alt='error' height={'30px'} src={cost}/>
-                                <h4>₱ 00.00</h4>
+                                <h4>₱ {userData?.purchaseOverview.cost}</h4>
                             </div>
                         </div>
                         <span className="vl"></span>
@@ -129,7 +146,7 @@ export default function Dashboard(){
                             <p>Return</p>
                             <div className='sales'>
                                 <img width={'30px'} alt='error' height={'30px'} src={retrn}/>
-                                <h4>₱ 00.00</h4>
+                                <h4>₱ {userData?.purchaseOverview.retrn}</h4>
                             </div>
                         </div>
                     </div>
@@ -232,6 +249,7 @@ export default function Dashboard(){
                     </tbody>
                 </table>
             </div>
+            
         </section>
         </>
     )

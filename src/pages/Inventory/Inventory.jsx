@@ -35,33 +35,17 @@ export default function Inventory(){
 
     const [isShowAddProduct, setShowAddProduct] = useState(false);
     const [productionForm, showProductionForm] = useState(false);
+    const [materials, setMaterials] = useState([]);
 
-    const materials = [
-        {
-            materialName: "Wood Plank",
-            buyingPrice: 2500,
-            quantity: 43,
-            availability: "out of stock"
-        },
-        {
-            materialName: "Screws",
-            buyingPrice: 300,
-            quantity: 88,
-            availability: "in-stock"
-        },
-        {
-            materialName: "barnish",
-            buyingPrice: 150,
-            quantity: 23,
-            availability: "low stock"
-        },
-        {
-            materialName: "Wooden Glue",
-            buyingPrice: 50,
-            quantity: 15,
-            availability: "in-stock"
-        },
-    ]
+    useEffect(() => {
+
+        fetch("http://localhost/Inventory-Management-System/backend/pages/inventory.php", {
+            method: "GET",
+            credentials: "include"
+        })
+        .then(response => response.json())
+        .then(value => setMaterials(value));
+    }, [])
 
     const [showOrderForm, setShOrderForm] = useState(false);
     const [OrderIndex, setOrderIndex] = useState();
@@ -132,8 +116,8 @@ export default function Inventory(){
                         <tbody>
                             {materials.map((item, index) => 
                             <tr key={index}>
-                                <td>{item.materialName}</td>
-                                <td>${item.buyingPrice}</td>
+                                <td>{item.name}</td>
+                                <td>${item.price}</td>
                                 <td>{item.quantity} packets</td>
                                 <td>{item.availability}</td>
                                 <td><button 

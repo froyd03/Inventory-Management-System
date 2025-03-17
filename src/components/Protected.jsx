@@ -7,7 +7,7 @@ const Protected = ({ children }) => {
         const [isAuthorized, setIsAuthorized] = useState(false);
     
         useEffect(() => {
-            fetch("http://localhost/Inventory-Management-System/backend/session.php", {
+            fetch("http://localhost/Inventory-Management-System/backend/auth/session.php", {
                 method: "GET",
                 credentials: "include"
             })

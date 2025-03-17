@@ -79,20 +79,6 @@
     background-color: #d76b65;
 }
 
-.modal{
-    position: absolute;
-    top: 0px;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.089);
-}
-
 .newProd{
     display: flex;
     flex-direction: column;

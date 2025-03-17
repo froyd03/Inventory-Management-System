@@ -12,7 +12,7 @@ export default function Login(){
     const navigate = useNavigate();   
 
     useEffect(() => {
-        fetch("http://localhost/Inventory-Management-System/backend/session.php", {
+        fetch("http://localhost/Inventory-Management-System/backend/auth/session.php", {
             method: "GET",
             credentials: "include"
         })
@@ -103,7 +103,7 @@ export default function Login(){
             formData.append("password", password);
     
             try{
-                const response = await fetch("http://localhost/Inventory-Management-System/backend/signup.php", {
+                const response = await fetch("http://localhost/Inventory-Management-System/backend/auth/signup.php", {
                     method: "POST",
                     body: formData
                 });
@@ -140,16 +140,14 @@ export default function Login(){
 
         if(loginEmail && loginPassword){
             try{
-                const response = await fetch('http://localhost/Inventory-Management-System/backend/login.php', {
+                const response = await fetch('http://localhost/Inventory-Management-System/backend/auth/login.php', {
                     method: "POST",
                     credentials: "include",
                     body: formData
                 });
                 
                 const result = await response.json();
-                console.log(result.isAuthenticated);
                 if(result.isAuthenticated){
-                    console.log(result.isAuthenticated);
                     navigate("/dashboard");
                 }else{
                     setLoginMessage("Incorrect username and password.");

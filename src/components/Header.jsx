@@ -83,7 +83,7 @@ export default function Header() {
 
     const navigate = useNavigate();
     function logOut(){
-        fetch("http://localhost/Inventory-Management-System/backend/logout.php", {
+        fetch("http://localhost/Inventory-Management-System/backend/auth/logout.php", {
             method:"GET", 
             credentials:"include"
         })
