@@ -130,7 +130,7 @@ export default function Dashboard(){
                             <p>Purchase</p>
                             <div className='sales'>
                                 <img width={'40px'} alt='error' height={'40px'} src={purchase}/>
-                                <h4>₱ {userData?.purchaseOverview.purchase}</h4>
+                                <h4> {userData?.purchaseOverview.purchase}</h4>
                             </div>
                         </div>
                         <span className="vl"></span>

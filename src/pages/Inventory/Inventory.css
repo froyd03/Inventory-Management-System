@@ -153,8 +153,9 @@ input[type="file"] {
 
 .actions-btn{
     margin-top: 2rem;
-    align-self: flex-end;
     display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
     gap: 1rem;
 
     & > button{

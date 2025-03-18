@@ -17,7 +17,7 @@
     }
   }
 
-  include("database.php");
+  include("../config/database.php");
 
   if($_SERVER["REQUEST_METHOD"] === "POST"){
       if(empty($_POST["name"]) || empty($_POST["email"]) || empty($_POST["password"])){
@@ -37,7 +37,13 @@
         }
         
         try{
-          $sql = "INSERT INTO register (name, email, password) VALUES('{$name}', '{$email}', '{$hash}')";
+          $sql = "INSERT INTO users (
+            name, email, password
+          ) 
+          VALUES(
+            '{$name}', '{$email}', '{$hash}'
+          );";
+
           $isSuccess = mysqli_query($connection, $sql);
 
           if($isSuccess){

@@ -35,7 +35,9 @@ export default function Inventory(){
 
     const [isShowAddProduct, setShowAddProduct] = useState(false);
     const [productionForm, showProductionForm] = useState(false);
+
     const [materials, setMaterials] = useState([]);
+    const [products, setProducts] = useState([]);
 
     useEffect(() => {
 
@@ -44,7 +46,10 @@ export default function Inventory(){
             credentials: "include"
         })
         .then(response => response.json())
-        .then(value => setMaterials(value));
+        .then(value => {
+            setMaterials(value.materials);
+            setProducts(value.products);
+        });
     }, [])
 
     const [showOrderForm, setShOrderForm] = useState(false);
@@ -114,10 +119,10 @@ export default function Inventory(){
                             </tr>
                         </thead>
                         <tbody>
-                            {materials.map((item, index) => 
+                            {materials?.map((item, index) => 
                             <tr key={index}>
                                 <td>{item.name}</td>
-                                <td>${item.price}</td>
+                                <td>₱{item.price}</td>
                                 <td>{item.quantity} packets</td>
                                 <td>{item.availability}</td>
                                 <td><button 
@@ -129,7 +134,7 @@ export default function Inventory(){
                             )}
                         </tbody>
                     </table>
-                    <Pagination numberOfData={15} maxPerPage={2}/>
+                    <Pagination numberOfData={materials.length} maxPerPage={2}/>
                 </div>
                 <div className="tblInventory">
                     <div className="actions">
@@ -195,30 +200,18 @@ export default function Inventory(){
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Wooden Chair</td>
-                                <td>$50</td>
-                                <td>43 packets</td>
-                                <td>N/A</td>
+                        {products?.map((item, index) => 
+                            <tr key={index}>
+                                <td>{item.name}</td>
+                                <td>${item.price}</td>
+                                <td>{item.quantity} packets</td>
+                                <td>{item.availability}</td>
                                 <td><button className='sell'>Sold</button></td>
                             </tr>
-                            <tr>
-                                <td>Dining Table</td>
-                                <td>$120</td>
-                                <td>88 packets</td>
-                                <td>N/A</td>
-                                <td><button className='sell'>Sold</button></td>
-                            </tr>
-                            <tr>
-                                <td>Organizer</td>
-                                <td>$110</td>
-                                <td>0 packets</td>
-                                <td>N/A</td>
-                                <td><button className='sell'>Sold</button></td>
-                            </tr>
+                            )}
                         </tbody>
                     </table>
-                    <Pagination numberOfData={15} maxPerPage={2}/>
+                    <Pagination numberOfData={products.length} maxPerPage={2}/>
                 </div>
             </div>
         </div>

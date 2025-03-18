@@ -28,7 +28,7 @@ CREATE TABLE purchase_overview (
 CREATE TABLE materials (
     id INT(11) PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(25) NOT NULL,
-    buying_price INT(11) NOT NULL,
+    price INT(11) NOT NULL,
     quantity INT(11) NOT NULL,
     availability VARCHAR(25) NOT NULL
 );
@@ -37,20 +37,20 @@ CREATE TABLE products (
     id INT(11) PRIMARY KEY AUTO_INCREMENT,
     PID INT(11) UNIQUE,
     name VARCHAR(25) NOT NULL,
-    selling_price INT(11) NOT NULL,
+    price INT(11) NOT NULL,
     quantity INT(11) NOT NULL,
     availability VARCHAR(25) NOT NULL
 );
 
 INSERT INTO products (
-    name, PID, selling_price, quantity, availability
+    name, PID, price, quantity, availability
 ) VALUES
     ("Chair", 5792, 250, 20, "in-Stock"),
     ("Table", 6523, 100, 35, "in-Stock"),
     ("Organizer", 0923, 150, 0, "out of stock");
 
 INSERT INTO materials (
-    name, buying_price, quantity, availability
+    name, price, quantity, availability
 ) VALUES 
     ("Wood Plank", 25, 43, "in-Stock"),
     ("Screws", 5, 55, "in-Stock"),

@@ -5,6 +5,7 @@ import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import CloseIcon from '@mui/icons-material/Close';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import logo from '../assets/logo.png';
 import { Link } from "react-router-dom";
 import { useRef, useState, useEffect } from 'react';
@@ -27,6 +28,11 @@ export default function Nav(props){
             btnName:'Reports', 
             path: '/client',
             btnIcon: <AssessmentOutlinedIcon sx={{fontSize: 25}}/>
+        },
+        {
+            btnName:'Suppliers', 
+            path: '/suppliers',
+            btnIcon: <AccountCircleOutlinedIcon sx={{fontSize: 25}} />
         },
         {
             btnName:'Orders', 

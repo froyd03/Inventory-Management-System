@@ -7,15 +7,12 @@
 
     session_start();
 
+    $auth = ["isRedirect" => false, "id" => null];
+
     if(isset($_SESSION["isAuthenticated"]) && isset($_SESSION["id"])){
-        echo json_encode([
-            "isRedirect" => $_SESSION["isAuthenticated"], 
-            "id" => $_SESSION["id"]
-        ]);
-    }else{
-        echo json_encode([
-            "isRedirect" => false, 
-            "id" => null
-        ]);
+        $auth["isRedirect"] = $_SESSION["isAuthenticated"];
+        $auth["id"] = $_SESSION["id"];
     }
+
+    echo json_encode($auth);
 ?>
