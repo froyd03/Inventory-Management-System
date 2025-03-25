@@ -1,6 +1,6 @@
 import '../styles/global.css'
 import '../pages/Inventory/Inventory.css'
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function Production(props){
     const [productionForm, showProductionForm] = useState(false);
@@ -8,33 +8,20 @@ export default function Production(props){
     function handleShowForm(){
         props.showState();
     }
-    const production = [
-        {
-            productName: "Dining Table", 
-            materials: [
-                {materialName: "Wood Plank", quantity: "5"},
-                {materialName: "Screws", quantity: "12"}
-            ]
-        },
-        {
-            productName: "Organizer", 
-            materials: [
-                {materialName: "Wood Plank", quantity: "8"},
-                {materialName: "Screws", quantity: "17"}
-            ]
-        },
-        {
-            productName: "Tinapay", 
-            materials: [
-                {materialName: "Flour", quantity: "4"},
-                {materialName: "cheese", quantity: "8"},
-                {materialName: "sugar", quantity: "18"}
-            ]
-        }
-    ]
+
+    const [production, setProduction] = useState(null);
+    useEffect(() => {
+        fetch("http://localhost/Inventory-Management-System/backend/pages/actions/production.php", {
+            method: "GET",
+            credentials: "include"
+        })
+        .then(response => response.json())
+        .then(value => setProduction(value));
+    }, []);
 
     const prodRef = useRef([]);
     const [showProductionDetails, setProdDetails] = useState();
+    
     function handleAvailProduct(index){
         prodRef.current.forEach(element => {
             if(element.classList.contains('selected')){
@@ -49,20 +36,17 @@ export default function Production(props){
 
     function getMaterialNeeds(productName, materials){
         return (
-            <div className="productionDetails">
-                <label>Materials Requirements</label>
-                <div className="detailsContainer">
-                    <h3>{productName}</h3>
-                    <div className='quantity-count count'>
-                            <button>-</button>
-                            <label>1</label>
-                            <button>+</button>
-                    </div>
+            <div className="inpputs materialContainer">
+                
+                <div className="inp-prod">
+                    <label>{productName}</label>
+                    <input type="number" placeholder='Enter quantity'/>
                 </div>
+                
                 {materials.map((item, index) =>
-                <div key={index} className="materialsRequire">
+                <div key={index} className="inp-prod">
                     <label>{item.materialName}</label>
-                    <label>x{item.quantity}</label>
+                    <label>{item.quantity}g</label>
                 </div>
                 )}
             </div>
@@ -71,10 +55,10 @@ export default function Production(props){
 
     return (
         <div className='modal'>
-            <div className="newProduction">
+            <div className="newProd">
                 <h3>New Production</h3>
                 <div className="prodContainer">
-                    {production.map((item, index) =>
+                    {production?.map((item, index) =>
                     <div 
                         key={index}
                         className="availProduct" 
@@ -84,7 +68,9 @@ export default function Production(props){
                     </div>
                     )}
                 </div>
-                {showProductionDetails}
+                <hr />
+                <h3>Materials Requirements</h3>
+                {showProductionDetails || <p>Select a product</p>} 
                 <div className="actions-btn">
                     <button className='discard' onClick={handleShowForm}>Discard</button>
                     <button >Start Production</button>
