@@ -50,28 +50,65 @@ export default function AddProduct(props){
         }
     };
 
+    const [materialsOfProduct, setMaterialOfProduct] = useState([]);
     const chkboxRef = useRef([]);
-    function handleCheck(index, element) {
+    function handleCheck(index, element, material) {
         if(element.target != chkboxRef.current[index]){
             chkboxRef.current[index].checked = !(chkboxRef.current[index].checked);
         }
 
         if(chkboxRef.current[index].checked){
-            updateQuantityState(index, quantityCount[index] + 1);
+            updateQuantityState(index, quantityCount[index] + 1, material);
             updateDisableState(index, false);
         }else{
-            updateQuantityState(index, 0);
+            updateQuantityState(index, 0, material);
             updateDisableState(index, true);
+        }
+
+        if(chkboxRef.current[index].checked){
+            setMaterialOfProduct(m => [...m, {materialName: material, quantity: 1}]);
+        }else{
+            const newArr = materialsOfProduct.filter(value => value.materialName != material);
+            setMaterialOfProduct(newArr);
         }
     }
 
-    const [quantityCount, setQuantity] = useState([0, 0]); 
-    const [isDisabled, setDisabled] = useState([true, true]); //set all to true
-    // must be array and array depends on how many materials available. set all to 0
+    useEffect(() => {
+        console.log(materialsOfProduct)
+    }, [materialsOfProduct]);
 
-    function updateQuantityState(i, newValue){
+
+    const [materials, setMaterials] = useState([]);
+    useEffect(() => {
+        fetch("http://localhost/Inventory-Management-System/backend/pages/inventory.php", {
+            method: "GET",
+            credentials: "include"
+        })
+        .then(response => response.json())
+        .then(value => {
+            setMaterials(value.materials);    
+            setQuantity([]);
+            setDisabled([]);
+
+            value.materials.forEach(() => {
+                setQuantity(q => [...q, 0]);
+                setDisabled(d => [...d, true]);
+            });
+        });
+    }, []);
+
+    const [quantityCount, setQuantity] = useState([]); 
+    const [isDisabled, setDisabled] = useState([]); 
+    
+    function updateQuantityState(i, newValue, material){
         const NewArr = quantityCount.map((value, index) => i === index ? newValue:value);
         setQuantity(NewArr);
+
+        setMaterialOfProduct(m => 
+            m.map(value => 
+                value.materialName == material ? {...value, quantity: newValue} : value
+            )
+        );
     }
 
     function updateDisableState(i, newValue){
@@ -79,14 +116,13 @@ export default function AddProduct(props){
         setDisabled(NewArr);
     }
 
-    function QuantityAddCount(index){
-        updateQuantityState(index, quantityCount[index] + 1);
-        
+    function QuantityAddCount(index, materialName){
+        updateQuantityState(index, quantityCount[index] + 1, materialName);
     }
 
-    function QuantitySubCount(index){
+    function QuantitySubCount(index, materialName){
         if(quantityCount[index] > 1){
-            updateQuantityState(index, quantityCount[index] - 1);
+            updateQuantityState(index, quantityCount[index] - 1, materialName);
         }
     }
 
@@ -137,46 +173,27 @@ export default function AddProduct(props){
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td onClick={(el) => handleCheck(0, el)}>
-                                    <input 
-                                        type="checkbox" 
-                                        ref={(el) => chkboxRef.current[0] = el}
-                                        id="wood" 
-                                    />
-                                </td>
-                                <td onClick={(el) => handleCheck(0, el)}>
-                                    <label>Wood Plank</label>
-                                </td>
-                                <td className='quantity-count'>
-                                    <button 
-                                        disabled={isDisabled[0]} 
-                                        onClick={() => QuantitySubCount(0)}>-
-                                    </button>
-                                    <label>{quantityCount[0]}</label>
-                                    <button 
-                                        disabled={isDisabled[0]} 
-                                        onClick={() => QuantityAddCount(0)}>+
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td onClick={(el) => handleCheck(1, el)}>
-                                    <input 
-                                        type="checkbox" 
-                                        ref={(el) => chkboxRef.current[1] = el}
-                                        id="wood" 
-                                    />
-                                </td>
-                                <td onClick={(el) => handleCheck(1, el)}>
-                                    <label>Screws</label>
-                                </td>
-                                <td className='quantity-count'>
-                                    <button disabled={isDisabled[1]} onClick={() => QuantitySubCount(1)}>-</button>
-                                    <label>{quantityCount[1]}</label>
-                                    <button disabled={isDisabled[1]} onClick={() => QuantityAddCount(1)}>+</button>
-                                </td>
-                            </tr>
+                            {materials?.map((item, index) =>
+                                <tr key={index}>
+                                    <td onClick={(el) => handleCheck(index, el, item.name)}>
+                                        <input type="checkbox" id={`${item.name}`} ref={(el) => chkboxRef.current[index] = el}/> 
+                                    </td>
+                                    <td onClick={(el) => handleCheck(index, el, item.name)}>
+                                        <label>{item.name}</label>
+                                    </td>
+                                    <td className='quantity-count'>
+                                        <button 
+                                            disabled={isDisabled[index]} 
+                                            onClick={() => QuantitySubCount(index, item.name)}>-
+                                        </button>
+                                        <label>{quantityCount[index]}</label>
+                                        <button 
+                                            disabled={isDisabled[index]} 
+                                            onClick={() => QuantityAddCount(index, item.name)}>+
+                                        </button>
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                    

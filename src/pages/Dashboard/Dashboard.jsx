@@ -47,7 +47,6 @@ export default function Dashboard(){
         })
         .then(response => response.json())
         .then(value => setUserData(value));      
-
     }, []);
 
     const containerRef = useRef(null);
@@ -138,7 +137,7 @@ export default function Dashboard(){
                             <p>Cost</p>
                             <div className='sales'>
                                 <img width={'30px'} alt='error' height={'30px'} src={cost}/>
-                                <h4>₱ {userData?.purchaseOverview.cost}</h4>
+                                <h4>₱ {parseFloat(userData?.purchaseOverview.cost).toLocaleString()}</h4>
                             </div>
                         </div>
                         <span className="vl"></span>

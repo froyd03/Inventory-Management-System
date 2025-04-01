@@ -35,9 +35,11 @@ CREATE TABLE materials (
 
 CREATE TABLE products (
     PID INT(11) PRIMARY KEY AUTO_INCREMENT,
+    prod_id VARCHAR(11) UNIQUE
     name VARCHAR(25) NOT NULL,
     price INT(11) NOT NULL,
     quantity INT(11) NOT NULL,
+    unit_type VARCHAR(5)
     availability VARCHAR(25) NOT NULL
 );
 
