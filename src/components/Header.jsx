@@ -1,12 +1,13 @@
-import "./Header.css";
+import "../styles/Header.css";
 import logo from "../assets/logo.png";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from '@mui/icons-material/Logout';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import Nav from './Nav.jsx'
 import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -148,13 +149,21 @@ export default function Header() {
                 </div>
                 <div className="" ref={activeSettingsRef}>
                    <div className="notif-icon" onClick={handleToggleSettings}>
-                        {activeSetting ? < SettingsIcon />  : <SettingsOutlinedIcon />}
+                        {activeSetting ? < AccountCircleIcon />  : <AccountCircleOutlinedIcon />}
                     </div>
-                   {activeSetting && <div className="notifications">
-                        <h3>Settings</h3>
-                        <hr />
-                        <div className="notif-items">
-                           <button onClick={logOut}>logout</button>
+                   {activeSetting && <div className="settings-container">
+                        <h3>Account</h3>
+                        <div className="setting-items">
+                            <AccountCircleOutlinedIcon />
+                           <h5>Profile</h5>
+                        </div>
+                        <div className="setting-items" >
+                            <SettingsOutlinedIcon/>
+                           <h5 >Settings</h5>
+                        </div>
+                        <div className="setting-items" onClick={logOut}>
+                            <LogoutIcon/>
+                           <h5 onClick={logOut}>Log out</h5>
                         </div>
                     </div>}
                 </div>

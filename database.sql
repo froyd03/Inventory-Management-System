@@ -27,7 +27,7 @@ CREATE TABLE purchase_overview (
 
 CREATE TABLE materials (
     MID INT(11) PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(25) NOT NULL,
+    name VARCHAR(25) UNIQUE,
     price INT(11) NOT NULL,
     quantity INT(11) NOT NULL,
     availability VARCHAR(25) NOT NULL
@@ -35,11 +35,10 @@ CREATE TABLE materials (
 
 CREATE TABLE products (
     PID INT(11) PRIMARY KEY AUTO_INCREMENT,
-    prod_id VARCHAR(11) UNIQUE
-    name VARCHAR(25) NOT NULL,
+    name VARCHAR(25) UNIQUE,
     price INT(11) NOT NULL,
     quantity INT(11) NOT NULL,
-    unit_type VARCHAR(5)
+    unit_type VARCHAR(5) NOT NULL,
     availability VARCHAR(25) NOT NULL
 );
 
@@ -47,8 +46,8 @@ CREATE TABLE product_materials (
    PID INT(11),
    MID INT(11),
    quantity INT NOT NULL,
-   FOREIGN KEY(PID) REFERENCES products(PID),
-   FOREIGN KEY(MID) REFERENCES materials(MID)
+   FOREIGN KEY(PID) REFERENCES products(PID) ON DELETE CASCADE,
+   FOREIGN KEY(MID) REFERENCES materials(MID) ON DELETE CASCADE
 );
 
 INSERT INTO products (
@@ -81,8 +80,8 @@ VALUES  (1, 1, 15),
 		(1, 3, 80), 
         (1, 4, 53), 
         (2, 1, 45),
-        (2, 3, 95);
-        (2, 1, 45);
+        (2, 3, 95),
+        (2, 1, 45),
         (3, 2, 25);
 
 SELECT products.name, materials.name FROM product_materials

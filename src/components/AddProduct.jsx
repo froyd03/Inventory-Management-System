@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import '../styles/global.css'
 import '../pages/Inventory/Inventory.css'
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import RemoveCircleOutlinedIcon from '@mui/icons-material/RemoveCircleOutlined';
 
 export default function AddProduct(props){
 
@@ -73,11 +75,6 @@ export default function AddProduct(props){
         }
     }
 
-    useEffect(() => {
-        console.log(materialsOfProduct)
-    }, [materialsOfProduct]);
-
-
     const [materials, setMaterials] = useState([]);
     useEffect(() => {
         fetch("http://localhost/Inventory-Management-System/backend/pages/inventory.php", {
@@ -95,6 +92,10 @@ export default function AddProduct(props){
                 setDisabled(d => [...d, true]);
             });
         });
+
+        document.querySelector('body').style.overflow = "hidden";
+
+        return () => document.querySelector('body').style.overflow = "auto";
     }, []);
 
     const [quantityCount, setQuantity] = useState([]); 
@@ -126,9 +127,58 @@ export default function AddProduct(props){
         }
     }
 
+
+    const [productName, setProductName] = useState("");
+    function inpProdName(e){
+        setProductName(e.target.value);
+    }
+
+    const [productId, setProductId] = useState("");
+    function inpProdId(e){
+        setProductId(e.target.value);
+    }
+
+    const [sellingPrice, setSellingPrice] = useState("");
+    function inpSellingPrice(e){
+        setSellingPrice(e.target.value);
+    }
+
+    const [measurementType, setMeasurementType] = useState("pcs");
+    function inpMeasurementType(e){
+        setMeasurementType(e.target.value);
+    }
+
+    const [message, setMessage] = useState("");
+    async function handleSubmitNewProduct(){
+
+        const form = new FormData();
+        form.append("productName", productName);
+        form.append("productId", productId);
+        form.append("sellingPrice", sellingPrice);
+        form.append("measurementType", measurementType);
+        form.append("materials", JSON.stringify(materialsOfProduct));
+
+        try{
+            const response = await fetch("http://localhost/Inventory-Management-System/backend/pages/actions/addProduct.php", {
+                method: "POST",
+                credentials: "include",
+                body: form
+            });
+
+            const result = await response.json();
+            if(result.message === "success!"){
+                location.reload();
+            }else{
+                setMessage(result.message);
+            }
+        }catch(error){
+            console.error("add product: ", error);
+        }
+    }
+
     return (
         <div className="modal">
-            <div className="newProd">
+            <form className="newProd">
                 <h3>New Product</h3>
                 <div className="inputs">
 
@@ -145,19 +195,34 @@ export default function AddProduct(props){
 
                     <div className='inp-prod'>
                         <label>Product Name</label>
-                        <input type="text" placeholder='Enter product name'/>
+                        <input type="text" onChange={inpProdName} placeholder='Enter product name'/>
                     </div>
                     <div className='inp-prod'>
                         <label>Product ID</label>
-                        <input type="text" placeholder='Enter product ID'/>
+                        <input type="text" onChange={inpProdId} placeholder='Enter product ID'/>
                     </div>
                     <div className='inp-prod'>
                         <label>Selling Price</label>
-                        <input type="number" placeholder='Enter selling price'/>
+                        <input type="number" onChange={inpSellingPrice} placeholder='Enter selling price'/>
                     </div>
                     <div className='inp-prod'>
-                        <label>Measurement Unit</label>
-                        <input type="number" placeholder='Enter selling price'/>
+                        <label>Measurement Type</label>
+                        <div className="select-measure-type">
+                            <select name='adsas' onChange={inpMeasurementType}>
+                                <option value="pcs">Pieces (pcs)</option>
+                                <option value="inch">Inches</option>
+                                <option value="cm">Centimeters (cm)</option>
+                                <option value="mm">Mllimetre (mm)</option>
+                                <option value="g">Grams (g)</option>
+                                <option value="mg">Milligram (mg)</option>
+                                <option value="kg">Kilogram (kg)</option>
+                                <option value="oz">Ounce (oz)</option>
+                                <option value="lbs">Pound (lbs)</option>
+                                <option value="L">Liter (L)</option>
+                                <option value="mL">Milliliter (mL)</option>
+                            </select>
+                        </div>
+                        
                     </div>
                     <hr />
                 </div>
@@ -182,27 +247,32 @@ export default function AddProduct(props){
                                         <label>{item.name}</label>
                                     </td>
                                     <td className='quantity-count'>
-                                        <button 
-                                            disabled={isDisabled[index]} 
-                                            onClick={() => QuantitySubCount(index, item.name)}>-
-                                        </button>
+                                        <RemoveCircleOutlinedIcon  
+                                            sx={{fontSize: 23}}
+                                            onClick={() => 
+                                                isDisabled[index] ? 0 : QuantitySubCount(index, item.name)
+                                            }
+                                        />
                                         <label>{quantityCount[index]}</label>
-                                        <button 
-                                            disabled={isDisabled[index]} 
-                                            onClick={() => QuantityAddCount(index, item.name)}>+
-                                        </button>
+                                        <AddCircleIcon 
+                                            sx={{fontSize: 23}}
+                                            onClick={() => 
+                                                isDisabled[index] ? 0 : QuantityAddCount(index, item.name)
+                                            }
+                                        />
                                     </td>
                                 </tr>
                             )}
                         </tbody>
                     </table>
-                   
+                    
                 </div>
+                <p className='messageError'>{message}</p>
                 <div className="actions-btn">
                     <button className='discard' onClick={handleDiscardBtn}>Discard</button>
-                    <button >Add Product</button>
+                    <button type='submit' onClick={handleSubmitNewProduct} >Add Product</button>
                 </div>
-            </div>
+            </form>
         </div>
     )
 }

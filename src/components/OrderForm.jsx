@@ -16,9 +16,11 @@ export default function OrderForm(props){
     }
 
     const [totalPrice, setTotalPrice] = useState();
+    const [totalToString, setTotalToString] = useState();
     useEffect(() => {
         const total = materialQuantity * props.materials[props.index].price;
         setTotalPrice(total);
+        setTotalToString(total.toLocaleString());
     }, [materialQuantity]);
 
     const [errorMessage, setErrorMessage] = useState();
@@ -63,7 +65,7 @@ export default function OrderForm(props){
                         </div>
                         <div className="inp-prod">
                             <label>Total Price: </label>
-                            <label>₱{totalPrice || 0}</label>
+                            <label>₱{totalPrice ? totalToString : 0}</label>
                         </div>
                         <div className="inp-prod">
                             <label>Delivery Time: </label>

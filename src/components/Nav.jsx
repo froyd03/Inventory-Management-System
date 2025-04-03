@@ -2,14 +2,13 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
-import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import logo from '../assets/logo.png';
 import { Link } from "react-router-dom";
 import { useRef, useState, useEffect } from 'react';
-import './Nav.css';
+import '../styles/Nav.css';
 
 export default function Nav(props){
 

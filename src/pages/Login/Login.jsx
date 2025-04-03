@@ -183,7 +183,7 @@ export default function Login(){
                                           <VisibilityOffOutlinedIcon onClick={handleShowPassword } />}
                     </div>
                 </div>
-                <p style={{color:"red"}}>{loginMessage}</p>
+                <p className='messageError'>{loginMessage}</p>
                 <button type='submit' className='sign-in'>Sign in</button>
                 <button className='createAcc' onClick={handleCreateAccount}>Create Account</button>
             </form>}
@@ -209,7 +209,7 @@ export default function Login(){
                                         <VisibilityOffOutlinedIcon onClick={handleShowPassword } />}
                     </div>
                 </div>
-                <p style={{color :"red"}}>{message}</p>
+                <p className='messageError'>{message}</p>
                 <button className='sign-in'>Get Started</button>
                 <button className='createAcc' onClick={handleCreateAccount}>Sign Up</button>
             </form>}

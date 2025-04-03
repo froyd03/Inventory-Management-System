@@ -3,9 +3,9 @@ session_start();
 header("Access-Control-Allow-Origin: http://localhost:5173");
 header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Allow-Methods: POST");
+include("../../config/database.php");
     
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-    include("../../config/database.php");
 
     if (!isset($_SESSION["id"])) {
         echo json_encode(["error" => "User not authenticated"]);
@@ -26,13 +26,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             
             //update the quantity value to materials
             $productName = $_POST["productName"];
-            $fetchedMaterial = mysqli_query($connection, "SELECT id, quantity FROM materials WHERE name = '$productName'");
+            $fetchedMaterial = mysqli_query($connection, "SELECT MID, quantity FROM materials WHERE name = '$productName'");
             
             $material = mysqli_fetch_assoc($fetchedMaterial);
             $updatedQuantity = $material["quantity"] + $_POST["totalQuantity"];
            
-            $materialID = $material["id"];
-            mysqli_query($connection, "UPDATE materials SET quantity = $updatedQuantity WHERE id = $materialID");
+            $materialID = $material["MID"];
+            mysqli_query($connection, "UPDATE materials SET quantity = $updatedQuantity WHERE MID = $materialID");
             echo "success";
         }else{
             echo "please put the quantity before placing order.";

@@ -4,7 +4,7 @@ header("Access-Control-Allow-Origin: http://localhost:5173");
 header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Allow-Methods: GET");
 header("Content-Type: application/json");
-
+include("../config/database.php");
 
 if($_SERVER["REQUEST_METHOD"] == "GET"){
     
@@ -17,7 +17,6 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
         include("../index.php");
 
         $products = new Product();
-
         echo json_encode([
             "products" => $products->getProducts("products", "../config/database.php"),
             "materials" => $products->getProducts("materials", "../config/database.php"),

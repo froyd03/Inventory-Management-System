@@ -1,6 +1,6 @@
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import './Pagination.css'
+import '../styles/Pagination.css'
 import { useEffect, useRef, useState } from 'react';
 
 export default function Pagination(props){

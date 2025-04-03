@@ -37,12 +37,8 @@
         }
         
         try{
-          $sql = "INSERT INTO users (
-            name, email, password
-          ) 
-          VALUES(
-            '{$name}', '{$email}', '{$hash}'
-          );";
+          $sql = "INSERT INTO users (name, email, password) 
+          VALUES('{$name}', '{$email}', '{$hash}');";
 
           $isSuccess = mysqli_query($connection, $sql);
 
