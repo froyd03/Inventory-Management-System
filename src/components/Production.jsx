@@ -53,7 +53,7 @@ export default function Production(props){
                 {materials.map((item, index) =>
                     <div key={index} className="inp-prod">
                         <label>{item.materialName}</label>
-                        <label>{item.quantity}g</label>
+                        <label>{item.quantity}x</label>
                     </div>
                 )}
             </div>

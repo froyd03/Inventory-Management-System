@@ -53,24 +53,25 @@ CREATE TABLE product_materials (
 CREATE TABLE production(
     INPID INT(11) PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(225) NOT NULL,
-    time_left TIME CURRENT_TIME(),
+    time_left TIME DEFAULT CURRENT_TIME(),
     quantity INT(11) NOT NULL
 );
 
 INSERT INTO products (
     name, price, quantity, availability
 ) VALUES
-    ("Chair", 250, 20, "in-Stock"),
-    ("Table", 100, 35, "in-Stock"),
-    ("Organizer", 150, 0, "out of stock");
+    ("Chair", 250, 20, "In-stock"),
+    ("Table", 100, 35, "In-stock"),
+    ("Screw", 100, 35, "Low stock"),
+    ("Organizer", 150, 0, "Out of stock");
 
 INSERT INTO materials (
     name, price, quantity, availability
 ) VALUES 
-    ("Wood Plank", 25, 43, "in-Stock"),
-    ("Screws", 5, 55, "in-Stock"),
-    ("Wooden Glue", 15, 0, "out of stock"),
-    ("Barnish", 15, 12, "in-stock");
+    ("Wood Plank", 25, 43, "In-stock"),
+    ("Screws", 5, 55, "In-stock"),
+    ("Wooden Glue", 15, 0, "Out of stock"),
+    ("Barnish", 15, 12, "Low stock");
 
 
 INSERT INTO sales_overview (

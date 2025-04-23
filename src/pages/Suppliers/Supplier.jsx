@@ -2,9 +2,17 @@ import Nav from '../../components/Nav.jsx'
 import Header from '../../components/Header.jsx'
 import FilterListIcon from '@mui/icons-material/FilterList';
 import Pagination from '../../components/Pagination.jsx'
+import AddMaterial from '../../components/AddMaterial.jsx';
 import './Supplier.css'
+import { useState } from 'react';
 
 export default function Supplier(){
+
+    const [isShowForm, setShowForm] = useState(false);
+    function handleMaterialForm(){
+        setShowForm(!isShowForm);
+    }
+
     return(
         <>
             <Header title="Suppliers"/>
@@ -15,7 +23,7 @@ export default function Supplier(){
                         <div className="tbl-header">
                             <h3>Supplier</h3>
                             <div className="header-action">
-                                <button className='addProduct'>Add Supplier</button>
+                                <button className='addProduct' onClick={handleMaterialForm}>Add Supplier</button>
                                 <div className="filter">
                                     <FilterListIcon />
                                     <select>
@@ -86,18 +94,18 @@ export default function Supplier(){
                                     <td>12</td>
                                 </tr>
                                 <tr>
-                                    <td>Mark Lance</td>
+                                    <td>Lance Cruz</td>
                                     <td>Steel bars</td>
                                     <td>0912345678</td>
-                                    <td>lance@gmail.com</td>
+                                    <td>lancecruz@gmail.com</td>
                                     <td>taking returns</td>
                                     <td>-</td>
                                 </tr>
                                 <tr>
-                                    <td>Richmond Gamboa</td>
+                                    <td>Alden Richard</td>
                                     <td>Ply Wood</td>
                                     <td>0912345678</td>
-                                    <td>Richmond@gmail.com</td>
+                                    <td>aldenrich@gmail.com</td>
                                     <td>not taking returns</td>
                                     <td>25</td>
                                 </tr>
@@ -122,6 +130,7 @@ export default function Supplier(){
                         <Pagination numberOfData={16} maxPerPage={2} />
                     </div>
                 </div>
+                {isShowForm && <AddMaterial click={handleMaterialForm}/>}
             </section>
         </>
     )

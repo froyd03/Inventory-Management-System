@@ -11,6 +11,8 @@ import OrderForm from '../../components/OrderForm.jsx'
 
 export default function Inventory(){
 
+    const [getLowStocks, setLowStocks] = useState(0);
+
     const [tabContentActive, setTabContentActive] = useState([true, false, false]);
     function handleActiveTab(index){
         const tab = document.querySelectorAll('.tabs');
@@ -43,6 +45,9 @@ export default function Inventory(){
         .then(value => {
             setMaterials(value.materials);
             setProducts(value.products);
+            
+            const lowStocks = value.products.filter(item => item.quantity <= 20);
+            setLowStocks(lowStocks.length);
         });
     }, [])
 
@@ -57,6 +62,16 @@ export default function Inventory(){
         setShOrderForm(s => !s);
     }
 
+    function setStatusAvailability(availability){
+        if(availability === "In-stock"){
+            return <label className='status-vgood'>{availability}</label>;
+        }else if(availability === "Low stock"){
+            return <label className='status-good'>{availability}</label>;
+        }else{
+            return <label className='status-bad'>{availability}</label>;
+        }
+    }
+
     return (
         <>
         <Header title="Inventory"/>
@@ -66,27 +81,27 @@ export default function Inventory(){
                 <h3>Overall Inventory</h3>
                 <div className="overview-item">
                     <div className="item">
-                        <p style={{color: '#1570ef'}}><b>Categories</b></p>
-                        <h4>14</h4>
+                        <p style={{color: '#1570ef'}}><b>Total Materials</b></p>
+                        <h4>{materials.length}</h4>
                         <p>Last 7 Days</p>
                     </div>
                     <div className="vl"></div>
                     <div className="item">
                         <p style={{color: '#e19133'}}><b>Total Products</b></p>
-                        <h4>14</h4>
+                        <h4>{products.length}</h4>
                         <p>Last 7 Days</p>
                     </div>
                     <div className="vl"></div>
                     <div className="item">
                         <p style={{color: '#845ebc'}}><b>Top Selling</b></p>
-                        <h4>14</h4>
+                        <h4>0</h4>
                         <p>Last 7 Days</p>
                     </div>
                     <div className="vl"></div>
                     <div className="item">
                         <p style={{color: '#f36960'}}><b>Low Stocks</b></p>
-                        <h4>14</h4>
-                        <p>Product</p>
+                        <h4>{getLowStocks}</h4>
+                        <p>Products</p>
                     </div>
                 </div>
                 
@@ -122,7 +137,8 @@ export default function Inventory(){
                                         <td>{item.name}</td>
                                         <td>₱{item.price}</td>
                                         <td>{item.quantity} packets</td>
-                                        <td>{item.availability}</td>
+                                        <td>{setStatusAvailability(item.availability)}</td>
+                                        
                                         <td><button 
                                                 onClick={() => handleOrderItem(index)} 
                                                 className="order">Order now
@@ -197,7 +213,7 @@ export default function Inventory(){
                                         <th>Product Name</th>
                                         <th>Selling Price</th>
                                         <th>Quantity</th>
-                                        <th>Expiration</th>
+                                        <th>Availability</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -207,7 +223,7 @@ export default function Inventory(){
                                         <td>{item.name}</td>
                                         <td>${item.price}</td>
                                         <td>{item.quantity} packets</td>
-                                        <td>{item.availability}</td>
+                                        <td>{setStatusAvailability(item.availability)}</td>
                                         <td><button className='sell'>Sold</button></td>
                                     </tr>
                                     )}

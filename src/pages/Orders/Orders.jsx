@@ -1,8 +1,16 @@
 import FilterListIcon from '@mui/icons-material/FilterList';
 import Nav from "../../components/Nav"
 import Header from "../../components/Header";
+import AddMaterial from '../../components/AddMaterial';
+import { useState } from 'react';
 
 export default function Orders(){
+
+    const [isShowForm, setShowForm] = useState(false);
+    function handleMaterialForm(){
+        setShowForm(!isShowForm);
+    }
+
     return(
         <>
             <Header title="Orders"/>
@@ -41,7 +49,7 @@ export default function Orders(){
                         <div className="tbl-header">
                             <h3>Orders</h3>
                             <div className="header-action">
-                                <button className="addProduct">Add Material</button>
+                                <button className="addProduct" onClick={handleMaterialForm}>Add Material</button>
                                 <div className="filter">
                                     <FilterListIcon />
                                     <select>
@@ -84,8 +92,9 @@ export default function Orders(){
                             </tbody>
                         </table>
                     </div>
-                    
                 </div>
+                {isShowForm && <AddMaterial click={handleMaterialForm} />}
+
             </section>  
         </>
     )
