@@ -50,6 +50,13 @@ CREATE TABLE product_materials (
    FOREIGN KEY(MID) REFERENCES materials(MID) ON DELETE CASCADE
 );
 
+CREATE TABLE production(
+    INPID INT(11) PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(225) NOT NULL,
+    time_left TIME CURRENT_TIME(),
+    quantity INT(11) NOT NULL
+);
+
 INSERT INTO products (
     name, price, quantity, availability
 ) VALUES

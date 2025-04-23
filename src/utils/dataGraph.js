@@ -33,4 +33,4 @@ export const dataGraphYearly = [
     {date: '2024', purchase: 18, sales: 22 },
     {date: '2025', purchase: 7, sales: 4 },
     {date: '2026', purchase: 7, sales: 4},
-]
+];

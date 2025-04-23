@@ -11,7 +11,7 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Header() {
+export default function Header(props) {
     const [greetUser, setGreetUser] = useState();
 
     const inputRef = useRef(); // Reference for input
@@ -103,7 +103,7 @@ export default function Header() {
             <div className="menu-btn" onClick={toggleMenu}>
                 <MenuOutlinedIcon />
             </div>
-            <h4>Dashboard</h4>
+            <h4>{props.title}</h4>
             
             {windowWidth > 500 ? (
                 <div className="inp-search">

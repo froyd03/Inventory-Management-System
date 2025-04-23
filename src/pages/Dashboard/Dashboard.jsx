@@ -72,7 +72,7 @@ export default function Dashboard(){
 
     return (
         <>
-        <Header />
+        <Header title="Dashboard"/>
         <Nav index={0} />
         <section>
             <div className="container">
@@ -221,34 +221,35 @@ export default function Dashboard(){
                     </div>
                 </div>
             </div>
-            <div className='tblContainer'>
-                <h3>Low Quantity Stock</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Product</th>
-                            <th>Product ID</th>
-                            <th>Remaining Quantity</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>LCD</td>
-                            <td>1234</td>
-                            <td>10 packets</td>
-                            <td><label className='warning'>Low</label></td>
-                        </tr>
-                        <tr>
-                            <td>LCadsasdadD</td>
-                            <td>1234</td>
-                            <td>10 packets</td>
-                            <td><label className='warning'>Low</label></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div className="tblMainContainer">
+                <div className='tblContainer'>
+                    <h3>Low Quantity Stock</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Product ID</th>
+                                <th>Remaining Quantity</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>LCD</td>
+                                <td>1234</td>
+                                <td>10 packets</td>
+                                <td><label className='warning'>Low</label></td>
+                            </tr>
+                            <tr>
+                                <td>LCadsasdadD</td>
+                                <td>1234</td>
+                                <td>10 packets</td>
+                                <td><label className='warning'>Low</label></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            
         </section>
         </>
     )

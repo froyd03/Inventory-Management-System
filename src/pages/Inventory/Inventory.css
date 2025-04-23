@@ -47,21 +47,6 @@
     padding: 12px 15px;
 }
 
-.filter{
-    padding: 5px 10px;
-    border-radius: var(--borderRadius);
-    border: 1px solid var(--borderInputColor);
-    display: flex;
-
-    & > svg{
-        color: #000000b6;
-    }
-
-    & > select{
-        padding: 0;
-    }
-}
-
 .actions{
     display: flex;
     flex-direction: row;
@@ -313,4 +298,72 @@ input[type="file"] {
         width: 100%;
         font-size: 16px;
     }
+}
+
+.inventory-stock{
+    width: 92%;
+    max-width: 1200px;
+}
+
+.tab-content{
+    background-color: #FFFF;
+    padding: 16px;
+    border-radius: 0 var(--borderRadius) var(--borderRadius) var(--borderRadius);
+}
+
+.inventory-tbl{
+    background-color: #FFFF;
+}
+
+.header-tabs{
+    display: flex;
+    flex-direction: row;
+    align-self: flex-start;
+}
+
+.tabs{
+    border-radius: 14px 14px 0px 0px;
+    padding: .4rem 1.8rem;
+    margin-right: -16px;
+    text-align: center;
+    background-color: #e0e2e2;
+    font-weight: 500;
+    color: #666666;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    cursor: pointer;
+    position: relative;
+
+    & > label{
+        margin: 0;
+        font-size: 16px;
+    }
+}
+
+.tabs::before{
+    content: "";
+    width: 1px;
+    height: 50%;
+    position: absolute;
+    top: 10px;
+    right: 0;
+    background-color: var(--borderInputColor);
+}
+
+.active-tab{
+    z-index: 5 !important;
+    background-color: white;
+}
+
+.tabs:nth-of-type(1){
+    z-index: 3;
+}
+
+.tabs:nth-of-type(2){
+    z-index: 2;
+}
+
+.tabs:nth-of-type(3){
+    z-index: 1;
 }

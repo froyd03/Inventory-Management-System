@@ -1,7 +1,6 @@
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
-import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
@@ -30,19 +29,15 @@ export default function Nav(props){
         },
         {
             btnName:'Suppliers', 
-            path: '/suppliers',
+            path: '/supplier',
             btnIcon: <AccountCircleOutlinedIcon sx={{fontSize: 25}} />
         },
         {
             btnName:'Orders', 
-            path: '/transaction',
+            path: '/orders',
             btnIcon: <LocalShippingOutlinedIcon sx={{fontSize: 25}} />
         },
-        {
-            btnName:'Manage Store', 
-            path: '/transaction',
-            btnIcon: <ListAltOutlinedIcon sx={{fontSize: 25}} />
-        }
+        
     ]
 
     const activePageRef = useRef([]);
