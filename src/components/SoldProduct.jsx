@@ -5,12 +5,37 @@ export default function SoldProduct(props){
 
     const [totalQuantity, setTotalQuantity] = useState(0);
     function handleProductQuantity(e){
-        setTotalQuantity(props.products[props.index].price * e.target.value);
+        setTotalQuantity(e.target.value);
     }
 
+    const [products, setProducts] = useState([]);
     useEffect(() => {
-        
-    })
+        fetch("http://localhost/Inventory-Management-System/backend/pages/production.php", {
+            method: "GET",
+            credentials: "include"
+        })
+        .then(response => response.json())
+        .then(value => {
+            setProducts(value);
+        });
+    }, [])
+
+    const [costPerUnit, setCosPerUnit] = useState(0);
+    const [totalPrice, setTotalPrice] = useState(0);
+    const [profit, setProfit] = useState(0);
+    
+    useEffect(() => {
+        products.forEach(value => {
+            if(value.productName === props.products[props.index].name){
+                setCosPerUnit(value.costPerUnit * totalQuantity);
+            }
+        });
+        setTotalPrice(props.products[props.index].price * totalQuantity);
+    }, [products, totalQuantity]);
+
+    useEffect(() => {
+        setProfit(totalPrice - costPerUnit);
+    }, [totalPrice])
   
     return(
         <div className="modal">
@@ -26,16 +51,16 @@ export default function SoldProduct(props){
                         <label>₱{props.products[props.index].price}</label>
                     </div>
                     <div className="inp-prod">
-                        <label >Total Price</label>
-                        <label>₱{totalQuantity}</label>
+                        <label >Total Selling Price</label>
+                        <label>₱{totalPrice}</label>
                     </div>
                     <div className="inp-prod">
                         <label >Cost Per Unit</label>
-                        <label>₱{totalQuantity}</label>
+                        <label className="status-bad">₱ -{costPerUnit}</label>
                     </div>
                     <div className="inp-prod">
                         <label >Profit</label>
-                        <label>₱{totalQuantity}</label>
+                        <label className="status-vgood">₱ +{profit}</label>
                     </div>
                 </div>
                 <div className="actions-btn">

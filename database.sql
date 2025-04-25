@@ -71,17 +71,20 @@ INSERT INTO products (
     name, price, quantity, availability
 ) VALUES
     ("Chair", 250, 20, "In-stock"),
-    ("Table", 100, 35, "In-stock"),
-    ("Screw", 100, 35, "Low stock"),
-    ("Organizer", 150, 0, "Out of stock");
+    ("Table", 500, 35, "In-stock"),
+    ("Desk", 300, 18, "Low stock"),
+    ("Shelves", 100, 35, "In-stock"),
+    ("Picture Frame", 75, 0, "Out of stock");
 
 INSERT INTO materials (
     name, price, quantity, availability
 ) VALUES 
     ("Wood Plank", 25, 43, "In-stock"),
     ("Screws", 5, 55, "In-stock"),
-    ("Wooden Glue", 15, 0, "Out of stock"),
-    ("varnish", 15, 12, "Low stock");
+    ("Wooden Glue", 12, 0, "Out of stock"),
+    ("varnish", 15, 12, "Low stock"),
+    ("Finishing Nails", 5, 55, "In-stock"),
+    ("Box Nails", 7, 12, "Low stock");
 
 INSERT INTO supplier (
     MID, name, email, contact_number, supplier_type 
@@ -89,7 +92,9 @@ INSERT INTO supplier (
     (3, "John Doe", "doejames@gmail.com", "0912345678", "taking returns"),
     (1, "David Gonzales", "richard@gmail.com", "0912345678", "not taking returns"),
     (4, "Ian James", "Martin@gmail.com", "0912345678","taking returns"),
-    (2, "Christian Lee", "richard@gmail.com", "0912345678", "taking returns");
+    (2, "Christian Lee", "richard@gmail.com", "0912345678", "taking returns"),
+    (5, "John Benedict", "benedictt@gmail.com", "0912345678", "taking returns"),
+    (6, "Rose Mary", "roseee@gmail.com", "0912345678", "not taking returns");
 
 INSERT INTO sales_overview (
     sales, revenue, profit
@@ -101,13 +106,19 @@ INSERT INTO purchase_overview (
 
 
 INSERT INTO product_materials(PID, MID, quantity)
-VALUES  (1, 1, 15), 
-		(1, 3, 80), 
-        (1, 4, 53), 
-        (2, 1, 45),
-        (2, 3, 95),
-        (2, 1, 45),
-        (3, 2, 25);
+VALUES  (1, 1, 4), 
+		(1, 3, 4), 
+        (1, 4, 3), 
+        (2, 1, 6),
+        (2, 3, 4),
+        (2, 2, 2),
+        (3, 1, 7),
+        (3, 5, 15),
+        (3, 4, 1),
+        (4, 1, 2),
+        (4, 6, 6),
+        (5, 1, 2),
+        (5, 3, 3);
 
 SELECT products.name, materials.name FROM product_materials
 JOIN products ON product_materials.PID = products.PID

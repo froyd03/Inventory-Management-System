@@ -16,6 +16,7 @@ import logo from '../../assets/logo.png'
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 import Nav from '../../components/Nav';
 import Header from '../../components/Header';
+import OrderForm from '../../components/OrderForm';
 import { useEffect, useRef, useState } from 'react';
 
 export default function Dashboard(){
@@ -70,6 +71,27 @@ export default function Dashboard(){
         return () => clearInterval(interval);
     }, []);
 
+    function setStatusAvailability(availability){
+        if(availability === "In-stock"){
+            return <label className='status-vgood'>{availability}</label>;
+        }else if(availability === "Low stock"){
+            return <label className='status-good'>{availability}</label>;
+        }else{
+            return <label className='status-bad'>{availability}</label>;
+        }
+    }
+    /*
+    const [showOrderForm, setShOrderForm] = useState(false);
+    const [OrderIndex, setOrderIndex] = useState(0);
+    function handleOrderItem(index) {
+        setShOrderForm(s => !s);
+        setOrderIndex(index);
+    }
+
+    function discardBtn() {
+        setShOrderForm(s => !s);
+    }
+    */
     return (
         <>
         <Header title="Dashboard"/>
@@ -109,7 +131,7 @@ export default function Dashboard(){
                     <div className="item-summary">
                         <div className="item">
                             <img width={'30px'} alt='error' src={box}/>
-                            <p><b>0</b></p>
+                            <p><b>{userData?.quantityInHand}</b></p>
                             <p>Quantity in Hand</p>
                         </div>
                         <span className="vl"></span>
@@ -155,7 +177,7 @@ export default function Dashboard(){
                     <div className="item-summary">
                         <div className="item">
                             <AccountCircleOutlinedIcon color='primary' sx={{fontSize:30}}/>
-                            <p><b>0</b></p>
+                            <p><b>{userData?.numOfSuppliers}</b></p>
                             <p>Number of Supplier</p>
                         </div>
                         <span className="vl"></span>
@@ -227,30 +249,27 @@ export default function Dashboard(){
                     <table>
                         <thead>
                             <tr>
-                                <th>Product</th>
-                                <th>Product ID</th>
+                                <th>Material</th>
+                                <th>Price</th>
                                 <th>Remaining Quantity</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>LCD</td>
-                                <td>1234</td>
-                                <td>10 packets</td>
-                                <td><label className='warning'>Low</label></td>
+                            {userData?.lowQuantityStock.map((stock, index) => 
+                            <tr key={index}>
+                                <td>{stock.name}</td>
+                                <td>₱{stock.price}</td>
+                                <td>{stock.remainingQuantity} packets</td>
+                                <td>{setStatusAvailability(stock.availability)}</td>
                             </tr>
-                            <tr>
-                                <td>LCadsasdadD</td>
-                                <td>1234</td>
-                                <td>10 packets</td>
-                                <td><label className='warning'>Low</label></td>
-                            </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>
             </div>
         </section>
+        
         </>
     )
 }

@@ -48,7 +48,7 @@ export default function Inventory(){
         .then(value => {
             setMaterials(value.materials);
             setProducts(value.products);
-            
+            console.log(value.materials);
             const lowStocks = value.products.filter(item => item.quantity <= 20);
             setLowStocks(lowStocks.length);
         });
@@ -85,7 +85,6 @@ export default function Inventory(){
     function handleShowSoldForm(index){
         setShowSoldProductForm(!showSoldProductForm);
         setSoldIndex(index);
-        console.log(products)
     }
 
     return (
@@ -269,7 +268,7 @@ export default function Inventory(){
                                 {products?.map((item, index) => 
                                     <tr key={index}>
                                         <td>{item.name}</td>
-                                        <td>${item.price}</td>
+                                        <td>₱{item.price}</td>
                                         <td>{item.quantity} packets</td>
                                         <td>{setStatusAvailability(item.availability)}</td>
                                         <td>
