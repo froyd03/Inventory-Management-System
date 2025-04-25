@@ -27,7 +27,7 @@ CREATE TABLE purchase_overview (
 
 CREATE TABLE materials (
     MID INT(11) PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(25) UNIQUE,
+    name VARCHAR(50) UNIQUE,
     price INT(11) NOT NULL,
     quantity INT(11) NOT NULL,
     availability VARCHAR(25) NOT NULL
@@ -35,7 +35,7 @@ CREATE TABLE materials (
 
 CREATE TABLE products (
     PID INT(11) PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(25) UNIQUE,
+    name VARCHAR(50) UNIQUE,
     price INT(11) NOT NULL,
     quantity INT(11) NOT NULL,
     unit_type VARCHAR(5) NOT NULL,
@@ -52,9 +52,19 @@ CREATE TABLE product_materials (
 
 CREATE TABLE production(
     INPID INT(11) PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(225) NOT NULL,
+    name VARCHAR(50) NOT NULL,
     time_left TIME DEFAULT CURRENT_TIME(),
     quantity INT(11) NOT NULL
+);
+
+CREATE TABLE supplier(
+    SID INT(11) PRIMARY KEY AUTO_INCREMENT,
+    MID INT(11),
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    contact_number VARCHAR(11) NOT NULL,
+    supplier_type VARCHAR(20) NOT NULL,
+    FOREIGN KEY(MID) REFERENCES materials(MID)
 );
 
 INSERT INTO products (
@@ -71,8 +81,15 @@ INSERT INTO materials (
     ("Wood Plank", 25, 43, "In-stock"),
     ("Screws", 5, 55, "In-stock"),
     ("Wooden Glue", 15, 0, "Out of stock"),
-    ("Barnish", 15, 12, "Low stock");
+    ("varnish", 15, 12, "Low stock");
 
+INSERT INTO supplier (
+    MID, name, email, contact_number, supplier_type 
+) VALUES
+    (3, "John Doe", "doejames@gmail.com", "0912345678", "taking returns"),
+    (1, "David Gonzales", "richard@gmail.com", "0912345678", "not taking returns"),
+    (4, "Ian James", "Martin@gmail.com", "0912345678","taking returns"),
+    (2, "Christian Lee", "richard@gmail.com", "0912345678", "taking returns");
 
 INSERT INTO sales_overview (
     sales, revenue, profit

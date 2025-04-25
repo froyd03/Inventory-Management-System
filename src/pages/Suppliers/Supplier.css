@@ -10,3 +10,14 @@
     flex-direction: row;
     gap: .8rem;
 }
+
+
+.input{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--borderInputColor);
+    border-radius: var(--borderRadius);
+    padding: 4px;
+}

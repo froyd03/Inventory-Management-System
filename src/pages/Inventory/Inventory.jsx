@@ -8,6 +8,9 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import AddProduct from '../../components/AddProduct.jsx'
 import Production from '../../components/Production.jsx'
 import OrderForm from '../../components/OrderForm.jsx'
+import AddMaterial from '../../components/AddMaterial.jsx'
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import SoldProduct from '../../components/SoldProduct.jsx'
 
 export default function Inventory(){
 
@@ -62,6 +65,11 @@ export default function Inventory(){
         setShOrderForm(s => !s);
     }
 
+    const [materialForm, showMaterialForm] = useState(false);
+    function handleMaterialForm(){
+        showMaterialForm(!materialForm);
+    }
+
     function setStatusAvailability(availability){
         if(availability === "In-stock"){
             return <label className='status-vgood'>{availability}</label>;
@@ -70,6 +78,14 @@ export default function Inventory(){
         }else{
             return <label className='status-bad'>{availability}</label>;
         }
+    }
+
+    const [showSoldProductForm, setShowSoldProductForm] = useState(false);
+    const [soldIndex, setSoldIndex] = useState(0);
+    function handleShowSoldForm(index){
+        setShowSoldProductForm(!showSoldProductForm);
+        setSoldIndex(index);
+        console.log(products)
     }
 
     return (
@@ -120,6 +136,29 @@ export default function Inventory(){
                 </div>
                 <div className="tab-content">
                     {tabContentActive[0] && <div className="tblInventory">
+                        <div className="tbl-header">
+                            <div className="input">
+                                <input type="text" placeholder='Search materials' />
+                                <SearchOutlinedIcon />
+                            </div>
+                            <div className="header-action">
+                                <button 
+                                    className="addProduct" 
+                                    onClick={() => showMaterialForm(p => !p)}
+                                        >Add Material
+                                </button>
+                                <div className="filter">
+                                    <FilterListIcon />
+                                    <select>
+                                        <option value="All">All</option>
+                                        <option value="In-stock">In-stock</option>
+                                        <option value="In-stock">Low stock</option>
+                                        <option value="In-stock">Out of stock</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                        </div>
                         <div className="tblContainer">
                             <table>
                                 <thead>
@@ -139,7 +178,8 @@ export default function Inventory(){
                                         <td>{item.quantity} packets</td>
                                         <td>{setStatusAvailability(item.availability)}</td>
                                         
-                                        <td><button 
+                                        <td>
+                                            <button 
                                                 onClick={() => handleOrderItem(index)} 
                                                 className="order">Order now
                                             </button>
@@ -197,13 +237,21 @@ export default function Inventory(){
                         <Pagination numberOfData={15} maxPerPage={2}/>
                     </div>}
                     {tabContentActive[2] && <div className="tblInventory">
-                        <div className="actions">
-                            <button onClick={() => setShowAddProduct(p => !p)} className="addProduct">Add Product</button>
-                            <div className="filter">
-                                <FilterListIcon />
-                                <select>
-                                    <option value="Monthly">Filters</option>
-                                </select>
+                        <div className="tbl-header">
+                            <div className="input">
+                                <input type="text" placeholder='Search products' />
+                                <SearchOutlinedIcon />
+                            </div>
+                            <div className="header-action">
+                                <button onClick={() => setShowAddProduct(p => !p)} className="addProduct">Add Product</button>
+                                <div className="filter">
+                                    <FilterListIcon />
+                                    <select>
+                                        <option value="In-stock">In-stock</option>
+                                        <option value="In-stock">Low stock</option>
+                                        <option value="In-stock">Out of stock</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div className="tblContainer">
@@ -224,7 +272,9 @@ export default function Inventory(){
                                         <td>${item.price}</td>
                                         <td>{item.quantity} packets</td>
                                         <td>{setStatusAvailability(item.availability)}</td>
-                                        <td><button className='sell'>Sold</button></td>
+                                        <td>
+                                            <button className='sell' onClick={() => handleShowSoldForm(index)}>Sold</button>
+                                        </td>
                                     </tr>
                                     )}
                                 </tbody>
@@ -235,10 +285,12 @@ export default function Inventory(){
                 </div>
             </div>
         </section>
-
+        
         {isShowAddProduct && <AddProduct showState={() => setShowAddProduct(p => !p)} />}
         {productionForm && <Production showState={() => showProductionForm(p => !p)} />}
         {showOrderForm && <OrderForm materials={materials} index={OrderIndex} discardBtn={discardBtn} />}
+        {materialForm && <AddMaterial click={handleMaterialForm} />}
+        {showSoldProductForm && <SoldProduct products={products} index={soldIndex} discardBtn={handleShowSoldForm}/>}
         </>
     )
 }

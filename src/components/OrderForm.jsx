@@ -78,15 +78,15 @@ export default function OrderForm(props){
                         <div className="inputs materialContainer">
                             <div className='details'>
                                 <label>Supplier Name: </label>
-                                <label>Richard Martin</label>
+                                <label>{props.materials[props.index].supplierDetails.name}</label>
                             </div>
                             <div className='details'>
                                 <label>Email: </label>
-                                <label>richard@gmail.com</label>
+                                <label>{props.materials[props.index].supplierDetails.email}</label>
                             </div>
                             <div className='details'>
                                 <label>Contact Number: </label>
-                                <label>09221144663</label>
+                                <label>{props.materials[props.index].supplierDetails.contactNumber}</label>
                             </div>
                         {errorMessage && <label style={{color: 'red', marginLeft: '10%'}}>{errorMessage}</label>}
 

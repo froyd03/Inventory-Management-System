@@ -8,6 +8,7 @@ export default function AddProduct(props){
 
     function handleDiscardBtn(){
         props.showState();  
+        
     }
 
     const previewImageRef  = useRef(null);
@@ -149,7 +150,8 @@ export default function AddProduct(props){
     }
 
     const [message, setMessage] = useState("");
-    async function handleSubmitNewProduct(){
+    async function handleSubmitNewProduct(e){
+        e.preventDefault();
 
         const form = new FormData();
         form.append("productName", productName);
@@ -157,6 +159,11 @@ export default function AddProduct(props){
         form.append("sellingPrice", sellingPrice);
         form.append("measurementType", measurementType);
         form.append("materials", JSON.stringify(materialsOfProduct));
+
+        if(materialsOfProduct.length === 0) {
+            setMessage("Complete all fields before submitting.");
+            return;
+        }
 
         try{
             const response = await fetch("http://localhost/Inventory-Management-System/backend/pages/actions/addProduct.php", {

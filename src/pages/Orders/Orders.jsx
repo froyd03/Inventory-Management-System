@@ -1,15 +1,11 @@
 import FilterListIcon from '@mui/icons-material/FilterList';
 import Nav from "../../components/Nav"
 import Header from "../../components/Header";
-import AddMaterial from '../../components/AddMaterial';
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+
 import { useState } from 'react';
 
 export default function Orders(){
-
-    const [isShowForm, setShowForm] = useState(false);
-    function handleMaterialForm(){
-        setShowForm(!isShowForm);
-    }
 
     return(
         <>
@@ -49,7 +45,10 @@ export default function Orders(){
                         <div className="tbl-header">
                             <h3>Orders</h3>
                             <div className="header-action">
-                                <button className="addProduct" onClick={handleMaterialForm}>Add Material</button>
+                               <div className="input">
+                                    <input type="text" placeholder='search order ID'/>
+                                    <SearchOutlinedIcon />
+                               </div>
                                 <div className="filter">
                                     <FilterListIcon />
                                     <select>
@@ -93,7 +92,6 @@ export default function Orders(){
                         </table>
                     </div>
                 </div>
-                {isShowForm && <AddMaterial click={handleMaterialForm} />}
 
             </section>  
         </>

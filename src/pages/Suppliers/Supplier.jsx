@@ -4,7 +4,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import Pagination from '../../components/Pagination.jsx'
 import AddMaterial from '../../components/AddMaterial.jsx';
 import './Supplier.css'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Supplier(){
 
@@ -12,6 +12,18 @@ export default function Supplier(){
     function handleMaterialForm(){
         setShowForm(!isShowForm);
     }
+
+    const [suppliers, setSuppliers] = useState([]);
+    useEffect(() => {
+        fetch("http://localhost/Inventory-Management-System/backend/pages/suppliers.php", {
+            method: "POST",
+            credentials: "include"
+        })
+        .then(response => response.json())
+        .then(value => setSuppliers(value));
+
+        
+    }, [])
 
     return(
         <>
@@ -45,86 +57,17 @@ export default function Supplier(){
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>James Doe</td>
-                                    <td>Wood Plank</td>
-                                    <td>0912345678</td>
-                                    <td>richard@gmail.com</td>
-                                    <td>taking returns</td>
-                                    <td>12</td>
-                                </tr>
-                                <tr>
-                                    <td>Joohn Doe</td>
-                                    <td>Glue Master</td>
-                                    <td>0912345678</td>
-                                    <td>richard@gmail.com</td>
-                                    <td>taking returns</td>
-                                    <td>12</td>
-                                </tr>
-                                <tr>
-                                    <td>Ian Kurt</td>
-                                    <td>bolts</td>
-                                    <td>0912345678</td>
-                                    <td>richard@gmail.com</td>
-                                    <td>taking returns</td>
-                                    <td>12</td>
-                                </tr>
-                                <tr>
-                                    <td>Lorem ipsum</td>
-                                    <td>2in Screw</td>
-                                    <td>0912345678</td>
-                                    <td>ipsum@gmail.com</td>
-                                    <td>not taking returns</td>
-                                    <td>12</td>
-                                </tr>
-                                <tr>
-                                    <td>Jhon Lloyd</td>
-                                    <td>3in Screw</td>
-                                    <td>0912345678</td>
-                                    <td>lloyd@gmail.com</td>
-                                    <td>taking returns</td>
-                                    <td>50</td>
-                                </tr>
-                                <tr>
-                                    <td>Christian Lee</td>
-                                    <td>Barnish</td>
-                                    <td>0912345678</td>
-                                    <td>richard@gmail.com</td>
-                                    <td>taking returns</td>
-                                    <td>12</td>
-                                </tr>
-                                <tr>
-                                    <td>Lance Cruz</td>
-                                    <td>Steel bars</td>
-                                    <td>0912345678</td>
-                                    <td>lancecruz@gmail.com</td>
-                                    <td>taking returns</td>
+                               {suppliers?.map((item, index) => 
+                                <tr key={index}>
+                                    <td>{item.supplierName}</td>
+                                    <td>{item.material}</td>
+                                    <td>{item.contactNumber}</td>
+                                    <td>{item.email}</td>
+                                    <td>{item.supplierType}</td>
                                     <td>-</td>
+                                    
                                 </tr>
-                                <tr>
-                                    <td>Alden Richard</td>
-                                    <td>Ply Wood</td>
-                                    <td>0912345678</td>
-                                    <td>aldenrich@gmail.com</td>
-                                    <td>not taking returns</td>
-                                    <td>25</td>
-                                </tr>
-                                <tr>
-                                    <td>Richard Martin</td>
-                                    <td>100cm Wood</td>
-                                    <td>0912345678</td>
-                                    <td>Martin@gmail.com</td>
-                                    <td>taking returns</td>
-                                    <td>12</td>
-                                </tr>
-                                <tr>
-                                    <td>Richard Martin</td>
-                                    <td>120cm Wood</td>
-                                    <td>0912345678</td>
-                                    <td>richard@gmail.com</td>
-                                    <td>taking returns</td>
-                                    <td>-</td>
-                                </tr>
+                                )}
                             </tbody>
                         </table>
                         <Pagination numberOfData={16} maxPerPage={2} />
