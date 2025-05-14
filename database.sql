@@ -28,8 +28,10 @@ CREATE TABLE purchase_overview (
 CREATE TABLE materials (
     MID INT(11) PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) UNIQUE,
+    brand VARCHAR(50) NOT NULL,
     price INT(11) NOT NULL,
     quantity INT(11) NOT NULL,
+    measure_type VARCHAR(5) NOT NULL,
     availability VARCHAR(25) NOT NULL
 );
 
@@ -77,14 +79,13 @@ INSERT INTO products (
     ("Picture Frame", 75, 0, "Out of stock");
 
 INSERT INTO materials (
-    name, price, quantity, availability
+    name, brand, price, quantity, measure_type, availability
 ) VALUES 
-    ("Wood Plank", 25, 43, "In-stock"),
-    ("Screws", 5, 55, "In-stock"),
-    ("Wooden Glue", 12, 0, "Out of stock"),
-    ("varnish", 15, 12, "Low stock"),
-    ("Finishing Nails", 5, 55, "In-stock"),
-    ("Box Nails", 7, 12, "Low stock");
+    ("Wood Plank", "TimberPro", 80, 43, "pcs", "In-stock"),
+    ("Screws", "GripTight", 5, 55, "pcs", "In-stock"),
+    ("Wooden Glue", "BondTite", 12, 0, "g", "Out of stock"),
+    ("varnish", "WoodShield", 10, 20, "L", "Low stock"),
+    ("Box Nails", "SteelMax", 7, 12, "pcs", "Low stock");
 
 INSERT INTO supplier (
     MID, name, email, contact_number, supplier_type 

@@ -105,7 +105,7 @@ export default function Dashboard(){
                             <p>Sales</p>
                             <div className='sales'>
                                 <img width={'30px'} alt='error' height={'30px'} src={sales}/>
-                                <h4>₱ {userData?.salesOverview.sales}</h4>
+                                <h4>{userData?.salesOverview.sales}</h4>
                             </div>
                         </div>
                         <span className="vl"></span>
@@ -223,7 +223,7 @@ export default function Dashboard(){
                     </div>
                 </div>
                 <div className="top-sell">
-                    <h3>Top Selling Product</h3>
+                    <h3>Top Selling</h3>
                     <div className="items" ref={containerRef}>
                         <div className="product">
                             <h4>Top 1</h4>

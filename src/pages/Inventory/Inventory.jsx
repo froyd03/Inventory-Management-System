@@ -83,8 +83,17 @@ export default function Inventory(){
     const [showSoldProductForm, setShowSoldProductForm] = useState(false);
     const [soldIndex, setSoldIndex] = useState(0);
     function handleShowSoldForm(index){
+        
+        if(products[index].quantity <= 0){
+            console.log("cannot be sold 0 quantity: go to production tab to produce this product");
+        }else{
+            setShowSoldProductForm(!showSoldProductForm);
+            setSoldIndex(index);
+        }
+    }
+
+    function dicardSoldForm(){
         setShowSoldProductForm(!showSoldProductForm);
-        setSoldIndex(index);
     }
 
     return (
@@ -96,14 +105,14 @@ export default function Inventory(){
                 <h3>Overall Inventory</h3>
                 <div className="overview-item">
                     <div className="item">
-                        <p style={{color: '#1570ef'}}><b>Total Materials</b></p>
-                        <h4>{materials.length}</h4>
+                        <p style={{color: '#1570ef'}}><b>On The Way </b></p>
+                        <h4>{0}</h4>
                         <p>Last 7 Days</p>
                     </div>
                     <div className="vl"></div>
                     <div className="item">
-                        <p style={{color: '#e19133'}}><b>Total Products</b></p>
-                        <h4>{products.length}</h4>
+                        <p style={{color: '#e19133'}}><b>Total Materials</b></p>
+                        <h4>{materials.length}</h4>
                         <p>Last 7 Days</p>
                     </div>
                     <div className="vl"></div>
@@ -126,12 +135,12 @@ export default function Inventory(){
                     <div onClick={() => handleActiveTab(0)} className="tabs active-tab">
                         <label>Materials</label>
                     </div>
-                    <div onClick={() => handleActiveTab(1)} className="tabs">
+                    {/*<div onClick={() => handleActiveTab(1)} className="tabs">
                         <label>Production</label>
-                    </div>
-                    <div onClick={() => handleActiveTab(2)} className="tabs">
+                    </div>*/}
+                    {/*<div onClick={() => handleActiveTab(2)} className="tabs">
                         <label>Products</label>
-                    </div>
+                    </div>*/}
                 </div>
                 <div className="tab-content">
                     {tabContentActive[0] && <div className="tblInventory">
@@ -158,11 +167,13 @@ export default function Inventory(){
                             </div>
                             
                         </div>
+                        
                         <div className="tblContainer">
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Items</th>
+                                        <th>Material Name</th>
+                                        <th>Brand Name</th>
                                         <th>Buying Price</th>
                                         <th>Quantity</th>
                                         <th>Availability</th>
@@ -173,14 +184,15 @@ export default function Inventory(){
                                     {materials?.map((item, index) => 
                                     <tr key={index}>
                                         <td>{item.name}</td>
+                                        <td>{item.brand}</td>
                                         <td>₱{item.price}</td>
-                                        <td>{item.quantity} packets</td>
+                                        <td>{item.quantity}{item.measure_type}</td>
                                         <td>{setStatusAvailability(item.availability)}</td>
                                         
                                         <td>
                                             <button 
                                                 onClick={() => handleOrderItem(index)} 
-                                                className="order">Order now
+                                                className="order">Request order
                                             </button>
                                         </td>
                                     </tr>
@@ -190,7 +202,7 @@ export default function Inventory(){
                         </div>
                         <Pagination numberOfData={materials.length} maxPerPage={2}/>
                     </div>}
-                    {tabContentActive[1] && <div className="tblInventory">
+                    {/* tabContentActive[1] && <div className="tblInventory">
                         <div className="actions">
                             <button 
                                 className="addProduct" 
@@ -234,8 +246,8 @@ export default function Inventory(){
                             </table>
                         </div>
                         <Pagination numberOfData={15} maxPerPage={2}/>
-                    </div>}
-                    {tabContentActive[2] && <div className="tblInventory">
+                    </div>*/}
+                    {/*tabContentActive[2] && <div className="tblInventory">
                         <div className="tbl-header">
                             <div className="input">
                                 <input type="text" placeholder='Search products' />
@@ -280,7 +292,7 @@ export default function Inventory(){
                             </table>
                         </div>
                         <Pagination numberOfData={products.length} maxPerPage={2}/>
-                    </div>}
+                    </div>*/}
                 </div>
             </div>
         </section>
@@ -289,7 +301,7 @@ export default function Inventory(){
         {productionForm && <Production showState={() => showProductionForm(p => !p)} />}
         {showOrderForm && <OrderForm materials={materials} index={OrderIndex} discardBtn={discardBtn} />}
         {materialForm && <AddMaterial click={handleMaterialForm} />}
-        {showSoldProductForm && <SoldProduct products={products} index={soldIndex} discardBtn={handleShowSoldForm}/>}
+        {showSoldProductForm && <SoldProduct products={products} index={soldIndex} discardBtn={dicardSoldForm}/>}
         </>
     )
 }

@@ -4,7 +4,7 @@ header("Access-Control-Allow-Origin: http://localhost:5173");
 header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Allow-Methods: GET");
 header("Content-Type: application/json");
-include("../../config/database.php");
+include("../config/database.php");
 
     
 if($_SERVER["REQUEST_METHOD"] == "GET"){
@@ -19,23 +19,26 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
         $products = [];
         while($rowProducts = mysqli_fetch_assoc($resultProducts)){
             $productID = $rowProducts["PID"];
-            $sqltbl_materials = "SELECT materials.name, product_materials.quantity FROM product_materials
+            $sqltbl_materials = "SELECT materials.name, product_materials.quantity, materials.price FROM product_materials
                 JOIN products ON product_materials.PID = products.PID
                 JOIN materials ON product_materials.MID = materials.MID WHERE products.PID = $productID";
 
             $result_materials = mysqli_query($connection, $sqltbl_materials);
             
             $materials = []; 
+            $costPerUnit = 0;
             while($rowMaterials = mysqli_fetch_assoc($result_materials)){
                 $materials[] = [
                    "materialName" => $rowMaterials["name"],
-                   "quantity" => $rowMaterials["quantity"]
+                   "quantity" => $rowMaterials["quantity"],
                 ];
+                $costPerUnit += $rowMaterials["quantity"] * $rowMaterials["price"];
             }
             
             $products[] = [
                 "PID" => $rowProducts["PID"],
                 "productName" => $rowProducts["name"],
+                "costPerUnit" => $costPerUnit,
                 "materials" => $materials
             ];
         }

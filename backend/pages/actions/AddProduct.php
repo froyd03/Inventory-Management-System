@@ -11,7 +11,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         exit;
     }else if(empty($_POST["productName"])
             || empty($_POST["productId"]) 
-            || empty($_POST["sellingPrice"])){
+            || empty($_POST["sellingPrice"])
+            || empty($_POST["materials"])){
         echo json_encode(["message" => "Complete all fields before submitting."]);
         exit;
     }else{
@@ -20,11 +21,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $productName = filter_input(INPUT_POST, "productName", FILTER_SANITIZE_STRING);
         $productID = filter_input(INPUT_POST, "productId", FILTER_SANITIZE_STRING);
         $sellingPrice = filter_input(INPUT_POST, "sellingPrice", FILTER_SANITIZE_NUMBER_INT);  
+        $measurementType = filter_input(INPUT_POST, "measurementType", FILTER_SANITIZE_STRING);  
         
         try {
             
-            $stmt = $connection->prepare("INSERT INTO products(name, price, quantity, availability) VALUES (?, ?, 0, 'out of stock')");
-            $stmt->bind_param("ss", $productName, $sellingPrice);
+            $stmt = $connection->prepare("INSERT INTO products(name, price, quantity, unit_type, availability) VALUES (?, ?, 0, ?, 'Out of stock')");
+            $stmt->bind_param("sss", $productName, $sellingPrice, $measurementType);
             $isSuccess = $stmt->execute();
         
             if ($isSuccess) {
@@ -45,7 +47,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     }
         
                     // Insert materials
-                    $response = ["message" => "success!"];
+                    $response = ["message" => ""];
         
                     foreach ($materialDecode as $materialItem) {
                         $material = $materialItem->materialName;
@@ -67,6 +69,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         if (!$isInsertSuccess) {
                             $response["message"] = "Failed to insert material '$material'";
                             break;
+                        }else{
+                            $response["message"] = "success!";
                         }
                     }
         

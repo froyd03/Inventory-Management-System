@@ -67,6 +67,7 @@ export default function Orders(){
                                     <td>Order Value</td>
                                     <td>Quantity</td>
                                     <td>Order ID</td>
+                                    <td>Orrder Date </td>
                                     <td>Expected Delivery</td>
                                     <td>Status</td>
                                 </tr>
@@ -77,6 +78,7 @@ export default function Orders(){
                                     <td>P 200</td>
                                     <td>15</td>
                                     <td>0012</td>
+                                    <td>5/14/2025</td>
                                     <td>4/23/25</td>
                                     <td>Processing</td>
                                 </tr>
@@ -85,6 +87,7 @@ export default function Orders(){
                                     <td>P 150</td>
                                     <td>25</td>
                                     <td>3462</td>
+                                    <td>5/11/2025</td>
                                     <td>4/25/25</td>
                                     <td>Confirmed</td>
                                 </tr>

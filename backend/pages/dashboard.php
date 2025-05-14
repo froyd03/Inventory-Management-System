@@ -29,15 +29,41 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
     }
     $userID = $_SESSION["id"];
 
-    $sql_tblSales = "SELECT sales, revenue, profit FROM sales_overview WHERE id = '$userID'";
-    $sql_tblPurchase = "SELECT purchase, cost, retrn FROM purchase_overview WHERE id = '$userID'";
-
+    $sql_tblSales = "SELECT sales, revenue, profit FROM sales_overview WHERE id = '1'";
     $result_tblSales = getDataFromTables($sql_tblSales);
+
+    $sql_tblPurchase = "SELECT purchase, cost, retrn FROM purchase_overview WHERE id = '1'";
     $result_tblPurchase = getDataFromTables($sql_tblPurchase);
+
+    include("../config/database.php");
+    $sql_tblMaterials = "SELECT * FROM materials";
+    $result_materials = mysqli_query($connection, $sql_tblMaterials);
+
+    $quantity = 0;
+    $lowStocks = [];
+    while($row = mysqli_fetch_assoc($result_materials)){
+        $quantity += $row["quantity"];
+
+        if($row["quantity"] < 20){
+            $lowStocks[] = [
+                "name" => $row["name"],
+                "price" => $row["price"],
+                "remainingQuantity" => $row["quantity"],
+                "availability" => $row["availability"]
+            ];
+        }
+    }
+
+    $sql_tblSupplier = "SELECT * FROM supplier";
+    $result_suppliers = mysqli_query($connection, $sql_tblSupplier);
+    $totalData = mysqli_num_rows($result_suppliers);
 
     echo json_encode([
         "salesOverview" => $result_tblSales,
-        "purchaseOverview" => $result_tblPurchase
+        "purchaseOverview" => $result_tblPurchase,
+        "lowQuantityStock" => $lowStocks,
+        "quantityInHand" =>  $quantity,
+        "numOfSuppliers" => $totalData
     ]);
 }
 ?>

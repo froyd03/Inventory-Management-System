@@ -37,12 +37,24 @@ export default function AddMaterial(props){
         setSupplierType(event.target.value);
     }
 
+    const [measurementType, setMeasurementType] = useState("pcs");
+    function inpMeasurementType(e){
+        setMeasurementType(e.target.value);
+    }
+
+    const [brandName, setBrandName] = useState("pcs");
+    function inpBrandName(e){
+        setBrandName(e.target.value);
+    }
+
     const [message, setMessage] = useState("");
     async function submitForm(e){
         e.preventDefault();
 
         const form = new FormData();
         form.append("materialName", materialName);
+        form.append("brandName", brandName);
+        form.append("measureType", measurementType);
         form.append("buyingPrice", buyingPrice);
         form.append("supplierName", supplierName);
         form.append("email", email);
@@ -81,6 +93,29 @@ export default function AddMaterial(props){
                         <input type="text" placeholder="Enter material ID"/>
                     </div>
                     <div className="inp-prod">
+                        <label>Brand</label>
+                        <input type="text" onChange={inpBrandName} placeholder="Enter brand name"/>
+                    </div>
+                    <div className='inp-prod'>
+                        <label>Measurement Type</label>
+                        <div className="select-measure-type">
+                            <select name='' onChange={inpMeasurementType}>
+                                <option value="pcs">Pieces (pcs)</option>
+                                <option value="inch">Inches</option>
+                                <option value="m">meters (m)</option>
+                                <option value="cm">Centimeters (cm)</option>
+                                <option value="mm">Mllimetre (mm)</option>
+                                <option value="g">Grams (g)</option>
+                                <option value="mg">Milligram (mg)</option>
+                                <option value="kg">Kilogram (kg)</option>
+                                <option value="oz">Ounce (oz)</option>
+                                <option value="lbs">Pound (lbs)</option>
+                                <option value="L">Liter (L)</option>
+                                <option value="mL">Milliliter (mL)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="inp-prod">
                         <label>Buying Price</label>
                         <input type="number" onChange={inpBuyingPrice} placeholder="Per Item"/>
                     </div>
@@ -102,11 +137,11 @@ export default function AddMaterial(props){
                     </div>
                     <div className="inp-prod">
                         <label>Type</label>
-                        <div className="filter">
+                        <div className="select-measure-type">
                             <select onChange={slctType}>
                                 <option value="Taking Return">Taking Return</option>
                                 <option value="Not Taking Return">Not Taking Return</option>
-                            </select>
+                            </select> 
                         </div>
                     </div>
                 </div>

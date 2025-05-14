@@ -229,7 +229,6 @@ export default function AddProduct(props){
                                 <option value="mL">Milliliter (mL)</option>
                             </select>
                         </div>
-                        
                     </div>
                     <hr />
                 </div>

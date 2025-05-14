@@ -26,13 +26,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             
             //update the quantity value to materials
             $productName = $_POST["productName"];
-            $fetchedMaterial = mysqli_query($connection, "SELECT MID, quantity FROM materials WHERE name = '$productName'");
+            $fetchedMaterial = mysqli_query($connection, "SELECT MID, quantity, availability FROM materials WHERE name = '$productName'");
             
             $material = mysqli_fetch_assoc($fetchedMaterial);
             $updatedQuantity = $material["quantity"] + $_POST["totalQuantity"];
+
+            $availabilityStatus = "";
+            if($updatedQuantity > 20){
+                $availabilityStatus = "In-stock";
+            }else if($updatedQuantity <= 20){
+                $availabilityStatus = "Low stock";
+            }else{
+                $availabilityStatus = "Out of stock";
+            }
            
             $materialID = $material["MID"];
-            mysqli_query($connection, "UPDATE materials SET quantity = $updatedQuantity WHERE MID = $materialID");
+            mysqli_query($connection, "UPDATE materials SET quantity = '$updatedQuantity', availability = '$availabilityStatus' WHERE MID = $materialID");
             echo "success";
         }else{
             echo "please put the quantity before placing order.";

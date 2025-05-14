@@ -4,7 +4,6 @@ header("Access-Control-Allow-Origin: http://localhost:5173");
 header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Allow-Methods: GET");
 header("Content-Type: application/json");
-include("../config/database.php");
 
 if($_SERVER["REQUEST_METHOD"] == "GET"){
     
@@ -12,15 +11,51 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
         echo json_encode(["error" => "User not authenticated"]);
         exit;
     }else{
+        include("../index.php");
+        include("../config/database.php");
         $userID = $_SESSION["id"];
 
-        include("../index.php");
+        $sql = 
+            "SELECT 
+                supplier.name AS supplier_name, 
+                supplier.email, 
+                materials.name, 
+                supplier.contact_number, 
+                materials.name AS material_name, 
+                materials.price, 
+                materials.quantity, 
+                materials.availability 
+            FROM supplier INNER JOIN materials ON materials.MID = supplier.MID;";
+        $materials = [];
 
-        $products = new Product();
-        echo json_encode([
-            "products" => $products->getProducts("products", "../config/database.php"),
-            "materials" => $products->getProducts("materials", "../config/database.php"),
-        ]);
+        try {
+            $result = mysqli_query($connection, $sql);
+    
+            if (!$result || mysqli_num_rows($result) == 0) {
+                exit;
+            }else{
+                while($row = mysqli_fetch_assoc($result)){
+                    $materials[] = [
+                        "name" => $row["material_name"],
+                        "price" => $row["price"],
+                        "quantity" => $row["quantity"],
+                        "availability" => $row["availability"],
+                        "supplierDetails" => [
+                            "name" => $row["supplier_name"],
+                            "email" => $row["email"],
+                            "contactNumber" => $row["contact_number"]
+                        ]
+                    ];
+                }
+                $products = new Product();
+                echo json_encode([
+                    "products" => $products->getProducts("products", "../config/database.php"),
+                    "materials" => $materials,
+                ]);
+            }
+        } catch (mysqli_sql_exception $e) {
+            return ["error" => $e->getMessage()];
+        }
     }
 
 }
