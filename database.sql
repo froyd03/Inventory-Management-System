@@ -69,6 +69,16 @@ CREATE TABLE supplier(
     FOREIGN KEY(MID) REFERENCES materials(MID)
 );
 
+CREATE TABLE orders(
+    OID INT(11) PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL, 
+    order_value INT(11) NOT NULL,
+    quantity INT(11) NOT NULL,
+    order_ID VARCHAR(50) UNIQUE,
+    order_date DATE DEFAULT CURRENT_DATE();
+    status VARCHAR(20) NOT NULL, 
+);
+
 INSERT INTO products (
     name, price, quantity, availability
 ) VALUES
@@ -85,7 +95,8 @@ INSERT INTO materials (
     ("Screws", "GripTight", 5, 55, "pcs", "In-stock"),
     ("Wooden Glue", "BondTite", 12, 0, "g", "Out of stock"),
     ("varnish", "WoodShield", 10, 20, "L", "Low stock"),
-    ("Box Nails", "SteelMax", 7, 12, "pcs", "Low stock");
+    ("Box Nails", "SteelMax", 7, 12, "pcs", "Low stock"),
+    ("Cotton Thread", "SteelMax", 7, 12, "kg", "Low stock");
 
 INSERT INTO supplier (
     MID, name, email, contact_number, supplier_type 

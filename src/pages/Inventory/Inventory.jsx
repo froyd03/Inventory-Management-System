@@ -49,7 +49,7 @@ export default function Inventory(){
             setMaterials(value.materials);
             setProducts(value.products);
             console.log(value.materials);
-            const lowStocks = value.products.filter(item => item.quantity <= 20);
+            const lowStocks = value.materials.filter(item => item.quantity <= 20);
             setLowStocks(lowStocks.length);
         });
     }, [])
@@ -200,7 +200,7 @@ export default function Inventory(){
                                 </tbody>
                             </table>
                         </div>
-                        <Pagination numberOfData={materials.length} maxPerPage={2}/>
+                        <Pagination numberOfData={materials.length} maxPerPage={5}/>
                     </div>}
                     {/* tabContentActive[1] && <div className="tblInventory">
                         <div className="actions">

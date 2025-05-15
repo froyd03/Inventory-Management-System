@@ -260,7 +260,7 @@ export default function Dashboard(){
                             <tr key={index}>
                                 <td>{stock.name}</td>
                                 <td>₱{stock.price}</td>
-                                <td>{stock.remainingQuantity} packets</td>
+                                <td>{stock.remainingQuantity}{stock.measure_type}</td>
                                 <td>{setStatusAvailability(stock.availability)}</td>
                             </tr>
                             )}

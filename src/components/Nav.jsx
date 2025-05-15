@@ -24,7 +24,7 @@ export default function Nav(props){
         },
         {
             btnName:'Reports', 
-            path: '/client',
+            path: '/reports',
             btnIcon: <AssessmentOutlinedIcon sx={{fontSize: 25}}/>
         },
         {

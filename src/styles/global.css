@@ -77,7 +77,8 @@ input{
 }
 
 hr{
-    border-top: 1px solid #00000010;
+    border-top: 1px solid #00000006;
+    width: 100%;
 }
 
 select{

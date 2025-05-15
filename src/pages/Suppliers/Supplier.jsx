@@ -21,9 +21,7 @@ export default function Supplier(){
         })
         .then(response => response.json())
         .then(value => setSuppliers(value));
-
-        
-    }, [])
+    }, []);
 
     return(
         <>

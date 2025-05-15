@@ -19,7 +19,7 @@ export default function Pagination(props){
                 element.classList.remove('pageActive');
             }
         });
-    }, [index])
+    }, [index]);
 
     useEffect(() => {
         activeRef.current = activeRef.current.filter(value => value !== null);
@@ -29,8 +29,6 @@ export default function Pagination(props){
 
     const [adjustCount, setCount] = useState(0);
     function handleNextBtn(){
-        
-
         if(index < TOTAL_PAGE-1){
             setIndex(i => i + 1);
         }else if(PAGE_NUMBER > LIMIT_PAGE && index == (LIMIT_PAGE-1) && PAGE_NUMBER !== (adjustCount+LIMIT_PAGE)){

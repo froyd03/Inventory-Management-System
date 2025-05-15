@@ -2,10 +2,21 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import Nav from "../../components/Nav"
 import Header from "../../components/Header";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import Pagination from '../../components/Pagination';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Orders(){
+
+    const [orderRecords, setOrders] = useState();
+    useEffect(() => {
+       fetch("http://localhost/Inventory-Management-System/backend/pages/orders.php", {
+            method: "GET",
+            credentials: "include"
+        })
+        .then(response => response.json())
+        .then(value => setOrders(value));
+    }, []);
 
     return(
         <>
@@ -17,25 +28,25 @@ export default function Orders(){
                         <div className="overview-item">
                         <div className="item">
                             <p style={{color: '#1570ef'}}><b>Total Orders</b></p>
-                            <h4>14</h4>
+                            <h4>{orderRecords?.orders.length}</h4>
                             <p>Last 7 Days</p>
                         </div>
                         <div className="vl"></div>
                         <div className="item">
                         <p style={{color: '#e19133'}}><b>Total Recieve</b></p>
-                            <h4>14</h4>
+                            <h4>0</h4>
                             <p>Last 7 Days</p>
                         </div>
                         <div className="vl"></div>
                         <div className="item">
                             <p style={{color: '#845ebc'}}><b>Total Returned</b></p>
-                            <h4>14</h4>
+                            <h4>0</h4>
                             <p>Last 7 Days</p>
                         </div>
                         <div className="vl"></div>
                         <div className="item">
                             <p style={{color: '#f36960'}}><b>On the way</b></p>
-                            <h4>14</h4>
+                            <h4>{orderRecords?.orders.length}</h4>
                             <p>Last 7 Days</p>
                         </div>
                     </div>
@@ -73,29 +84,22 @@ export default function Orders(){
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Screws</td>
-                                    <td>P 200</td>
-                                    <td>15</td>
-                                    <td>0012</td>
-                                    <td>5/14/2025</td>
-                                    <td>4/23/25</td>
-                                    <td>Processing</td>
-                                </tr>
-                                <tr>
-                                    <td>Steel Bars</td>
-                                    <td>P 150</td>
-                                    <td>25</td>
-                                    <td>3462</td>
-                                    <td>5/11/2025</td>
-                                    <td>4/25/25</td>
-                                    <td>Confirmed</td>
-                                </tr>
+                                {orderRecords?.orders.map((order, index) => 
+                                    <tr key={index}>
+                                        <td>{order.name}</td>
+                                        <td>{order.orderValue}</td>
+                                        <td>{order.quantity}</td>
+                                        <td>{order.orderID}</td>
+                                        <td>{order.date}</td>
+                                        <td>-</td>
+                                        <td>{order.status}</td>
+                                    </tr>
+                                )}
                             </tbody>
                         </table>
+                        <Pagination/>
                     </div>
                 </div>
-
             </section>  
         </>
     )
