@@ -74,9 +74,10 @@ CREATE TABLE orders(
     name VARCHAR(50) NOT NULL, 
     order_value INT(11) NOT NULL,
     quantity INT(11) NOT NULL,
-    order_ID VARCHAR(50) UNIQUE,
-    order_date DATE DEFAULT CURRENT_DATE();
-    status VARCHAR(20) NOT NULL, 
+    per_quantity INT(11) NOT NULL,
+    order_ID VARCHAR(50),
+    order_date DATE DEFAULT CURRENT_DATE(),
+    status VARCHAR(20) NOT NULL 
 );
 
 INSERT INTO products (

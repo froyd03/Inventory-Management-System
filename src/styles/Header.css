@@ -122,6 +122,10 @@ h4{
     color: var(--secondaryTextColor);
     border-radius: 50px;
     border: 1px solid var(--borderInputColor);
+
+    & > input{
+        width: 100%;
+    }
 }
 
 .logo-img, .search-icon{

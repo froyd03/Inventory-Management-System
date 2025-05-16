@@ -3,7 +3,6 @@ import Nav from "../../components/Nav"
 import Header from "../../components/Header";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import Pagination from '../../components/Pagination';
-
 import { useState, useEffect } from 'react';
 
 export default function Orders(){
@@ -33,10 +32,12 @@ export default function Orders(){
                         </div>
                         <div className="vl"></div>
                         <div className="item">
-                        <p style={{color: '#e19133'}}><b>Total Recieve</b></p>
+                            <p style={{color: '#e19133'}}><b>Total Recieve</b></p>
                             <h4>0</h4>
                             <p>Last 7 Days</p>
+                            
                         </div>
+                        
                         <div className="vl"></div>
                         <div className="item">
                             <p style={{color: '#845ebc'}}><b>Total Returned</b></p>
@@ -78,7 +79,7 @@ export default function Orders(){
                                     <td>Order Value</td>
                                     <td>Quantity</td>
                                     <td>Order ID</td>
-                                    <td>Orrder Date </td>
+                                    <td>Order Date </td>
                                     <td>Expected Delivery</td>
                                     <td>Status</td>
                                 </tr>
@@ -87,7 +88,7 @@ export default function Orders(){
                                 {orderRecords?.orders.map((order, index) => 
                                     <tr key={index}>
                                         <td>{order.name}</td>
-                                        <td>{order.orderValue}</td>
+                                        <td>₱{order.orderValue}</td>
                                         <td>{order.quantity}</td>
                                         <td>{order.orderID}</td>
                                         <td>{order.date}</td>

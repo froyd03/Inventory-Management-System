@@ -184,7 +184,7 @@ export default function Dashboard(){
                         <div className="item">
                             <ListAltOutlinedIcon color='primary' sx={{fontSize:30}}/>
                             <p><b>0</b></p>
-                            <p>Number of Categories</p>
+                            <p>Number of Brands</p>
                         </div>
                     </div>
                 </div>

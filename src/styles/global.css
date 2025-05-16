@@ -69,10 +69,32 @@ button{
     background-color: #409BBB;
 }
 
+.inp-prod{
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    
+    & > label{
+        width: 30%;
+        font-weight: 500;
+        font-size: 16px;
+        color: var(--secondaryTextColor);
+    }
+
+    & > input[type="text"], 
+        input[type="date"],
+        input[type="number"],
+        input[type="email"]{
+        width: 50%;
+        border: 2px solid var(--borderInputColor);
+        padding: 10px 10px;
+        border-radius: var(--borderRadius);
+    }
+}
+
 input{
     border: none;
     outline: none;
-    width: 100%;
     font-size: 1rem;
 }
 
@@ -161,6 +183,10 @@ select{
     tr{
         border-bottom: 1px solid #00000014;
     }
+
+    tfoot{
+        background-color: #00000014;
+    }
     
     table{
         width: 100%;
@@ -215,6 +241,8 @@ input[type="checkbox"]{
     border-radius: var(--borderRadius);
     border: 1px solid var(--borderInputColor);
     display: flex;
+    align-items: center;
+    gap: .5rem;
 
     & > svg{
         color: #000000b6;

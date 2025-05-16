@@ -30,7 +30,9 @@ export default function OrderForm(props){
         const formData = new FormData();
         formData.append("totalPrice", totalPrice || '');
         formData.append("totalQuantity", materialQuantity || '');
+        formData.append("pricePerQuantity", props.materials[props.index].price);
         formData.append("productName", productName);
+        console.log(props.materials[props.index].price)
 
         if(!errorMessage){
             const response = await fetch("http://localhost/Inventory-Management-System/backend/pages/actions/place_order.php", {
