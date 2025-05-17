@@ -94,10 +94,14 @@ INSERT INTO materials (
 ) VALUES 
     ("Wood Plank", "TimberPro", 80, 43, "pcs", "In-stock"),
     ("Screws", "GripTight", 5, 55, "pcs", "In-stock"),
-    ("Wooden Glue", "BondTite", 12, 0, "g", "Out of stock"),
+    ("Industrial Glue", "BondId", 12, 0, "g", "Out of stock"),
     ("varnish", "WoodShield", 10, 20, "L", "Low stock"),
     ("Box Nails", "SteelMax", 7, 12, "pcs", "Low stock"),
-    ("Cotton Thread", "SteelMax", 7, 12, "kg", "Low stock");
+    ("Cotton Thread", "SteelMax", 7, 12, "kg", "Low stock"),
+    ("Upholstery Foam", "ComfortCore", 150, 18, "kg", "Low stock"),
+    ("White Paint", "ColorTone", 220, 0, "L", "Out of Stock"),
+    ("Zipper (12 inch)", "ZipLine", 15, 400, "pcs", "In-Stock"),
+    ("Fabric Roll", "SoftWeave", 300, 30, "m", "In-Stock");
 
 INSERT INTO supplier (
     MID, name, email, contact_number, supplier_type 
@@ -107,15 +111,35 @@ INSERT INTO supplier (
     (4, "Ian James", "Martin@gmail.com", "0912345678","taking returns"),
     (2, "Christian Lee", "richard@gmail.com", "0912345678", "taking returns"),
     (5, "John Benedict", "benedictt@gmail.com", "0912345678", "taking returns"),
-    (6, "Rose Mary", "roseee@gmail.com", "0912345678", "not taking returns");
+    (6, "Rose Mary", "roseee@gmail.com", "0912345678", "not taking returns"),
+    (7, "Luke Espirito", "lukeespi@yahoo.com", "0912345678", "taking returns"),
+    (8, "Jake Angelo", "angee@gmail.com", "0912345678", "taking returns"),
+    (9, "Kassandra Mae", "kasie@gmail.com", "0912345678", "not taking returns"),
+    (10, "Alejandro Lloyd", "lloydAlehan@yahoo.com", "0912345678", "taking returns");
+
+INSERT INTO orders(
+    name, order_value, quantity, per_quantity, order_ID, order_date, status
+)VALUES
+    ("Screws", 500, 100, 5, "ORD-1001", "2025-5-08", "completed"),
+    ("Wood Plank", 3150, 210, 15, "ORD-1002", "2025-5-12", "processing"),
+    ("Industrial Glue", 840, 70, 12, "ORD-1101", "2025-5-17", "processing"),
+    ("Cotton Thread", 1050, 210, 5, "ORD-1010", "2025-4-30", "completed"),
+    ("varnish", 1400, 140, 10, "ORD-1022", "2025-4-20", "completed"),
+    ("Wood Plank", 6400, 80, 80, "ORD-1003", "2025-4-10", "processing"),
+    ("Screws", 500, 100, 5, "ORD-1004", "2025-6-12", "completed"),
+    ("Wood Plank", 3150, 210, 15, "ORD-1005", "2025-6-22", "completed"),
+    ("Industrial Glue", 840, 70, 12, "ORD-1006", "2025-6-30", "completed"),
+    ("Cotton Thread", 1050, 210, 5, "ORD-1007", "2025-5-16", "completed"),
+    ("varnish", 1400, 140, 10, "ORD-1008", "2025-5-20", "completed"),
+    ("Wood Plank", 6400, 80, 80, "ORD-1021", "2025-4-19", "completed");
 
 INSERT INTO sales_overview (
     sales, revenue, profit
-) VALUES (0, 0, 0);
+) VALUES (1532, 7582, 6983);
 
 INSERT INTO purchase_overview (
     purchase, cost, retrn
-) VALUES (0, 0, 0);
+) VALUES (771, 4910, 0);
 
 
 INSERT INTO product_materials(PID, MID, quantity)

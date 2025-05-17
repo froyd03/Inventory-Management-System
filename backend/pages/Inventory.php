@@ -22,8 +22,10 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
                 materials.name, 
                 supplier.contact_number, 
                 materials.name AS material_name, 
-                materials.price, 
+                materials.price,
+                materials.brand,
                 materials.quantity, 
+                materials.measure_type,
                 materials.availability 
             FROM supplier INNER JOIN materials ON materials.MID = supplier.MID;";
         $materials = [];
@@ -37,8 +39,10 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
                 while($row = mysqli_fetch_assoc($result)){
                     $materials[] = [
                         "name" => $row["material_name"],
+                        "brand" => $row["brand"],
                         "price" => $row["price"],
                         "quantity" => $row["quantity"],
+                        "measure_type" => $row["measure_type"],
                         "availability" => $row["availability"],
                         "supplierDetails" => [
                             "name" => $row["supplier_name"],

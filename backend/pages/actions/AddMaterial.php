@@ -14,13 +14,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             || empty($_POST["supplierName"])
             || empty($_POST["email"])
             || empty($_POST["contactNumber"])
-            || empty($_POST["supplierType"])){
+            || empty($_POST["supplierType"])
+            || empty($_POST["brandName"])
+            || empty($_POST["measureType"])){
         echo json_encode(["message" => "Complete all fields before submitting."]);
         exit;
     }else{
         include("../../config/database.php");
 
         $materialName = filter_input(INPUT_POST, "materialName", FILTER_SANITIZE_STRING);
+        $brandName = filter_input(INPUT_POST, "brandName", FILTER_SANITIZE_STRING);
+        $measureType = filter_input(INPUT_POST, "measureType", FILTER_SANITIZE_STRING);
         $buyingPrice = filter_input(INPUT_POST, "buyingPrice", FILTER_SANITIZE_NUMBER_INT);
         $supplierName = filter_input(INPUT_POST, "supplierName", FILTER_SANITIZE_STRING);  
         $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_STRING);  
@@ -28,8 +32,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $supplierType = filter_input(INPUT_POST, "supplierType", FILTER_SANITIZE_STRING);  
         
         try {
-            $stmt = $connection->prepare("INSERT INTO materials(name, price, quantity, availability) VALUES (?, ?, 0, 'Out of stock')");
-            $stmt->bind_param("ss", $materialName, $buyingPrice);
+            $stmt = $connection->prepare("INSERT INTO materials(name, brand, price, quantity, measure_type, availability) VALUES (?, ?, ?, 0, ?, 'Out of stock')");
+            $stmt->bind_param("ssss", $materialName, $brandName, $buyingPrice, $measureType);
             $isSuccess = $stmt->execute();
         
             if ($isSuccess) {

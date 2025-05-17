@@ -44,11 +44,12 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
     while($row = mysqli_fetch_assoc($result_materials)){
         $quantity += $row["quantity"];
 
-        if($row["quantity"] < 20){
+        if($row["quantity"] <= 20){
             $lowStocks[] = [
                 "name" => $row["name"],
                 "price" => $row["price"],
                 "remainingQuantity" => $row["quantity"],
+                "measure_type" => $row["measure_type"],
                 "availability" => $row["availability"]
             ];
         }

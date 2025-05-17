@@ -43,6 +43,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $materialID = $material["MID"];
             mysqli_query($connection, "UPDATE materials SET quantity = '$updatedQuantity', availability = '$availabilityStatus' WHERE MID = $materialID");
             echo "success";
+
+            $stmt = $connection->prepare("INSERT INTO orders(name, order_value, quantity, per_quantity, order_ID, status) VALUES (?, ?, ?, ?, 8192, 'processing')");
+            $stmt->bind_param("ssss", $productName, $_POST["totalPrice"], $_POST["totalQuantity"], $_POST["pricePerQuantity"]);
+            $isSuccess = $stmt->execute();
         }else{
             echo "please put the quantity before placing order.";
         }

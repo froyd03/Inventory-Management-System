@@ -50,7 +50,8 @@ export default function ReportForm(props){
         })
      
        setCSVdata(data);
-    }, []);
+       console.log(data);
+    }, [props.purchases]);
    
     function handleCloseForm(){
         props.closeBtn();
@@ -108,7 +109,7 @@ export default function ReportForm(props){
             <h3>Purchase Report</h3>
             <div className="header-action">
                 
-                <div className="filter" onClick={() => exportPDFWithChart(props.chartReference, CSVdata, 'purchase_report.pdf')}>
+                <div className="filter" onClick={() => exportPDFWithChart(props.chartReference, CSVdata, `purchase_report_${props.startDate}.pdf`)}>
                     <label>Export PDF</label>
                     <FileDownloadOutlinedIcon/> 
                 </div>

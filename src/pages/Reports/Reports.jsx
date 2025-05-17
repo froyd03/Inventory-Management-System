@@ -20,6 +20,12 @@ export default function Report(){
         })
         .then(response => response.json())
         .then(value => setPurchases(value.orders));
+
+        if(lineChartData.length === 0) { //if lineChart is empty, put a value
+            setLineChartData(dataGraphYearly);
+            setDataSeries([{ dataKey: 'purchase', color: '#1E214C'}]);
+            console.log("run")
+        }
     }, []);
 
     const [startDate, setStartDate] = useState('');
@@ -34,22 +40,20 @@ export default function Report(){
 
     const [filteredData, setFilteredData] = useState([]);
     const [lineChartData, setLineChartData] = useState([]);
-
+    const [dataSeries, setDataSeries] = useState([]);
     function getChartData(){
         if(startDate && endDate){
             const filtered = purchases?.filter(purchase =>
                 purchase.date >= startDate && purchase.date <= endDate
             );
-
             setFilteredData(filtered); // optional — keep this if you need it elsewhere
 
             const data = filtered.map(item => ({
                 date: item.date,
-                cost: parseFloat(item.quantity) * parseFloat(item.perQuantity)
+                cost: parseFloat(item.quantity) * parseFloat(item.perQuantity),
             }));
 
-            console.log("Filtered Data:", filtered);
-            console.log("Line Chart Data:", data);
+            setDataSeries([{ dataKey: 'cost', color: '#1E214C'}]);
             setLineChartData(data);
         }
     }
@@ -111,7 +115,7 @@ export default function Report(){
                 </div>
                 <div className="tblMainContainer layout">
                     <div className="tbl-header">
-                        <h3>Cost</h3>
+                        <h3>Purchase</h3>
                         <div className="header-action">
                             <button onClick={handleReportForm} className="addProduct">Generate report</button>
                         </div>
@@ -121,9 +125,7 @@ export default function Report(){
                         <LineChart
                             dataset={lineChartData}
                             xAxis={[{scaleType: 'point', dataKey:'date' }]}
-                            series={[
-                                { dataKey: 'cost', color: '#1E214C'},
-                            ]}
+                            series={dataSeries}
                             height={400}
                             grid={{horizontal: true}}
                         />
