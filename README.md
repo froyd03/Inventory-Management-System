@@ -32,9 +32,9 @@ An Inventory Management System (IMS) web application that allows users to track,
 ---
 
 ## Tech Stack  
-- **Frontend**: JavaScript, HTML, CSS  
-- **Backend / Server**: (If any, specify)  
-- **Database**: (e.g. MySQL, SQLite, PostgreSQL — whichever you used)  
+- **Frontend**: React JS
+- **Backend / Server**: PHP, XAMPP server
+- **Database**: MySql  
 - **Build Tools / Config**: Vite, ESLint, etc.  
 
 ---
@@ -59,13 +59,11 @@ Make sure you have the following installed:
 3. Install dependencies
    ```bash
    npm install
-  or
+
+## Database Setup
+1. Open the database.sql file and run it on your DB server to create the required tables and seed data
+2. Adjust your DB connection settings (host, port, username, password) in the project’s config file (specify which file)
+
+## Running the App
    ```bash
-  yarn install
-
-
-  
-
-
-
-  
+   npm run dev
