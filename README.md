@@ -27,14 +27,14 @@ An Inventory Management System (IMS) web application that allows users to track,
 - Track inventory levels (stock in / stock out)  
 - View transaction history  
 - Search and filter products / transactions  
-- Reports & analytics  
+- (Optional to implement) Reports or analytics  
 
 ---
 
 ## Tech Stack  
-- **Frontend**: React JS
+- **Frontend**: React JS, CSS 
 - **Backend / Server**: PHP, XAMPP server
-- **Database**: MySql  
+- **Database**: MYsql
 - **Build Tools / Config**: Vite, ESLint, etc.  
 
 ---
@@ -51,19 +51,83 @@ Make sure you have the following installed:
 1. Clone the repo  
    ```bash
    git clone https://github.com/froyd03/Inventory-Management-System.git
-
-2. Go into the project directory 
+   ```
+2. Go into the project directory  
    ```bash
    cd Inventory-Management-System
-
-3. Install dependencies
+   ```
+3. Install dependencies  
    ```bash
    npm install
-
-## Database Setup
-1. Open the database.sql file and run it on your DB server to create the required tables and seed data
-2. Adjust your DB connection settings (host, port, username, password) in the project’s config file (specify which file)
-
-## Running the App
+   ```  
+   or  
    ```bash
-   npm run dev
+   yarn install
+   ```  
+
+### Database Setup  
+1. Open the `database.sql` file and run it on your DB server to create the required tables and seed data.  
+2. Adjust your DB connection settings (host, port, username, password) in the project’s config file (specify which file).  
+
+### Running the App  
+```bash
+npm run dev
+```
+Then navigate to `http://localhost:3000` (or the port you set) in your browser.  
+
+If there’s also a backend server, run that similarly (e.g., `npm run start` in backend folder).  
+
+---
+
+## Usage  
+Here are some example flows:  
+- **Add a product**: Go to *Products* → *Add New*, fill in name, category, price, initial stock, save  
+- **Adjust stock (stock in / stock out)**: Use *Inventory Transactions* form, specify product, quantity, type (in/out), and date  
+- **View transaction history**: Navigate to *Transactions*, filter by date or product  
+
+(You can include screenshots here if available.)  
+
+---
+
+## Project Structure  
+```plaintext
+/
+├── backend/            # (if present) backend server code  
+├── dist/               # built / production files  
+├── src/                # source code  
+├── database.sql        # DB setup script  
+├── .gitignore  
+├── package.json  
+├── vite.config.js  
+└── README.md  
+```
+
+---
+
+## Contributing  
+Contributions, bug reports, and feature requests are welcome!  
+1. Fork the repo  
+2. Create a branch:  
+   ```bash
+   git checkout -b feature/YourFeature
+   ```
+3. Commit your changes:  
+   ```bash
+   git commit -m "Add SomeFeature"
+   ```
+4. Push:  
+   ```bash
+   git push origin feature/YourFeature
+   ```
+5. Open a Pull Request  
+
+---
+
+## License  
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.  
+
+---
+
+## Contact  
+Your Name — your.email@example.com  
+Project Link: [https://github.com/froyd03/Inventory-Management-System](https://github.com/froyd03/Inventory-Management-System)  
