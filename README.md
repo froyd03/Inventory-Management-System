@@ -123,11 +123,6 @@ Contributions, bug reports, and feature requests are welcome!
 
 ---
 
-## License  
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.  
-
----
-
 ## Contact  
-Your Name — your.email@example.com  
+Your Name — banataofroyd@gmail.com  
 Project Link: [https://github.com/froyd03/Inventory-Management-System](https://github.com/froyd03/Inventory-Management-System)  
