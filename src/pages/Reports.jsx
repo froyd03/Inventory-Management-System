@@ -1,9 +1,9 @@
-import Nav from "../../components/Nav"
-import Header from "../../components/Header";
-import ReportForm from '../../components/ReportForm.jsx';
+import Nav from "../components/Nav.jsx"
+import Header from "../components/Header.jsx";
+import ReportForm from '../components/ReportForm.jsx';
 import { useState, useEffect,useRef } from "react";
 import { LineChart } from '@mui/x-charts/LineChart';
-import {dataGraphMonthly, dataGraphWeekly, dataGraphYearly} from '../../utils/dataGraph'
+import {dataGraphMonthly, dataGraphWeekly, dataGraphYearly} from '../utils/dataGraph.js'
 
 export default function Report(){
     
@@ -147,48 +147,51 @@ export default function Report(){
     
             </section>
             {showForm && <div className="modal">
-            <form className="newProd">
-                <h3>Generate report</h3>
-                <div className="inputs materialContainer">
-                    <div className="inp-prod">
-                        <label>Start Date:</label>
-                        <input type="date" onChange={handleStartDate}/>
-                    </div>
-                    <div className="inp-prod">
-                        <label>End Date:</label>
-                        <input type="date" onChange={handleEndDate}/>
-                    </div>
-                    <div className="inp-prod">
-                        <label>Material Filter:(optional)</label>
-                        <div className="select-measure-type">
-                            <select>
-                                <option value="-"></option>
-                                <option value="Monthly">Wooden Glue</option>
-                                <option value="Weekly">varnish</option>
-                                <option value="Yearly">Box Nails</option>
-                            </select>
+            <form>
+                <div className="form-container">
+                    <div className="inputs">
+                        <h3>Generate report</h3>
+                        <div className="inp-prod">
+                            <label>Start Date:</label>
+                            <input type="date" onChange={handleStartDate}/>
+                        </div>
+                        <div className="inp-prod">
+                            <label>End Date:</label>
+                            <input type="date" onChange={handleEndDate}/>
+                        </div>
+                        <div className="inp-prod">
+                            <label>Material Filter:(optional)</label>
+                            <div className="select-measure-type">
+                                <select>
+                                    <option value="-"></option>
+                                    <option value="Monthly">Wooden Glue</option>
+                                    <option value="Weekly">varnish</option>
+                                    <option value="Yearly">Box Nails</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <hr />
-                <h3>Report Type</h3>
-                <div className="inputs materialContainer">
-                    <div className="inp-prod">
-                        <input type="radio" name="reportType" id="sales" />
-                        <label htmlFor="sales">Sales Only</label>
+                    <div className="line"></div>
+                    <div className="inputs">
+                        <h3>Report Type</h3>
+                        <div className="rbtn-container">
+                            <input type="radio" name="reportType" id="sales" />
+                            <label htmlFor="sales">Sales Only</label>
+                        </div>
+                        <div className="rbtn-container">
+                            <input type="radio" name="reportType" id="profit" />
+                            <label htmlFor="profit">Purchase Only</label>
+                        </div>
+                        <div className="rbtn-container">
+                            <input type="radio" name="reportType" id="sales&profit" />
+                            <label htmlFor="sales&profit">Sales & Purchase</label>
+                        </div>
+                        <div className="actions-btn">
+                            <button type="button" onClick={handleReportForm} className="discard">Discard</button>
+                            <button type="submit" onClick={showResult}>Submit</button>
+                        </div>
                     </div>
-                    <div className="inp-prod">
-                        <input type="radio" name="reportType" id="profit" />
-                        <label htmlFor="profit">Purchase Only</label>
-                    </div>
-                    <div className="inp-prod">
-                        <input type="radio" name="reportType" id="sales&profit" />
-                        <label htmlFor="sales&profit">Sales & Purchase</label>
-                    </div>
-                </div>
-                <div className="actions-btn">
-                    <button type="button" onClick={handleReportForm} className="discard">Discard</button>
-                    <button type="submit" onClick={showResult}>Submit</button>
+                    
                 </div>
             </form>
             

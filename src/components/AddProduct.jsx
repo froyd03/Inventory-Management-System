@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import '../styles/global.css'
-import '../pages/Inventory/Inventory.css'
+import '../styles/Inventory.css'
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleOutlinedIcon from '@mui/icons-material/RemoveCircleOutlined';
 
@@ -185,98 +185,99 @@ export default function AddProduct(props){
 
     return (
         <div className="modal">
-            <form className="newProd">
-                <h3>New Product</h3>
-                <div className="inputs">
+            <form>
+                <div className="form-container">
+                    <div className="inputs">
+                        <h3>New Product</h3>
+                        <label htmlFor="imageInput"
+                                ref={imageContainerRef} 
+                                onDragOver={handleDragOver} 
+                                onDragLeave={handleDragLeave}
+                                onDrop={handleDrop}
+                                id='imageContainer'>
+                            <span ref={textRef}>Drag image here<br/>or<br/><b>Browse image</b></span>
+                            <img id="previewImage" ref={previewImageRef} alt="Selected Image"></img>
+                        </label>
+                        <input type="file" id="imageInput" onChange={handleImage} accept="image/*" />
 
-                    <label htmlFor="imageInput"
-                            ref={imageContainerRef} 
-                            onDragOver={handleDragOver} 
-                            onDragLeave={handleDragLeave}
-                            onDrop={handleDrop}
-                            id='imageContainer'>
-                        <span ref={textRef}>Drag image here<br/>or<br/><b>Browse image</b></span>
-                        <img id="previewImage" ref={previewImageRef} alt="Selected Image"></img>
-                    </label>
-                    <input type="file" id="imageInput" onChange={handleImage} accept="image/*" />
-
-                    <div className='inp-prod'>
-                        <label>Product Name</label>
-                        <input type="text" onChange={inpProdName} placeholder='Enter product name'/>
-                    </div>
-                    <div className='inp-prod'>
-                        <label>Product ID</label>
-                        <input type="text" onChange={inpProdId} placeholder='Enter product ID'/>
-                    </div>
-                    <div className='inp-prod'>
-                        <label>Selling Price</label>
-                        <input type="number" onChange={inpSellingPrice} placeholder='Enter selling price'/>
-                    </div>
-                    <div className='inp-prod'>
-                        <label>Measurement Type</label>
-                        <div className="select-measure-type">
-                            <select name='adsas' onChange={inpMeasurementType}>
-                                <option value="pcs">Pieces (pcs)</option>
-                                <option value="inch">Inches</option>
-                                <option value="cm">Centimeters (cm)</option>
-                                <option value="mm">Mllimetre (mm)</option>
-                                <option value="g">Grams (g)</option>
-                                <option value="mg">Milligram (mg)</option>
-                                <option value="kg">Kilogram (kg)</option>
-                                <option value="oz">Ounce (oz)</option>
-                                <option value="lbs">Pound (lbs)</option>
-                                <option value="L">Liter (L)</option>
-                                <option value="mL">Milliliter (mL)</option>
-                            </select>
+                        <div className='inp-prod'>
+                            <label>Product Name</label>
+                            <input type="text" onChange={inpProdName} placeholder='Enter product name'/>
+                        </div>
+                        <div className='inp-prod'>
+                            <label>Product ID</label>
+                            <input type="text" onChange={inpProdId} placeholder='Enter product ID'/>
+                        </div>
+                        <div className='inp-prod'>
+                            <label>Selling Price</label>
+                            <input type="number" onChange={inpSellingPrice} placeholder='Enter selling price'/>
+                        </div>
+                        <div className='inp-prod'>
+                            <label>Measurement Type</label>
+                            <div className="select-measure-type">
+                                <select name='adsas' onChange={inpMeasurementType}>
+                                    <option value="pcs">Pieces (pcs)</option>
+                                    <option value="inch">Inches</option>
+                                    <option value="cm">Centimeters (cm)</option>
+                                    <option value="mm">Mllimetre (mm)</option>
+                                    <option value="g">Grams (g)</option>
+                                    <option value="mg">Milligram (mg)</option>
+                                    <option value="kg">Kilogram (kg)</option>
+                                    <option value="oz">Ounce (oz)</option>
+                                    <option value="lbs">Pound (lbs)</option>
+                                    <option value="L">Liter (L)</option>
+                                    <option value="mL">Milliliter (mL)</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <hr />
-                </div>
-                
-                <h3>Materials Needed</h3>
-                <div className="materials-need">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Select</th>
-                                <th>Item name</th>
-                                <th>Quantity</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {materials?.map((item, index) =>
-                                <tr key={index}>
-                                    <td onClick={(el) => handleCheck(index, el, item.name)}>
-                                        <input type="checkbox" id={`${item.name}`} ref={(el) => chkboxRef.current[index] = el}/> 
-                                    </td>
-                                    <td onClick={(el) => handleCheck(index, el, item.name)}>
-                                        <label>{item.name}</label>
-                                    </td>
-                                    <td className='quantity-count'>
-                                        <RemoveCircleOutlinedIcon  
-                                            sx={{fontSize: 23}}
-                                            onClick={() => 
-                                                isDisabled[index] ? 0 : QuantitySubCount(index, item.name)
-                                            }
-                                        />
-                                        <label>{quantityCount[index]}</label>
-                                        <AddCircleIcon 
-                                            sx={{fontSize: 23}}
-                                            onClick={() => 
-                                                isDisabled[index] ? 0 : QuantityAddCount(index, item.name)
-                                            }
-                                        />
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                    
-                </div>
-                <p className='messageError'>{message}</p>
-                <div className="actions-btn">
-                    <button className='discard' onClick={handleDiscardBtn}>Discard</button>
-                    <button type='submit' onClick={handleSubmitNewProduct} >Add Product</button>
+                    <div className="line"></div>
+                    <div className="inputs">
+                        <h3>Materials Needed</h3>
+                        <div className="materials-need">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Select</th>
+                                        <th>Item name</th>
+                                        <th>Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {materials?.map((item, index) =>
+                                        <tr key={index}>
+                                            <td onClick={(el) => handleCheck(index, el, item.name)}>
+                                                <input type="checkbox" id={`${item.name}`} ref={(el) => chkboxRef.current[index] = el}/> 
+                                            </td>
+                                            <td onClick={(el) => handleCheck(index, el, item.name)}>
+                                                <label>{item.name}</label>
+                                            </td>
+                                            <td className='quantity-count'>
+                                                <RemoveCircleOutlinedIcon  
+                                                    sx={{fontSize: 23}}
+                                                    onClick={() => 
+                                                        isDisabled[index] ? 0 : QuantitySubCount(index, item.name)
+                                                    }
+                                                />
+                                                <label>{quantityCount[index]}</label>
+                                                <AddCircleIcon 
+                                                    sx={{fontSize: 23}}
+                                                    onClick={() => 
+                                                        isDisabled[index] ? 0 : QuantityAddCount(index, item.name)
+                                                    }
+                                                />
+                                            </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                        <p className='messageError'>{message}</p>
+                        <div className="actions-btn">
+                            <button className='discard' onClick={handleDiscardBtn}>Discard</button>
+                            <button type='submit' onClick={handleSubmitNewProduct} >Add Product</button>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>

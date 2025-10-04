@@ -37,8 +37,6 @@ export default function SoldProduct(props){
         setProfit(totalPrice - costPerUnit);
     }, [totalPrice]);
 
-    
-
     const [responseMessage, setResponseMessage] = useState("");
     async function submitSoldProducts(e){
         e.preventDefault();
@@ -73,43 +71,43 @@ export default function SoldProduct(props){
             }else{
                 setResponseMessage(result.message);
             }
-
         }catch(error){
             console.error("error sold productt", error);
         }
- 
     }
   
     return(
         <div className="modal">
-            <form onSubmit={submitSoldProducts} className="newProd">
-                <h3>Sold Product</h3>
-                <div className="inputs materialContainer">
-                    <div className="inp-prod">
-                        <label>{props.products[props.index].name}</label>
-                        <input type="text" onChange={handleProductQuantity} placeholder="Enter quantity"/>
+            <form onSubmit={submitSoldProducts} >
+                <div className="form-container">
+                    <div className="inputs">
+                        <h3>Sold Product</h3>
+                        <div className="inp-prod">
+                            <label>{props.products[props.index].name}</label>
+                            <input type="text" onChange={handleProductQuantity} placeholder="Enter quantity"/>
+                        </div>
+                        <div className="inp-prod">
+                            <label >Selling Price</label>
+                            <label>₱{props.products[props.index].price}</label>
+                        </div>
+                        <div className="inp-prod">
+                            <label >Total Selling Price</label>
+                            <label>₱{totalPrice}</label>
+                        </div>
+                        <div className="inp-prod">
+                            <label >Cost Per Unit</label>
+                            <label className="status-bad">₱ -{costPerUnit}</label>
+                        </div>
+                        <div className="inp-prod">
+                            <label >Profit</label>
+                            <label className="status-vgood">₱ {profit}</label>
+                        </div>
+                        <p className="messageError">{responseMessage}</p>
+                        <div className="actions-btn">
+                            <button className="discard" onClick={() => props.discardBtn()}>Discard</button>
+                            <button type="submit">Submit</button>
+                        </div>
                     </div>
-                    <div className="inp-prod">
-                        <label >Selling Price</label>
-                        <label>₱{props.products[props.index].price}</label>
-                    </div>
-                    <div className="inp-prod">
-                        <label >Total Selling Price</label>
-                        <label>₱{totalPrice}</label>
-                    </div>
-                    <div className="inp-prod">
-                        <label >Cost Per Unit</label>
-                        <label className="status-bad">₱ -{costPerUnit}</label>
-                    </div>
-                    <div className="inp-prod">
-                        <label >Profit</label>
-                        <label className="status-vgood">₱ {profit}</label>
-                    </div>
-                </div>
-                <p className="messageError">{responseMessage}</p>
-                <div className="actions-btn">
-                    <button className="discard" onClick={() => props.discardBtn()}>Discard</button>
-                    <button type="submit">Submit</button>
                 </div>
             </form>
         </div>

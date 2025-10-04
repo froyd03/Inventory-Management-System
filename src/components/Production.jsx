@@ -1,5 +1,5 @@
 import '../styles/global.css'
-import '../pages/Inventory/Inventory.css'
+import '../styles/Inventory.css'
 import { useEffect, useRef, useState } from 'react';
 
 export default function Production(props){

@@ -1,9 +1,9 @@
-import Nav from '../../components/Nav.jsx'
-import Header from '../../components/Header.jsx'
+import Nav from '../components/Nav.jsx'
+import Header from '../components/Header.jsx'
 import FilterListIcon from '@mui/icons-material/FilterList';
-import Pagination from '../../components/Pagination.jsx'
-import AddMaterial from '../../components/AddMaterial.jsx';
-import './Supplier.css'
+import Pagination from '../components/Pagination.jsx'
+import AddMaterial from '../components/AddMaterial.jsx';
+import '../styles/Supplier.css'
 import { useEffect, useState } from 'react';
 
 export default function Supplier(){

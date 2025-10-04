@@ -1,13 +1,13 @@
 import { HashRouter, Routes, Route } from 'react-router-dom'
-import Login from './pages/Login/Login.jsx'
-import Dashboard from './pages/Dashboard/Dashboard.jsx';
-import Inventory from './pages/Inventory/Inventory.jsx';
-import Reports from './pages/Reports/Reports.jsx';
-import Supplier from './pages/Suppliers/Supplier.jsx';
+import Login from './pages/Login.jsx'
+import Dashboard from './pages/Dashboard.jsx';
+import Inventory from './pages/Inventory.jsx';
+import Reports from './pages/Reports.jsx';
+import Supplier from './pages/Supplier.jsx';
 import Protected from './components/Protected.jsx';
-import Orders from './pages/Orders/Orders.jsx';
+import Orders from './pages/Orders.jsx';
 
-function App() {
+function App() {  
   return (
     <HashRouter>
       <Routes>

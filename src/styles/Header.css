@@ -8,7 +8,7 @@ header{
     position: fixed;
     top: 0;
     right: 0;
-    z-index: 1;
+    z-index: 100;
     width: calc(94% - 232px);
     justify-content: space-between;
     box-shadow: -2px 2px 3px #00000012;

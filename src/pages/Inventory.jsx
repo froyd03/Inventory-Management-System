@@ -1,16 +1,16 @@
-import '../../styles/global.css'
-import './Inventory.css'
-import Nav from '../../components/Nav.jsx'
-import Header from '../../components/Header.jsx'
-import Pagination from '../../components/Pagination.jsx'
+import '../styles/global.css'
+import '../styles/Inventory.css'
+import Nav from '../components/Nav.jsx'
+import Header from '../components/Header.jsx'
+import Pagination from '../components/Pagination.jsx'
 import { useEffect, useRef, useState } from 'react'
 import FilterListIcon from '@mui/icons-material/FilterList';
-import AddProduct from '../../components/AddProduct.jsx'
-import Production from '../../components/Production.jsx'
-import OrderForm from '../../components/OrderForm.jsx'
-import AddMaterial from '../../components/AddMaterial.jsx'
+import AddProduct from '../components/AddProduct.jsx'
+import Production from '../components/Production.jsx'
+import OrderForm from '../components/OrderForm.jsx'
+import AddMaterial from '../components/AddMaterial.jsx'
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import SoldProduct from '../../components/SoldProduct.jsx'
+import SoldProduct from '../components/SoldProduct.jsx'
 
 export default function Inventory(){
 
@@ -135,12 +135,9 @@ export default function Inventory(){
                     <div onClick={() => handleActiveTab(0)} className="tabs active-tab">
                         <label>Materials</label>
                     </div>
-                    {/*<div onClick={() => handleActiveTab(1)} className="tabs">
-                        <label>Production</label>
-                    </div>*/}
-                    {/*<div onClick={() => handleActiveTab(2)} className="tabs">
+                    <div onClick={() => handleActiveTab(1)} className="tabs">
                         <label>Products</label>
-                    </div>*/}
+                    </div>
                 </div>
                 <div className="tab-content">
                     {tabContentActive[0] && <div className="tblInventory">
@@ -165,9 +162,7 @@ export default function Inventory(){
                                     </select>
                                 </div>
                             </div>
-                            
                         </div>
-                        
                         <div className="tblContainer">
                             <table>
                                 <thead>
@@ -188,7 +183,6 @@ export default function Inventory(){
                                         <td>₱{item.price}</td>
                                         <td>{item.quantity}{item.measure_type}</td>
                                         <td>{setStatusAvailability(item.availability)}</td>
-                                        
                                         <td>
                                             <button 
                                                 onClick={() => handleOrderItem(index)} 
@@ -202,52 +196,7 @@ export default function Inventory(){
                         </div>
                         <Pagination numberOfData={materials.length} maxPerPage={5}/>
                     </div>}
-                    {/* tabContentActive[1] && <div className="tblInventory">
-                        <div className="actions">
-                            <button 
-                                className="addProduct" 
-                                onClick={() => showProductionForm(p => !p)}
-                                    >New Production
-                            </button>
-                            <div className="filter">
-                                <FilterListIcon />
-                                <select>
-                                    <option value="Monthly">Filters</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div className="tblContainer">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Product</th>
-                                        <th>Time-left</th>
-                                        <th>Progress</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Monitor</td>
-                                        <td>18mins</td>
-                                        <td>🔵🔵🔵🔵🔵 (100%)</td>
-                                        <td>Finished</td>
-                                        <td><button className='finishProd'>Move</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Keyboard</td>
-                                        <td>1hr</td>
-                                        <td>🔵🔵⚪⚪⚪ (40%)</td>
-                                        <td>In Production</td>
-                                        <td><button className="stop">Cancel</button></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <Pagination numberOfData={15} maxPerPage={2}/>
-                    </div>*/}
-                    {/*tabContentActive[2] && <div className="tblInventory">
+                    {tabContentActive[1] && <div className="tblInventory">
                         <div className="tbl-header">
                             <div className="input">
                                 <input type="text" placeholder='Search products' />
@@ -292,13 +241,12 @@ export default function Inventory(){
                             </table>
                         </div>
                         <Pagination numberOfData={products.length} maxPerPage={2}/>
-                    </div>*/}
+                    </div>}
                 </div>
             </div>
         </section>
         
         {isShowAddProduct && <AddProduct showState={() => setShowAddProduct(p => !p)} />}
-        {productionForm && <Production showState={() => showProductionForm(p => !p)} />}
         {showOrderForm && <OrderForm materials={materials} index={OrderIndex} discardBtn={discardBtn} />}
         {materialForm && <AddMaterial click={handleMaterialForm} />}
         {showSoldProductForm && <SoldProduct products={products} index={soldIndex} discardBtn={dicardSoldForm}/>}

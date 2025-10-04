@@ -1,10 +1,10 @@
-import '../../styles/global.css'
-import '../Login/Login.css'
+import '../styles/global.css'
+import '../styles/Login.css'
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import HttpsOutlinedIcon from '@mui/icons-material/HttpsOutlined';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
-import logoBrand from '../../assets/logo.png'
+import logoBrand from '../assets/logo.png'
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -109,8 +109,7 @@ export default function Login(){
                 });
             
                 const result = await response.json();
-                setMessage(result.message);
-
+                setMessage(result.message)
                 if(result.confirm === "success") setLoginForm(true);
             }catch(error){
                 console.error("Error submitting form:", error);

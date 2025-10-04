@@ -1,22 +1,22 @@
-import '../Dashboard/Dashboard.css'
-import '../../styles/global.css'
-import sales from '../../assets/salesC.png';
-import revenue from '../../assets/revenueC.png';
-import profit from '../../assets/profitC.png';
-import cost from '../../assets/price-downC.png';
-import retrn from '../../assets/return-on-investmentC.png';
-import purchase from '../../assets/checklistC.png';
-import box from '../../assets/boxC.png';
-import delivery from '../../assets/deliveryC.png';
-import {dataGraphMonthly, dataGraphWeekly, dataGraphYearly} from '../../utils/dataGraph'
+import '../styles/Dashboard.css'
+import '../styles/global.css'
+import sales from '../assets/salesC.png';
+import revenue from '../assets/revenueC.png';
+import profit from '../assets/profitC.png';
+import cost from '../assets/price-downC.png';
+import retrn from '../assets/return-on-investmentC.png';
+import purchase from '../assets/checklistC.png';
+import box from '../assets/boxC.png';
+import delivery from '../assets/deliveryC.png';
+import {dataGraphMonthly, dataGraphWeekly, dataGraphYearly} from '../utils/dataGraph'
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import { BarChart } from '@mui/x-charts/BarChart';
-import logo from '../../assets/logo.png'
+import logo from '../assets/logo.png'
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
-import Nav from '../../components/Nav';
-import Header from '../../components/Header';
-import OrderForm from '../../components/OrderForm';
+import Nav from '../components/Nav';
+import Header from '../components/Header';
+import OrderForm from '../components/OrderForm';
 import { useEffect, useRef, useState } from 'react';
 
 export default function Dashboard(){

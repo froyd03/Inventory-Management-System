@@ -81,75 +81,79 @@ export default function AddMaterial(props){
 
     return(
         <div className="modal">
-            <form onSubmit={submitForm} className="newProd">
-                <h3>New Material</h3>
-                <div className="inputs materialContainer">
-                    <div className="inp-prod">
-                        <label>Material Name</label>
-                        <input type="text" onChange={inpMaterialName} placeholder="Enter material name"/>
-                    </div>
-                    <div className="inp-prod">
-                        <label>Material ID</label>
-                        <input type="text" placeholder="Enter material ID"/>
-                    </div>
-                    <div className="inp-prod">
-                        <label>Brand</label>
-                        <input type="text" onChange={inpBrandName} placeholder="Enter brand name"/>
-                    </div>
-                    <div className='inp-prod'>
-                        <label>Measurement Type</label>
-                        <div className="select-measure-type">
-                            <select name='' onChange={inpMeasurementType}>
-                                <option value="pcs">Pieces (pcs)</option>
-                                <option value="inch">Inches</option>
-                                <option value="m">meters (m)</option>
-                                <option value="cm">Centimeters (cm)</option>
-                                <option value="mm">Mllimetre (mm)</option>
-                                <option value="g">Grams (g)</option>
-                                <option value="mg">Milligram (mg)</option>
-                                <option value="kg">Kilogram (kg)</option>
-                                <option value="oz">Ounce (oz)</option>
-                                <option value="lbs">Pound (lbs)</option>
-                                <option value="L">Liter (L)</option>
-                                <option value="mL">Milliliter (mL)</option>
-                            </select>
+            <form onSubmit={submitForm}>
+                <div className="form-container">
+                    <div className="inputs">
+                        <h3>New Material</h3>
+                        <div className="inp-prod">
+                            <label>Material Name</label>
+                            <input type="text" onChange={inpMaterialName} placeholder="Enter material name"/>
+                        </div>
+                        <div className="inp-prod">
+                            <label>Material ID</label>
+                            <input type="text" placeholder="Enter material ID"/>
+                        </div>
+                        <div className="inp-prod">
+                            <label>Brand</label>
+                            <input type="text" onChange={inpBrandName} placeholder="Enter brand name"/>
+                        </div>
+                        <div className='inp-prod'>
+                            <label>Measurement Type</label>
+                            <div className="select-measure-type">
+                                <select name='' onChange={inpMeasurementType}>
+                                    <option value="pcs">Pieces (pcs)</option>
+                                    <option value="inch">Inches</option>
+                                    <option value="m">meters (m)</option>
+                                    <option value="cm">Centimeters (cm)</option>
+                                    <option value="mm">Mllimetre (mm)</option>
+                                    <option value="g">Grams (g)</option>
+                                    <option value="mg">Milligram (mg)</option>
+                                    <option value="kg">Kilogram (kg)</option>
+                                    <option value="oz">Ounce (oz)</option>
+                                    <option value="lbs">Pound (lbs)</option>
+                                    <option value="L">Liter (L)</option>
+                                    <option value="mL">Milliliter (mL)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div className="inp-prod">
+                            <label>Buying Price</label>
+                            <input type="number" onChange={inpBuyingPrice} placeholder="Per Item"/>
                         </div>
                     </div>
-                    <div className="inp-prod">
-                        <label>Buying Price</label>
-                        <input type="number" onChange={inpBuyingPrice} placeholder="Per Item"/>
-                    </div>
-                    <hr />
-                </div>
-                <h3>Supplier Details</h3>
-                <div className="inputs materialContainer">
-                    <div className="inp-prod">
-                        <label>Supplier Name</label>
-                        <input type="text" onChange={inpSupplierName} placeholder="Enter material name"/>
-                    </div>
-                    <div className="inp-prod">
-                        <label>Email</label>
-                        <input type="email" onChange={inpEmail} placeholder="Enter email"/>
-                    </div>
-                    <div className="inp-prod">
-                        <label>Contact Number</label>
-                        <input type="text" onChange={inpContactNumber} placeholder="Enter contact number"/>
-                    </div>
-                    <div className="inp-prod">
-                        <label>Type</label>
-                        <div className="select-measure-type">
-                            <select onChange={slctType}>
-                                <option value="Taking Return">Taking Return</option>
-                                <option value="Not Taking Return">Not Taking Return</option>
-                            </select> 
+                    <div className="line"></div>
+                    <div className="inputs">
+                        <h3>Supplier Details</h3>
+                        <div className="inp-prod">
+                            <label>Supplier Name</label>
+                            <input type="text" onChange={inpSupplierName} placeholder="Enter material name"/>
+                        </div>
+                        <div className="inp-prod">
+                            <label>Email</label>
+                            <input type="email" onChange={inpEmail} placeholder="Enter email"/>
+                        </div>
+                        <div className="inp-prod">
+                            <label>Contact Number</label>
+                            <input type="text" onChange={inpContactNumber} placeholder="Enter contact number"/>
+                        </div>
+                        <div className="inp-prod">
+                            <label>Type</label>
+                            <div className="select-measure-type">
+                                <select onChange={slctType}>
+                                    <option value="Taking Return">Taking Return</option>
+                                    <option value="Not Taking Return">Not Taking Return</option>
+                                </select> 
+                            </div>
+                        </div>
+                        <p className="messageError">{message}</p>
+                        <div className="actions-btn">
+                            <button className="discard" onClick={handleDiscardBtn}>Discard</button>
+                            <button type="submit">Submit</button>
                         </div>
                     </div>
+                    
                 </div>
-                <p className="messageError">{message}</p>
-                <div className="actions-btn">
-                    <button className="discard" onClick={handleDiscardBtn}>Discard</button>
-                    <button type="submit">Submit</button>
-                </div>
+               
             </form>
         </div>
     )

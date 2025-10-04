@@ -1,8 +1,8 @@
 import FilterListIcon from '@mui/icons-material/FilterList';
-import Nav from "../../components/Nav"
-import Header from "../../components/Header";
+import Nav from "../components/Nav"
+import Header from "../components/Header";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import Pagination from '../../components/Pagination';
+import Pagination from '../components/Pagination';
 import { useState, useEffect } from 'react';
 
 export default function Orders(){

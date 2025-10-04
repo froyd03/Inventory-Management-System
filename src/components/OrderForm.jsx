@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import '../styles/global.css'
-import '../pages/Inventory/Inventory.css'
+import '../styles/Inventory.css'
 
 export default function OrderForm(props){
 
@@ -53,53 +53,54 @@ export default function OrderForm(props){
 
     return(
         <div className="modal">
-            <div className="newProd">
-                <form onSubmit={handleSubmitOrder}>
-                    <h3>{props.materials[props.index].name}</h3>
-                    <div className="inputs materialContainer">
-                        <div className="inp-prod">
-                            <label>Total Quantity: </label>
-                            <input type="number" onChange={handlePriceValue} placeholder='Enter quantity' />
-                        </div>
-                        <div className="inp-prod">
-                            <label>Per Quantity: </label>
-                            <label>₱{props.materials[props.index].price}</label>
-                        </div>
-                        <div className="inp-prod">
-                            <label>Total Price: </label>
-                            <label>₱{totalPrice ? totalToString : 0}</label>
-                        </div>
-                        <div className="inp-prod">
-                            <label>Delivery Time: </label>
-                            <label>2 to 5 days</label>
-                        </div>
-                    </div>
-                    <div className="supplierDetails">
-                        <hr />
-                        <h3>Supplier Details</h3>
-                        <div className="inputs materialContainer">
-                            <div className='details'>
-                                <label>Supplier Name: </label>
-                                <label>{props.materials[props.index].supplierDetails.name}</label>
+            <form onSubmit={handleSubmitOrder}>
+                <div className="form-container">
+                        <div className="inputs">
+                            <h3>{props.materials[props.index].name}</h3>
+                            <div className="inp-prod">
+                                <label>Total Quantity: </label>
+                                <input type="number" onChange={handlePriceValue} placeholder='Enter quantity' />
                             </div>
-                            <div className='details'>
-                                <label>Email: </label>
-                                <label>{props.materials[props.index].supplierDetails.email}</label>
+                            <div className="inp-prod">
+                                <label>Per Quantity: </label>
+                                <label>₱{props.materials[props.index].price}</label>
                             </div>
-                            <div className='details'>
-                                <label>Contact Number: </label>
-                                <label>{props.materials[props.index].supplierDetails.contactNumber}</label>
+                            <div className="inp-prod">
+                                <label>Total Price: </label>
+                                <label>₱{totalPrice ? totalToString : 0}</label>
                             </div>
-                        {errorMessage && <label style={{color: 'red', marginLeft: '10%'}}>{errorMessage}</label>}
-
+                            <div className="inp-prod">
+                                <label>Delivery Time: </label>
+                                <label>2 to 5 days</label>
+                            </div>
                         </div>
-                    </div>
-                    <div className="actions-btn">
-                        <button className='discard' onClick={() => props.discardBtn()}>Discard</button>
-                        <button type="submit">Place Order</button>
-                    </div>
-                </form>
-            </div>
+                        <div className="line"></div>
+                        
+                            <div className="inputs">
+                                <h3>Supplier Details</h3>
+                                <div className='rbtn-container'>
+                                    <label>Supplier Name: </label>
+                                    <label>{props.materials[props.index].supplierDetails.name}</label>
+                                </div>
+                                <div className='rbtn-container'>
+                                    <label>Email: </label>
+                                    <label>{props.materials[props.index].supplierDetails.email}</label>
+                                </div>
+                                <div className='rbtn-container'>
+                                    <label>Contact Number: </label>
+                                    <label>{props.materials[props.index].supplierDetails.contactNumber}</label>
+                                </div>
+                            {errorMessage && <label style={{color: 'red', marginLeft: '10%'}}>{errorMessage}</label>}
+                         {<div className="actions-btn">
+                            <button className='discard' onClick={() => props.discardBtn()}>Discard</button>
+                            <button type="submit">Place Order</button>
+                        </div>}
+                        </div>
+                        
+                       
+                </div>
+            </form>
+            
         </div>
     )
 }
