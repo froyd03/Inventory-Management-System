@@ -1,0 +1,86 @@
+import { useEffect, useState } from "react"
+import axios from "axios";
+
+export default function SoldProduct(props){
+
+    const [productQuantity, setProductQuantity] = useState("");
+    function handleProductQuantity(e){
+        setProductQuantity(e.target.value)
+    }
+
+    const [productDetails, setProductDetails] = useState({})
+    useEffect(() => {
+        const productName = props.products[props.index].name;
+
+        if(productQuantity !== ""){
+            axios.get(`http://localhost:5000/products/${productName}/${productQuantity}`)
+                .then(response => setProductDetails(response.data))
+                .catch(error => console.log(`Error selling product: ${error}`));
+        }else{
+            setProductDetails("");
+        }
+    }, [productQuantity]);
+
+    const [responseMessage, setResponseMessage] = useState("");
+    async function submitSoldProducts(e){
+        e.preventDefault();
+
+        const form = new FormData();
+        form.append("quantitySold", totalQuantity);
+        form.append("revenue", totalPrice);
+        form.append("profit", profit);
+        form.append("productQuantity", productQuantity);
+        form.append("productName", props.products[props.index].name);
+  
+        const response = await fetch('http://localhost/Inventory-Management-System/backend/pages/actions/SoldProduct.php', {
+            method: "POST",
+            credentials: "include",
+            body: form
+        });
+
+        try{
+            const result = await response.json();
+            result.message === "success!" ? location.reload() : setResponseMessage(result.message);
+
+        }catch(error){
+            console.error("error sold product", error);
+        }
+    }
+  
+    return(
+        <div className="modal">
+            <form onSubmit={submitSoldProducts} >
+                <div className="form-container" style={{width: "20%"}}>
+                    <div className="inputs">
+                        <h3>Sold Product</h3>
+                        <div className="inp-prod">
+                            <label>{props.products[props.index].name}</label>
+                            <input type="text" onChange={handleProductQuantity} placeholder="Enter quantity"/>
+                        </div>
+                        <div className="inp-prod">
+                            <label >Selling Price</label>
+                            <label>₱{props.products[props.index].price}</label>
+                        </div>
+                        <div className="inp-prod">
+                            <label >Total Price</label>
+                            <label>₱ {productDetails.totalPrice}</label>
+                        </div>
+                        <div className="inp-prod">
+                            <label >Cost Per Unit</label>
+                            <label className="status-bad">₱ {productDetails?.unitCost}</label>
+                        </div>
+                        <div className="inp-prod">
+                            <label >Profit</label>
+                            <label className="status-vgood">₱ {productDetails?.profit}</label>
+                        </div>
+                        <p className="messageError">{responseMessage}</p>
+                        <div className="actions-btn">
+                            <button className="discard" onClick={() => props.discardBtn()}>Discard</button>
+                            <button type="submit">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    )
+}
