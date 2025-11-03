@@ -31,24 +31,24 @@ async function addProduct({productName, sellingPrice, measurementType, materials
     try{
         await connection.beginTransaction();
 
-        await database.query( //1. insert new product
+        await connection.query( //1. insert new product
             "INSERT INTO products(name, price, quantity, unit_type, availability) VALUES (?, ?, 0, ?, 'Out of stock')",
             [productName, sellingPrice, measurementType]
         );
         
-        const [productId] = await database.query( //2. Get ID of product inserted above
+        const [productId] = await connection.query( //2. Get ID of product inserted above
             "SELECT PID FROM products WHERE name = ?",
             productName
         );
 
         materials.forEach(async (material) => { //3. insert all materials in table 1 by 1
             
-            const [materialId] = await database.query(
+            const [materialId] = await connection.query(
                 "SELECT MID FROM materials WHERE name = ?",
                 material.materialName
             );
 
-            await database.query(
+            await connection.query(
                 "INSERT INTO product_materials(PID, MID, quantity) VALUES(?, ?, ?)",
                 [productId[0].PID, materialId[0].MID, material.quantity]
             );
@@ -65,8 +65,65 @@ async function addProduct({productName, sellingPrice, measurementType, materials
     }
 }
 
-async function restockProduct(){
+async function restockProduct({productName, restockQuantity}){
+    const connection = await database.getConnection();
 
+    try{
+        await connection.beginTransaction();
+
+        const sqlGetProductFromMaterials = `
+            SELECT 
+                materials.name AS material_name, 
+                products.quantity AS product_quantity,
+                materials.quantity AS material_quantity,
+                products.availability AS product_availability,
+                materials.availability AS material_availability,
+                product_materials.quantity AS required_quantity
+            FROM product_materials
+            JOIN products ON product_materials.PID = products.PID
+            JOIN materials ON product_materials.MID = materials.MID 
+            WHERE products.name = ?;
+        `;
+        const [productFromMaterials] = await connection.query(sqlGetProductFromMaterials, productName);
+
+        //1. update product quantity and availability
+        const totalProductQuantity = productFromMaterials[0].product_quantity + restockQuantity;
+        const availabilityStatusProduct = (totalmaterialQuantity === 0) 
+            ? 'Out of Stock' : (totalmaterialQuantity < 20) 
+            ? 'Low stock' :'In-Stock';
+
+        await connection.query(
+            "UPDATE products SET quantity = ?, availability = ? WHERE name = ?", 
+            [totalProductQuantity, availabilityStatusProduct, productName]
+        );
+    
+        //2. update stocks of materials that used
+        productFromMaterials.forEach(async (item) => {
+
+            const [materialQuantity] = await connection.query(
+                "SELECT quantity FROM materials WHERE name = ?", 
+                [item.material_name]
+            );
+            const materialFromProductQuantity = item.required_quantity * restockQuantity;
+            const totalmaterialQuantity = materialQuantity[0].quantity - materialFromProductQuantity;
+
+            const availabilityStatus = (totalmaterialQuantity === 0) 
+                ? 'Out of Stock' : (totalmaterialQuantity < 20) 
+                ? 'Low stock' :'In-Stock';
+
+            await connection.query(
+                "UPDATE materials SET quantity = ?, availability = ? WHERE name = ?", 
+                [totalmaterialQuantity, availabilityStatus, item.material_name]
+            );
+        });
+    }
+    catch(error){
+        await connection.rollback();
+    }
+    finally{
+        connection.release();
+    }
+   
 }
 
 async function soldProduct({productName, quantitySold}){
@@ -93,12 +150,17 @@ async function soldProduct({productName, quantitySold}){
             "UPDATE sales_overview SET sales = ?, revenue = ?, profit = ? WHERE id = 1",
             [totalQuantitySold, totalRevenue, totalProfit]
         );
-        
-        //3. update product quantity
+
+        //3. update product quantity and status availability
         const totalProductQuantity = quantityFromProduct - quantitySold;
+        
+        const availabilityStatus = (totalProductQuantity === 0) 
+            ? 'Out of Stock' : (totalProductQuantity < 20) 
+            ? 'Low stock' :'In-Stock';
+
         await connection.query(
-            "UPDATE products SET quantity = ? WHERE name = ?",
-            [totalProductQuantity, productName]
+            "UPDATE products SET quantity = ?, availability = ? WHERE name = ?",
+            [totalProductQuantity, availabilityStatus, productName]
         );
     }
     catch(error){

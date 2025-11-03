@@ -3,9 +3,9 @@ import axios from "axios";
 
 export default function SoldProduct(props){
 
-    const [productQuantity, setProductQuantity] = useState("");
+    const [productQuantity, setProductQuantity] = useState();
     function handleProductQuantity(e){
-        setProductQuantity(e.target.value)
+        setProductQuantity(parseInt(e.target.value));
     }
 
     const [productDetails, setProductDetails] = useState({})
@@ -19,28 +19,23 @@ export default function SoldProduct(props){
         }else{
             setProductDetails("");
         }
+
+        console.log(productQuantity)
     }, [productQuantity]);
 
     const [responseMessage, setResponseMessage] = useState("");
     async function submitSoldProducts(e){
         e.preventDefault();
 
-        const form = new FormData();
-        form.append("quantitySold", totalQuantity);
-        form.append("revenue", totalPrice);
-        form.append("profit", profit);
-        form.append("productQuantity", productQuantity);
-        form.append("productName", props.products[props.index].name);
-  
-        const response = await fetch('http://localhost/Inventory-Management-System/backend/pages/actions/SoldProduct.php', {
-            method: "POST",
-            credentials: "include",
-            body: form
-        });
+        const reqBody = {
+            productName: props.products[props.index].name,
+            quantitySold: productQuantity
+        }
 
         try{
-            const result = await response.json();
-            result.message === "success!" ? location.reload() : setResponseMessage(result.message);
+            const response = await axios.post("http://localhost:5000/products/sellProduct", reqBody);
+            const result = response.data;
+            result.status ? location.reload() : setResponseMessage(result.message);
 
         }catch(error){
             console.error("error sold product", error);

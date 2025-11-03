@@ -80,18 +80,7 @@ export default function Dashboard(){
             return <label className='status-bad'>{availability}</label>;
         }
     }
-    /*
-    const [showOrderForm, setShOrderForm] = useState(false);
-    const [OrderIndex, setOrderIndex] = useState(0);
-    function handleOrderItem(index) {
-        setShOrderForm(s => !s);
-        setOrderIndex(index);
-    }
-
-    function discardBtn() {
-        setShOrderForm(s => !s);
-    }
-    */
+   
     return (
         <>
         <Header title="Dashboard"/>

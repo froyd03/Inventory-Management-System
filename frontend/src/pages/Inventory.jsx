@@ -6,7 +6,6 @@ import Pagination from '../components/Pagination.jsx'
 import { useEffect, useRef, useState } from 'react'
 import FilterListIcon from '@mui/icons-material/FilterList';
 import AddProduct from '../components/AddProduct.jsx'
-import Production from '../components/Production.jsx'
 import OrderForm from '../components/OrderForm.jsx'
 import AddMaterial from '../components/AddMaterial.jsx'
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
@@ -280,7 +279,7 @@ export default function Inventory(){
                                     <tr key={index}>
                                         <td>{item.name}</td>
                                         <td>₱{item.price}</td>
-                                        <td>{item.quantity} packets</td>
+                                        <td>{item.quantity} {item.unit_type}</td>
                                         <td>{setStatusAvailability(item.availability)}</td>
                                         <td>
                                             <button className='sell'>restock</button>

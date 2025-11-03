@@ -101,7 +101,10 @@ async function restockMaterial({ totalPrice, totalQuantity, pricePerQuantity, pr
     // 2. Update materials quantity
     const [materialRows] = await database.query("SELECT MID, quantity FROM materials WHERE name = ?", [productName]);
     const updatedQuantity = parseFloat(materialRows[0].quantity) + parseFloat(totalQuantity);
-    const availabilityStatus = updatedQuantity > 20 ? "In-stock" : "Low stock";
+    
+    const availabilityStatus = (updatedQuantity === 0) 
+            ? 'Out of Stock' : (updatedQuantity < 20) 
+            ? 'Low stock' : 'In-Stock';
 
     await database.query(
         "UPDATE materials SET quantity = ?, availability = ? WHERE MID = ?",
