@@ -14,8 +14,6 @@ import axios from 'axios'
 
 export default function Inventory(){
 
-    const [getLowStocks, setLowStocks] = useState(0);
-
     const [tabContentActive, setTabContentActive] = useState([true, false, false]);
     function handleActiveTab(index){
         const tab = document.querySelectorAll('.tabs');
@@ -44,7 +42,7 @@ export default function Inventory(){
             setFilter('');
         }
     }
-
+    const [getLowStocks, setLowStocks] = useState(0);
     const [isShowAddProduct, setShowAddProduct] = useState(false);
 
     const [materials, setMaterials] = useState([]);
@@ -54,7 +52,14 @@ export default function Inventory(){
 
         if(tabContentActive[0]){
             axios.get(`http://localhost:5000/materials/${filter}`)
-            .then((response) => setMaterials(response.data))
+                .then((response) => {
+                    setMaterials(response.data);
+
+                    setLowStocks(() => response.data.filter(item => 
+                        item.availability.toLowerCase() === "low stock" || 
+                        item.availability.toLowerCase() === "out of stock").length
+                    );
+                })
             .catch((err) => console.log(err));
 
         }else if(tabContentActive[1]){
@@ -131,7 +136,7 @@ export default function Inventory(){
         }
     }
 
-    function dicardSoldForm(){
+    const dicardSoldForm = () => {
         setShowSoldProductForm(!showSoldProductForm);
     }
 

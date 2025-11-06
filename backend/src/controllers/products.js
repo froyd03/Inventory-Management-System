@@ -51,6 +51,19 @@ const addProduct = async (req, res) => {
     }
 }
 
+const restockProduct = async (req, res) => {
+
+    try{
+        const requestData = req.body;
+        const data = await productService.restockProduct(requestData);
+        res.status(200).json(data);
+    
+    }catch(error){
+
+        res.status(400).json({message: `Error restocking products: ${error}`});
+    }
+}
+
 const soldProduct = async (req, res) => {
 
     try{
@@ -83,6 +96,7 @@ module.exports = {
     searchProduct,
     getProductByFilter,
     addProduct,
+    restockProduct,
     getDetailsProductSold,
     soldProduct
 }

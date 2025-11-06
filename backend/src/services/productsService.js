@@ -16,7 +16,7 @@ async function searchProduct(findProduct){
 }
 
 async function getProductsByFilter(filterType){
-     const products = await getAllProducts();
+    const products = await getAllProducts();
     
     const filteredProducts = products.filter(product => 
         product.availability.toLowerCase() === filterType.toLowerCase()
@@ -65,7 +65,7 @@ async function addProduct({productName, sellingPrice, measurementType, materials
     }
 }
 
-async function restockProduct({productName, restockQuantity}){
+async function restockProduct({productName, restockQuantity}){ 
     const connection = await database.getConnection();
 
     try{
@@ -86,10 +86,14 @@ async function restockProduct({productName, restockQuantity}){
         `;
         const [productFromMaterials] = await connection.query(sqlGetProductFromMaterials, productName);
 
+        if (productFromMaterials.length === 0) {
+            throw new Error(`Product '${productName}' not found.`);
+        }
+
         //1. update product quantity and availability
         const totalProductQuantity = productFromMaterials[0].product_quantity + restockQuantity;
-        const availabilityStatusProduct = (totalmaterialQuantity === 0) 
-            ? 'Out of Stock' : (totalmaterialQuantity < 20) 
+        const availabilityStatusProduct = (totalProductQuantity === 0) 
+            ? 'Out of Stock' : (totalProductQuantity < 20) 
             ? 'Low stock' :'In-Stock';
 
         await connection.query(
@@ -98,32 +102,43 @@ async function restockProduct({productName, restockQuantity}){
         );
     
         //2. update stocks of materials that used
-        productFromMaterials.forEach(async (item) => {
-
-            const [materialQuantity] = await connection.query(
-                "SELECT quantity FROM materials WHERE name = ?", 
+        for (const item of productFromMaterials) {
+            
+            const [materialData] = await connection.query(
+                "SELECT quantity FROM materials WHERE name = ?",
                 [item.material_name]
             );
-            const materialFromProductQuantity = item.required_quantity * restockQuantity;
-            const totalmaterialQuantity = materialQuantity[0].quantity - materialFromProductQuantity;
 
-            const availabilityStatus = (totalmaterialQuantity === 0) 
-                ? 'Out of Stock' : (totalmaterialQuantity < 20) 
-                ? 'Low stock' :'In-Stock';
+            const currentMaterialQty = materialData[0].quantity;
+            const requiredQty = item.required_quantity * restockQuantity;
+
+            if (currentMaterialQty < requiredQty) {
+                throw new Error(
+                `Insufficient materials: ${item.material_name} (needed ${requiredQty}, have ${currentMaterialQty})`
+                );
+            }
+
+            const newMaterialQty = currentMaterialQty - requiredQty;
+            const availabilityStatus = (newMaterialQty === 0)
+                ? "Out of Stock" : newMaterialQty < 20
+                ? "Low stock" : "In-Stock";
 
             await connection.query(
-                "UPDATE materials SET quantity = ?, availability = ? WHERE name = ?", 
-                [totalmaterialQuantity, availabilityStatus, item.material_name]
+                "UPDATE materials SET quantity = ?, availability = ? WHERE name = ?",
+                [newMaterialQty, availabilityStatus, item.material_name]
             );
-        });
+        }
+
+        await connection.commit();
+        return {"message": `Restock added +${restockQuantity} to ${productName}`, "status": true};
     }
     catch(error){
         await connection.rollback();
+        return {"message": `Failed to restock ${productName} : ${error.message} `, "status": false};
     }
     finally{
         connection.release();
     }
-   
 }
 
 async function soldProduct({productName, quantitySold}){
@@ -136,7 +151,7 @@ async function soldProduct({productName, quantitySold}){
         await connection.beginTransaction();
         
         if(quantityFromProduct < quantitySold){
-            return {"message": `unable to sold product! Low quantity ${quantityFromProduct}.`};
+            throw new Error(`unable to sold product! Low quantity ${quantityFromProduct}.`);
         }
 
         //1. get sales values
@@ -162,6 +177,9 @@ async function soldProduct({productName, quantitySold}){
             "UPDATE products SET quantity = ?, availability = ? WHERE name = ?",
             [totalProductQuantity, availabilityStatus, productName]
         );
+
+        await connection.commit();
+        return {"message": `Product ${productName} sold success!`, "status": true};
     }
     catch(error){
         await connection.rollback()
@@ -169,9 +187,7 @@ async function soldProduct({productName, quantitySold}){
     }
     finally{
         connection.release();
-    }
-       
-    return {"message": `Product ${productName} sold success!`, "status": true};
+    } 
 }
 
 async function soldProductDetails(productName, quantitySold) { //this function for only displaying data

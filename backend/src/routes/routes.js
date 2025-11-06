@@ -7,7 +7,8 @@ const {
     getProductByFilter,
     soldProduct,
     getDetailsProductSold,
-    addProduct
+    addProduct,
+    restockProduct
 } = require('../controllers/products.js');
 
 const {
@@ -29,10 +30,10 @@ router.post('/material/restock', restockMaterial);
 router.get('/products', getProduct);
 router.get('/products/search/:name', searchProduct);
 router.get('/products/:filterType', getProductByFilter);
+router.get('/products/:name/:quantity', getDetailsProductSold);
 
 router.post('/products', addProduct);
-router.get('/products/:name/:quantity', getDetailsProductSold);
 router.post('/products/sellProduct', soldProduct);
-
+router.post('/products/restock', restockProduct);
 
 module.exports = router;
