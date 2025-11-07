@@ -1,6 +1,11 @@
-const productService = require('../services/productsService.js')
+const express = require('express');
+const router = express.Router();
+const productService = require('../models/productsModel.js')
 
-const getProduct = async (req, res) => {
+//const authMiddleware = require("../middleware/authMiddleware.js");
+//router.use(authMiddleware);
+
+router.get('/', async (req, res) => {
     
     try{
         const data = await productService.getAllProducts();
@@ -10,9 +15,9 @@ const getProduct = async (req, res) => {
 
         res.status(400).json({message: `Error getting products: ${error}`});
     }
-}
+});
 
-const searchProduct = async (req, res) => {
+router.get('/search/:name', async (req, res) => {
         
     try{
         const search = req.params.name;
@@ -23,9 +28,9 @@ const searchProduct = async (req, res) => {
 
         res.status(400).json({message: `Error getting products: ${error}`});
     }
-}
+});
 
-const getProductByFilter = async (req, res) => {
+router.get('/:filterType', async (req, res) => {
 
     try{
         const filter = req.params.filterType;
@@ -36,9 +41,9 @@ const getProductByFilter = async (req, res) => {
 
         res.status(400).json({message: `Error getting products: ${error}`});
     }
-}
+});
 
-const addProduct = async (req, res) => {
+router.post('/', async (req, res) => {
 
     try{
         const requestData = req.body;
@@ -49,9 +54,9 @@ const addProduct = async (req, res) => {
 
         res.status(400).json({message: `Error getting products: ${error}`});
     }
-}
+});
 
-const restockProduct = async (req, res) => {
+router.post('/restock', async (req, res) => {
 
     try{
         const requestData = req.body;
@@ -62,9 +67,9 @@ const restockProduct = async (req, res) => {
 
         res.status(400).json({message: `Error restocking products: ${error}`});
     }
-}
+});
 
-const soldProduct = async (req, res) => {
+router.post('/sellProduct', async (req, res) => {
 
     try{
         const requestData = req.body;
@@ -76,8 +81,9 @@ const soldProduct = async (req, res) => {
         res.status(400).json({message: `Error getting products: ${error}`});
     }
 }
+);
 
-const getDetailsProductSold = async (req, res) => {
+router.get('/:name/:quantity', async (req, res) => {
     const quantity = parseInt(req.params.quantity);
     const productName = req.params.name;
     
@@ -89,14 +95,6 @@ const getDetailsProductSold = async (req, res) => {
 
         res.status(400).json({message: `Error getting products: ${error}`});
     }
-}
+});
 
-module.exports = {
-    getProduct,
-    searchProduct,
-    getProductByFilter,
-    addProduct,
-    restockProduct,
-    getDetailsProductSold,
-    soldProduct
-}
+module.exports = router;

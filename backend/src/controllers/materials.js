@@ -1,7 +1,9 @@
 // controllers/materialsController.js
-const materialService = require('../services/materialService.js');
+const express = require('express');
+const router = express.Router();
+const materialService = require('../models/materialModel.js');
 
-const getMaterials = async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const data = await materialService.getAllMaterials();
         res.status(200).json(data);
@@ -11,9 +13,9 @@ const getMaterials = async (req, res) => {
         res.status(400).json({ message: `Error getting materials: ${error}` });
     }
 
-};
+});
 
-const getMaterialbyFilter = async (req, res) => {
+router.get('/:filterType', async (req, res) => {
     try {
         const filterType = req.params.filterType;
         const data = await materialService.getMaterialsByFilter(filterType);
@@ -24,9 +26,9 @@ const getMaterialbyFilter = async (req, res) => {
         res.status(400).json({ message: `Error getting materials: ${error}` });
     }
 
-};
+});
 
-const searchMaterial = async (req, res) => {
+router.get('/search/:name', async (req, res) => {
     
     try {
         const search = req.params.name;
@@ -37,9 +39,9 @@ const searchMaterial = async (req, res) => {
         
         res.status(400).json({ message: `Error getting materials: ${error}` });
     }
-}
+});
 
-const addMaterial = async (req, res) => {
+router.post('/', async (req, res) => {
 
     try {
         const result = await materialService.addMaterial(req.body);
@@ -49,9 +51,9 @@ const addMaterial = async (req, res) => {
 
         res.status(400).json({ message: `Error adding material: ${error}` });
     }
-};
+});
 
-const restockMaterial = async (req, res) => {
+router.post('/restock',  async (req, res) => {
 
     try {
         const result = await materialService.restockMaterial(req.body);
@@ -61,12 +63,6 @@ const restockMaterial = async (req, res) => {
         res.status(400).json({ message: `Error restocking materials: ${error.message}` });
     }
 
-};
+});
 
-module.exports = {
-  getMaterials,
-  getMaterialbyFilter,
-  searchMaterial,
-  addMaterial,
-  restockMaterial
-};
+module.exports = router;
