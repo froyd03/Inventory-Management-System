@@ -1,35 +1,32 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Dashboard from "../pages/Dashboard";
+import axios from '../utils/axios.js';
 
 const Protected = ({ children }) => {
         const navigate = useNavigate();
         const [isAuthorized, setIsAuthorized] = useState(false);
     
-        useEffect(() => {
-            fetch("http://localhost/Inventory-Management-System/backend/auth/session.php", {
-                method: "GET",
-                credentials: "include"
-            })
-            .then(response => response.json())
-            .then(value => {
-                if (value.isRedirect) {
-                    setIsAuthorized(true);
-                } else {
-                    navigate("/");
+        useEffect( () => {
+            async function checkAuthorization(){
+                try{
+                    const {data} = await axios.get('/user/verifyUserToken');
+                    if(data.isValid){
+                        setIsAuthorized(true)
+                    }
+                }catch(error){
+                    navigate('/');
+
                 }
-            })
-            .catch(error => {
-                console.error("Error checking session:", error);
-                navigate("/");
-            });
-        }, [navigate]);
+            }
+
+            checkAuthorization();
+        }, []);
     
         if (isAuthorized === null) {
             return <p>Loading...</p>; // Show a loading state while checking session
         }   
     
-        return <>{children}</>; // Render children only if session is valid
+        return <>{isAuthorized && children}</>; // Render children only if session is valid
 };
 
 

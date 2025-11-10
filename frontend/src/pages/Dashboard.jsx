@@ -40,14 +40,14 @@ export default function Dashboard(){
         </div>
     }
 
-    const [userData, setUserData] = useState();
+    const [userData, setUserData] = useState(0);
     useEffect(() => {
-        fetch('http://localhost/Inventory-Management-System/backend/pages/dashboard.php', {
-            method: "GET",
-            credentials: "include"
-        })
-        .then(response => response.json())
-        .then(value => setUserData(value));      
+    // fetch('http://localhost/Inventory-Management-System/backend/pages/dashboard.php', {
+    //     method: "GET",
+    //     credentials: "include"
+    // })
+    // .then(response => response.json())
+    // .then(value => setUserData(value));      
     }, []);
 
     const containerRef = useRef(null);

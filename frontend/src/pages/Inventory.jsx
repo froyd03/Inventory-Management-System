@@ -10,7 +10,7 @@ import OrderForm from '../components/OrderForm.jsx'
 import AddMaterial from '../components/AddMaterial.jsx'
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import SoldProduct from '../components/SoldProduct.jsx'
-import axios from 'axios'
+import axios from '../utils/axios.js'
 
 export default function Inventory(){
 
@@ -51,7 +51,7 @@ export default function Inventory(){
     function getInventoryData(){
 
         if(tabContentActive[0]){
-            axios.get(`http://localhost:5000/materials/${filter}`)
+            axios.get(`/materials/${filter}`)
                 .then((response) => {
                     setMaterials(response.data);
 
@@ -64,7 +64,7 @@ export default function Inventory(){
 
         }else if(tabContentActive[1]){
 
-            axios.get(`http://localhost:5000/products/${filter}`)
+            axios.get(`/products/${filter}`)
             .then((response) => setProducts(response.data))
             .catch((err) => console.log(err));
         }
@@ -83,7 +83,7 @@ export default function Inventory(){
     useEffect(() => {
     
         if(search !== ""){
-            axios.get(`http://localhost:5000/${tabContentActive[0] ? "materials" : "products"}/search/${search}`)
+            axios.get(`/${tabContentActive[0] ? "materials" : "products"}/search/${search}`)
             .then((response) =>{
                 tabContentActive[0] ? setMaterials(response.data) : setProducts(response.data);
             })

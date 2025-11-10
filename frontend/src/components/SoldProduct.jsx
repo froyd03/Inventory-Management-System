@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import axios from "axios";
+import axios from "../utils/axios.js";
 
 export default function SoldProduct(props){
 
@@ -13,7 +13,7 @@ export default function SoldProduct(props){
         const productName = props.products[props.index].name;
 
         if(productQuantity !== ""){
-            axios.get(`http://localhost:5000/products/${productName}/${productQuantity}`)
+            axios.get(`/products/${productName}/${productQuantity}`)
                 .then(response => setProductDetails(response.data))
                 .catch(error => console.log(`Error selling product: ${error}`));
         }else{
@@ -33,7 +33,7 @@ export default function SoldProduct(props){
         }
 
         try{
-            const response = await axios.post("http://localhost:5000/products/sellProduct", reqBody);
+            const response = await axios.post("/products/sellProduct", reqBody);
             const result = response.data;
             result.status ? location.reload() : setResponseMessage(result.message);
 

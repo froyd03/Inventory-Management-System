@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from 'axios';
+import axios from '../utils/axios.js';
 
 export default function AddMaterial(props){
     
@@ -26,7 +26,7 @@ export default function AddMaterial(props){
     async function submitForm(e){
         e.preventDefault();
 
-        axios.post('http://localhost:5000/materials', inpValues)
+        axios.post('/materials', inpValues)
             .then(response => {
                 if(response.data.message === "success!"){
                     location.reload();

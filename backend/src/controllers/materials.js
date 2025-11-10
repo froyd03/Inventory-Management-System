@@ -3,6 +3,9 @@ const express = require('express');
 const router = express.Router();
 const materialService = require('../models/materialModel.js');
 
+const authMiddleware = require("../middleware/authMiddleware.js");
+router.use(authMiddleware);
+
 router.get('/', async (req, res) => {
     try {
         const data = await materialService.getAllMaterials();
@@ -12,7 +15,6 @@ router.get('/', async (req, res) => {
 
         res.status(400).json({ message: `Error getting materials: ${error}` });
     }
-
 });
 
 router.get('/:filterType', async (req, res) => {

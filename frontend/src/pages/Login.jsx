@@ -7,10 +7,12 @@ import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined
 import logoBrand from '../assets/logo.png'
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from "../utils/axios";
 
 export default function Login(){
     const navigate = useNavigate();   
 
+    /*
     useEffect(() => {
         fetch("http://localhost/Inventory-Management-System/backend/auth/session.php", {
             method: "GET",
@@ -29,6 +31,7 @@ export default function Login(){
             navigate("/");
         });
     }, [navigate]);
+    */
     
     const [isShowPassword, setShowPassword] = useState(false);
     function handleShowPassword(){
@@ -43,117 +46,98 @@ export default function Login(){
     const NEWnameRef  = useRef(); 
     const NEWgmailRef  = useRef(); 
     const NEWpasswordRef  = useRef(); 
+    const [message, setMessage]= useState("");
 
-    const [name, setName] = useState();
-    function handleCreateName(e){
-        const NAME = e.target.value.trim();
-        setName("");
-        if((!isNaN(NAME.charAt(NAME.length-1))) && NAME){
-            NEWnameRef.current.style.setProperty("--dynamicText", '"Only letters and white space allowed"');
-        }else{
-            setName(NAME);
-            NEWnameRef.current.style.setProperty("--dynamicText", '""');
+    const [registerData, setRegisterdata] = useState({});
+    function handleRegisterForm(e){
+        if(e.target.name === "name"){
+
+            const NAME = e.target.value.trim();
+            setRegisterdata(data => ({...data, [e.target.name]: ""}))
+            if((!isNaN(NAME.charAt(NAME.length-1))) && NAME){
+                NEWnameRef.current.style.setProperty("--dynamicText", '"Only letters and white space allowed"');
+            }else{
+                setRegisterdata(data => ({...data, [e.target.name]: NAME}))
+                NEWnameRef.current.style.setProperty("--dynamicText", '""');
+            }
         }
-    }
+        else if(e.target.name === "email"){
+            const userEmail = e.target.value;
+            const validEmail = userEmail.includes('@') && userEmail.includes('.');
+            setRegisterdata(data => ({...data, [e.target.name]: ""}))
 
-    const [gmail, setGmail] = useState("");
-    function handleCreateEmail(e){
-        const userEmail = e.target.value;
-        const validEmail = userEmail.includes('@') && userEmail.includes('.');
-        setGmail("");
-
-        if(!validEmail && userEmail){
-            NEWgmailRef.current.style.setProperty("--dynamicText", '"@ and . is missing"');
-        }else{
-            setGmail(userEmail);
-            NEWgmailRef.current.style.setProperty("--dynamicText", '""')
+            if(!validEmail && userEmail){
+                NEWgmailRef.current.style.setProperty("--dynamicText", '"@ and . is missing"');
+            }else{
+                setRegisterdata(data => ({...data, [e.target.name]: userEmail}))
+                NEWgmailRef.current.style.setProperty("--dynamicText", '""')
+            }
         }
-    }
-
-    const [password, setPassword] = useState();
-    function handleCreatePass(e){
-        const userPassword = e.target.value;
-        const correctPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&\-_])[A-Za-z\d@$!%*?&\-_]{8,}$/.test(userPassword);
-        
-        if(!correctPattern){
-            setMessage("Minimum 8 characters, at least one uppercase letter (A-Z), one lowercase letter (a-z), one number (0-9), and one special character (@, $, !, %, *, ?, &, -, _)");
-            NEWpasswordRef.current.classList.add("invalidInput");
-            setPassword('');
-        }else{
-            setMessage('');
-            NEWpasswordRef.current.classList.remove("invalidInput");
-            setPassword(userPassword);
+        else if(e.target.name === "password"){
+            const userPassword = e.target.value;
+            const correctPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&\-_])[A-Za-z\d@$!%*?&\-_]{8,}$/.test(userPassword);
+            
+            if(!correctPattern){
+                setMessage("Minimum 8 characters, at least one uppercase letter (A-Z), one lowercase letter (a-z), one number (0-9), and one special character (@, $, !, %, *, ?, &, -, _)");
+                NEWpasswordRef.current.classList.add("invalidInput");
+                setRegisterdata(data => ({...data, [e.target.name]: ""}))
+            }else{
+                setMessage('');
+                NEWpasswordRef.current.classList.remove("invalidInput");
+                setRegisterdata(data => ({...data, [e.target.name]: userPassword}));
+            }
         }
     }
 
     const [validPassword, setValidPassword] = useState(false);
-    useEffect(() => {
-        
-        setValidPassword(name && gmail && password);
- 
-    }, [name, gmail, password]);
 
-    const [message, setMessage]= useState("");
     async function signUpSubmitForm(event){
-        event.preventDefault();     
-        if(validPassword){
-            const formData = new FormData();
-            formData.append("name", name);
-            formData.append("email", gmail);
-            formData.append("password", password);
-    
-            try{
-                const response = await fetch("http://localhost/Inventory-Management-System/backend/auth/signup.php", {
-                    method: "POST",
-                    body: formData
-                });
-            
-                const result = await response.json();
-                setMessage(result.message)
-                if(result.confirm === "success") setLoginForm(true);
-            }catch(error){
-                console.error("Error submitting form:", error);
-            }
-        }else{
-            setMessage('Complete all fields before submitting.')
+        event.preventDefault();
+
+        try{
+            const {data} = await axios.post('/user/register', registerData);
+            console.log(data.response);
+        }catch(error){
+            console.error("error submiting form try again!", error);
         }
     }
-    const [loginEmail, setLoginEmail] = useState("");
-    function handleLoginEmail(e){
-        setLoginEmail(e.target.value);
-        setLoginMessage("");
-    }
 
-    const [loginPassword, setLoginPassword] = useState("");
-    function handleLoginPassword(e){
-        setLoginPassword(e.target.value);
+    const [loginData, setLoginData] = useState({});
+    function handleLoginInput(e){
+        const {name, value} = e.target;
+
+        if(name === "email"){
+            setLoginData(prevData => ({...prevData, [name]: value}));
+        }
+        else if(name === "password"){
+            setLoginData(prevData => ({...prevData, [name]: value}));
+        }
+        else{
+            setLoginMessage(`no existing ${name}`);
+        }
         setLoginMessage("");
     }
+    
+    useEffect(() => {
+        console.log(loginData)
+    }, [loginData])
 
     const [loginMessage, setLoginMessage] = useState("");
     async function loginSubmitForm(event){
         event.preventDefault();
-        const formData = new FormData();
-        formData.append("email", loginEmail);
-        formData.append("password", loginPassword);
 
-        if(loginEmail && loginPassword){
-            try{
-                const response = await fetch('http://localhost/Inventory-Management-System/backend/auth/login.php', {
-                    method: "POST",
-                    credentials: "include",
-                    body: formData
-                });
-                
-                const result = await response.json();
-                if(result.isAuthenticated){
-                    navigate("/dashboard");
-                }else{
-                    setLoginMessage("Incorrect username and password.");
-                }
-            }catch(error){
-                console.log("from login.jsx: ", error);
+        try{
+            const {data} = await axios.post('/user/login', loginData);
+
+            if(data.status){
+                localStorage.setItem("token", data.response);
+                navigate("/dashboard");
+            }else{
+                setLoginMessage(data.response)
             }
+            //navigate("/inventory");
+        }catch(error){
+            console.log("from login.jsx: ", error);
         }
     }
 
@@ -172,12 +156,12 @@ export default function Login(){
                     <label>Email</label>
                     <div className="inp-container">
                         <PersonOutlineOutlinedIcon color='primary'/>
-                        <input type="text" onChange={handleLoginEmail} placeholder='delacruz@gmail.com' />
+                        <input type="text" onChange={handleLoginInput} name="email" placeholder='delacruz@gmail.com' />
                     </div>
                     <label>Password</label>
                     <div className="inp-container">
                         <HttpsOutlinedIcon color='primary'/>
-                        <input type={isShowPassword ? "text":"password"} onChange={handleLoginPassword} placeholder='Password'/>
+                        <input type={isShowPassword ? "text":"password"} onChange={handleLoginInput} name="password" placeholder='Password'/>
                         {isShowPassword ? <RemoveRedEyeOutlinedIcon onClick={handleShowPassword} />  : 
                                           <VisibilityOffOutlinedIcon onClick={handleShowPassword } />}
                     </div>
@@ -195,15 +179,15 @@ export default function Login(){
                 <div className="inputFields">
                     <label>Name*</label>
                     <div ref={NEWnameRef} className="inp-container">
-                        <input onChange={handleCreateName} type="text" placeholder='Juan Dela Cruz' />
+                        <input onChange={handleRegisterForm} name="name" type="text" placeholder='Juan Dela Cruz' />
                     </div>
                     <label>Email*</label>
                     <div ref={NEWgmailRef} className="inp-container">
-                        <input onChange={handleCreateEmail} type="email" placeholder='delacruz@gmail.com' />
+                        <input onChange={handleRegisterForm} name="email" type="email" placeholder='delacruz@gmail.com' />
                     </div>
                     <label>Password*</label>
                     <div ref={NEWpasswordRef} className="inp-container">
-                        <input onChange={handleCreatePass} type={isShowPassword ? "text":"password"} placeholder='Password'/>
+                        <input onChange={handleRegisterForm} name="password" type={isShowPassword ? "text":"password"} placeholder='Password'/>
                         {isShowPassword ? <RemoveRedEyeOutlinedIcon onClick={handleShowPassword} />  : 
                                         <VisibilityOffOutlinedIcon onClick={handleShowPassword } />}
                     </div>

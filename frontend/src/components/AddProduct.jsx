@@ -3,7 +3,7 @@ import '../styles/global.css'
 import '../styles/Inventory.css'
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleOutlinedIcon from '@mui/icons-material/RemoveCircleOutlined';
-import axios from 'axios';
+import axios from '../utils/axios.js';
 
 export default function AddProduct(props){
 
@@ -78,7 +78,7 @@ export default function AddProduct(props){
 
     const [materials, setMaterials] = useState([]);
     useEffect(() => {
-        axios.get("http://localhost:5000/materials")
+        axios.get("/materials")
             .then(response => {
                 setMaterials(response.data);    
                 setQuantity([]);
@@ -147,7 +147,7 @@ export default function AddProduct(props){
             return;
         }
 
-        axios.post("http://localhost:5000/products", productData)
+        axios.post("/products", productData)
             .then(response => {
                 response.data.status ? location.reload() : setMessage(response.data.message);
                 console.log(response.data)

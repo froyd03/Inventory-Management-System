@@ -24,7 +24,7 @@ function App() {
           path='/inventory'
           element={
             <Protected>
-              <Inventory />   
+              <Inventory />  
             </Protected>
           }
         />
