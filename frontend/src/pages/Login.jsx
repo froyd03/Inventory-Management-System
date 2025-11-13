@@ -96,7 +96,12 @@ export default function Login(){
 
         try{
             const {data} = await axios.post('/user/register', registerData);
-            console.log(data.response);
+            if(data.status){
+                localStorage.setItem("token", data.response);
+                navigate("/inventory");
+            }else{
+                setLoginMessage(data.response)
+            }
         }catch(error){
             console.error("error submiting form try again!", error);
         }
@@ -117,10 +122,6 @@ export default function Login(){
         }
         setLoginMessage("");
     }
-    
-    useEffect(() => {
-        console.log(loginData)
-    }, [loginData])
 
     const [loginMessage, setLoginMessage] = useState("");
     async function loginSubmitForm(event){

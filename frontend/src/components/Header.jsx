@@ -84,17 +84,8 @@ export default function Header(props) {
 
     const navigate = useNavigate();
     function logOut(){
-        fetch("http://localhost/Inventory-Management-System/backend/auth/logout.php", {
-            method:"GET", 
-            credentials:"include"
-        })
-        .then(response => response.json())
-        .then(value => {
-            if(!value.isRedirect){
-                navigate("/", {replace: true});
-            }
-        })
-        .catch(error => console.error("fetched failed", error));
+       localStorage.removeItem("token");
+       navigate("/");
     }
 
     return (

@@ -10,12 +10,9 @@ const Protected = ({ children }) => {
             async function checkAuthorization(){
                 try{
                     const {data} = await axios.get('/user/verifyUserToken');
-                    if(data.isValid){
-                        setIsAuthorized(true)
-                    }
+                    data.isValid ? setIsAuthorized(true) : navigate('/')
                 }catch(error){
                     navigate('/');
-
                 }
             }
 
