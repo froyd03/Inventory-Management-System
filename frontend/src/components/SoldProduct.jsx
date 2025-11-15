@@ -29,6 +29,7 @@ export default function SoldProduct(props){
 
         const reqBody = {
             productName: props.products[props.index].name,
+            perPrice: props.products[props.index].price,
             quantitySold: productQuantity
         }
 

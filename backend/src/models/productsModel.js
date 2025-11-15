@@ -65,7 +65,7 @@ async function addProduct({productName, sellingPrice, measurementType, materials
     }
 }
 
-async function restockProduct({productName, restockQuantity}){ 
+async function restockProduct({productName, restockQuantity, perQuantity}){ 
     const connection = await database.getConnection();
 
     try{
@@ -129,6 +129,12 @@ async function restockProduct({productName, restockQuantity}){
             );
         }
 
+        //saved to transac history
+        // await connection.query(
+        //     "INSERT INTO history (inventory_type, name, quantity, price_per_quantity, price_sold, action_type) VALUES (?, ?, ?, ?, ?)",
+        //     ["product", productName, restockQuantity, `-`, "order"]
+        // );
+
         await connection.commit();
         return {"message": `Restock added +${restockQuantity} to ${productName}`, "status": true};
     }
@@ -141,7 +147,7 @@ async function restockProduct({productName, restockQuantity}){
     }
 }
 
-async function soldProduct({productName, quantitySold}){
+async function soldProduct({productName, quantitySold, perPrice}){
     const connection = await database.getConnection();
     
     const productSoldDetails = await soldProductDetails(productName, quantitySold);
@@ -176,6 +182,12 @@ async function soldProduct({productName, quantitySold}){
         await connection.query(
             "UPDATE products SET quantity = ?, availability = ? WHERE name = ?",
             [totalProductQuantity, availabilityStatus, productName]
+        );
+
+        //4. save to transac history
+        await connection.query(
+            "INSERT INTO history (inventory_type, name, quantity, price_per_quantity, price_sold, action_type) VALUES (?, ?, ?, ?, ?, ?)",
+            ["products", productName, quantitySold, perPrice, productSoldDetails.revenue, "sold"]
         );
 
         await connection.commit();

@@ -6,7 +6,8 @@ const dbConnect = mysql.createPool({
     host: "localhost",
     user: "root",
     password: "",
-    database: "inventory_system"
+    database: "inventory_system",
+    dateStrings: true
 }).promise()
 
 module.exports = dbConnect;

@@ -3,7 +3,8 @@ import Header from "../components/Header.jsx";
 import ReportForm from '../components/ReportForm.jsx';
 import { useState, useEffect,useRef } from "react";
 import { LineChart } from '@mui/x-charts/LineChart';
-import {dataGraphMonthly, dataGraphWeekly, dataGraphYearly} from '../utils/dataGraph.js'
+import { dataGraphWeekly, dataGraphMonthly, dataGraphYearly } from '../utils/dataGraph.js';
+import axios from '../utils/axios.js';
 
 export default function Report(){
     
@@ -12,19 +13,10 @@ export default function Report(){
         setShowForm(s=>!s);
     }
 
-    const [purchases, setPurchases] = useState();
     useEffect(() => {
-       fetch("http://localhost/Inventory-Management-System/backend/pages/orders.php", {
-            method: "GET",
-            credentials: "include"
-        })
-        .then(response => response.json())
-        .then(value => setPurchases(value.orders));
-
         if(lineChartData.length === 0) { //if lineChart is empty, put a value
             setLineChartData(dataGraphYearly);
             setDataSeries([{ dataKey: 'purchase', color: '#1E214C'}]);
-            console.log("run")
         }
     }, []);
 
@@ -38,31 +30,50 @@ export default function Report(){
         setEndDate(e.target.value);    
     }
 
-    const [filteredData, setFilteredData] = useState([]);
+    const [reportType, setReportType] = useState("sales");
+    function handleReportType(e){
+        setReportType(e.target.value);  
+    }
+
     const [lineChartData, setLineChartData] = useState([]);
     const [dataSeries, setDataSeries] = useState([]);
-    function getChartData(){
-        if(startDate && endDate){
-            const filtered = purchases?.filter(purchase =>
-                purchase.date >= startDate && purchase.date <= endDate
-            );
-            setFilteredData(filtered); // optional — keep this if you need it elsewhere
+    function getChartData(chartData){
+        
+        const data = chartData?.map(item => ({
+            date: item.date,
+            cost: parseFloat(item.price_sold)
+        }));
 
-            const data = filtered.map(item => ({
-                date: item.date,
-                cost: parseFloat(item.quantity) * parseFloat(item.perQuantity),
-            }));
+        setLineChartData(data);
+        setDataSeries([{ dataKey: 'cost', color: '#1E214C'}]);
+    }
 
-            setDataSeries([{ dataKey: 'cost', color: '#1E214C'}]);
-            setLineChartData(data);
+    const [purchases, setPurchases] = useState();
+    async function handleSubmitForm(e){
+        e.preventDefault();
+
+        try{
+            const {data} = await axios.get('/history/getReportData', {
+                params: {
+                    startDate: startDate,
+                    endDate: endDate,
+                    reportType: reportType
+                },
+            });
+            getChartData(data);
+            setPurchases(data)
         }
+        catch(error){
+            console.log(error.message);
+        }
+        
+        showResult();
     }
 
     const [showData, setShowData] = useState(false);
     function showResult(){
         setShowData(true);
         setShowForm(false);
-        getChartData();
     }
 
     const chartRef = useRef();
@@ -136,8 +147,7 @@ export default function Report(){
                 <div className="tblMainContainer tblContainer">
                     <ReportForm 
                         startDate={startDate} 
-                        endDate={endDate}
-                        purchases={filteredData}
+                        purchases={purchases}
                         closeBtn={() => setShowData(false)}
                         reportFormBtn={() => setShowForm(false)}
                         chartReference={chartRef}
@@ -147,8 +157,8 @@ export default function Report(){
     
             </section>
             {showForm && <div className="modal">
-            <form>
-                <div className="form-container">
+            <form onSubmit={handleSubmitForm}>
+                <div className="form-container" style={{width: '600px'}}>
                     <div className="inputs">
                         <h3>Generate report</h3>
                         <div className="inp-prod">
@@ -159,42 +169,37 @@ export default function Report(){
                             <label>End Date:</label>
                             <input type="date" onChange={handleEndDate}/>
                         </div>
-                        <div className="inp-prod">
-                            <label>Material Filter:(optional)</label>
-                            <div className="select-measure-type">
-                                <select>
-                                    <option value="-"></option>
-                                    <option value="Monthly">Wooden Glue</option>
-                                    <option value="Weekly">varnish</option>
-                                    <option value="Yearly">Box Nails</option>
-                                </select>
-                            </div>
-                        </div>
+                        
                     </div>
                     <div className="line"></div>
                     <div className="inputs">
                         <h3>Report Type</h3>
                         <div className="rbtn-container">
-                            <input type="radio" name="reportType" id="sales" />
+                            <input 
+                                type="radio" 
+                                name="reportType" 
+                                id="sales" 
+                                value="sales" 
+                                onChange={handleReportType} 
+                                defaultChecked
+                            />
                             <label htmlFor="sales">Sales Only</label>
                         </div>
                         <div className="rbtn-container">
-                            <input type="radio" name="reportType" id="profit" />
+                            <input type="radio" name="reportType" value="purchase" onChange={handleReportType} id="profit" />
                             <label htmlFor="profit">Purchase Only</label>
                         </div>
                         <div className="rbtn-container">
-                            <input type="radio" name="reportType" id="sales&profit" />
+                            <input type="radio" name="reportType" value="sales_purchase" onChange={handleReportType} id="sales&profit" />
                             <label htmlFor="sales&profit">Sales & Purchase</label>
                         </div>
                         <div className="actions-btn">
                             <button type="button" onClick={handleReportForm} className="discard">Discard</button>
-                            <button type="submit" onClick={showResult}>Submit</button>
+                            <button type="submit" >Submit</button>
                         </div>
                     </div>
-                    
                 </div>
             </form>
-            
         </div>}
         </>
     )   

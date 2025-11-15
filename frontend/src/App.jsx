@@ -45,7 +45,7 @@ function App() {
           }
         />
         <Route
-          path='/orders'
+          path='/transaction history'
           element={
             <Protected>
               <Orders/>

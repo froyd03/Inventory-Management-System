@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:filterType', async (req, res) => {
+router.get('/filtering/:filterType', async (req, res) => {
     try {
         const filterType = req.params.filterType;
         const data = await materialService.getMaterialsByFilter(filterType);
@@ -55,16 +55,28 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.post('/restock',  async (req, res) => {
+router.post('/restock', async (req, res) => {
 
     try {
         const result = await materialService.restockMaterial(req.body);
         res.status(201).json(result);
-    } catch (error) {
+    } 
+    catch (error) {
+
         console.error("Restock Material Error:", error); 
         res.status(400).json({ message: `Error restocking materials: ${error.message}` });
     }
+});
 
+router.get('/suppliers', async (req, res) => {
+ 
+    try {
+        const data = await materialService.getAllSuppliers();
+        res.status(200).json(data);
+    } 
+    catch (error) {
+       console.log(error.message);
+    } 
 });
 
 module.exports = router;

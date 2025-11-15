@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import '../styles/global.css'
 import '../styles/Inventory.css'
-import axios from 'axios';
+import axios from '../utils/axios';
 
 export default function OrderForm(props){
 
@@ -27,8 +27,6 @@ export default function OrderForm(props){
     const [errorMessage, setErrorMessage] = useState();
 
     async function handleSubmitOrder(){
-        const productName = props.materials[props.index].material_name;
-
         const data = {
             "totalPrice": totalPrice || '',
             "totalQuantity": materialQuantity || '',
@@ -36,7 +34,7 @@ export default function OrderForm(props){
             "productName": props.materials[props.index].material_name
         }
 
-        axios.post('http://localhost:5000/material/restock', data)
+        axios.post('http://localhost:5000/materials/restock', data)
             .then(response => {
                 if(response.data.message === "success!"){
                     location.reload();

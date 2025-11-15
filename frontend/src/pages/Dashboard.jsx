@@ -18,6 +18,7 @@ import Nav from '../components/Nav';
 import Header from '../components/Header';
 import OrderForm from '../components/OrderForm';
 import { useEffect, useRef, useState } from 'react';
+import axios from '../utils/axios.js'
 
 export default function Dashboard(){
     const [dataGraph, setDataGraph] = useState(dataGraphMonthly);
@@ -42,12 +43,19 @@ export default function Dashboard(){
 
     const [userData, setUserData] = useState(0);
     useEffect(() => {
-    // fetch('http://localhost/Inventory-Management-System/backend/pages/dashboard.php', {
-    //     method: "GET",
-    //     credentials: "include"
-    // })
-    // .then(response => response.json())
-    // .then(value => setUserData(value));      
+
+        async function getUserDashboardData(){
+            try{
+                const {data} = await axios.get('/user');
+                setUserData(data);
+                console.log(data)
+            }
+            catch(error){
+
+            }
+        }
+    
+        getUserDashboardData();
     }, []);
 
     const containerRef = useRef(null);
@@ -94,7 +102,7 @@ export default function Dashboard(){
                             <p>Sales</p>
                             <div className='sales'>
                                 <img width={'30px'} alt='error' height={'30px'} src={sales}/>
-                                <h4>{userData?.salesOverview.sales}</h4>
+                                <h4>{userData?.sales?.sales}</h4>
                             </div>
                         </div>
                         <span className="vl"></span>
@@ -102,7 +110,7 @@ export default function Dashboard(){
                             <p>Revenue</p>
                             <div className='sales'>
                                 <img width={'30px'} alt='error' height={'30px'} src={revenue}/>
-                                <h4>₱ {userData?.salesOverview.revenue}</h4>
+                                <h4>₱ {userData?.sales?.revenue}</h4>
                             </div>
                         </div>
                         <span className="vl"></span>
@@ -110,7 +118,7 @@ export default function Dashboard(){
                             <p>Profit</p>
                             <div className='sales'>
                                 <img width={'30px'} alt='error' height={'30px'} src={profit}/>
-                                <h4>₱ {userData?.salesOverview.profit}</h4>
+                                <h4>₱ {userData?.sales?.profit}</h4>
                             </div>
                         </div>
                     </div>
@@ -120,7 +128,7 @@ export default function Dashboard(){
                     <div className="item-summary">
                         <div className="item">
                             <img width={'30px'} alt='error' src={box}/>
-                            <p><b>{userData?.quantityInHand}</b></p>
+                            <p><b>0</b></p>
                             <p>Quantity in Hand</p>
                         </div>
                         <span className="vl"></span>
@@ -140,7 +148,7 @@ export default function Dashboard(){
                             <p>Purchase</p>
                             <div className='sales'>
                                 <img width={'40px'} alt='error' height={'40px'} src={purchase}/>
-                                <h4> {userData?.purchaseOverview.purchase}</h4>
+                                <h4> {userData?.purchase?.purchase}</h4>
                             </div>
                         </div>
                         <span className="vl"></span>
@@ -148,7 +156,7 @@ export default function Dashboard(){
                             <p>Cost</p>
                             <div className='sales'>
                                 <img width={'30px'} alt='error' height={'30px'} src={cost}/>
-                                <h4>₱ {parseFloat(userData?.purchaseOverview.cost).toLocaleString()}</h4>
+                                <h4>₱ {userData?.purchase?.cost}</h4>
                             </div>
                         </div>
                         <span className="vl"></span>
@@ -156,7 +164,7 @@ export default function Dashboard(){
                             <p>Return</p>
                             <div className='sales'>
                                 <img width={'30px'} alt='error' height={'30px'} src={retrn}/>
-                                <h4>₱ {userData?.purchaseOverview.retrn}</h4>
+                                <h4>₱ {userData?.purchase?.retrn}</h4>
                             </div>
                         </div>
                     </div>
@@ -166,7 +174,7 @@ export default function Dashboard(){
                     <div className="item-summary">
                         <div className="item">
                             <AccountCircleOutlinedIcon color='primary' sx={{fontSize:30}}/>
-                            <p><b>{userData?.numOfSuppliers}</b></p>
+                            <p><b>{userData?.totalSuppliers?.total}</b></p>
                             <p>Number of Supplier</p>
                         </div>
                         <span className="vl"></span>
@@ -245,11 +253,11 @@ export default function Dashboard(){
                             </tr>
                         </thead>
                         <tbody>
-                            {userData?.lowQuantityStock.map((stock, index) => 
+                            {userData?.materials?.map((stock, index) => 
                             <tr key={index}>
                                 <td>{stock.name}</td>
                                 <td>₱{stock.price}</td>
-                                <td>{stock.remainingQuantity}{stock.measure_type}</td>
+                                <td>{stock.quantity}{stock.measure_type}</td>
                                 <td>{setStatusAvailability(stock.availability)}</td>
                             </tr>
                             )}

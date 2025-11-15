@@ -56,7 +56,36 @@ async function changePassword(email, password) { //update
     }
 }
 
+async function userDashboardData(){
+
+    try{
+        const [salesData] = await database.query(
+            "SELECT sales, revenue, profit FROM sales_overview WHERE id = '1'"
+        );
+
+        const [purchaseData] = await database.query(
+            "SELECT purchase, cost, retrn FROM purchase_overview WHERE id = '1'"
+        );
+
+        const [lowQuantityMaterials] = await database.query(
+            "SELECT * FROM materials WHERE quantity <= 20"
+        );
+
+        const [totalSupplier] = await database.query("SELECT COUNT(*) AS total FROM materials");
+
+        return {
+            sales: salesData[0], 
+            purchase: purchaseData[0], 
+            materials: lowQuantityMaterials,
+            totalSuppliers: totalSupplier[0]
+        }
+    }
+    catch(error){
+
+    }
+}
 module.exports = {
     createUser,
-    userAuthenticate
+    userAuthenticate,
+    userDashboardData
 }

@@ -33,8 +33,8 @@ export default function Nav(props){
             btnIcon: <AccountCircleOutlinedIcon sx={{fontSize: 25}} />
         },
         {
-            btnName:'Orders', 
-            path: '/orders',
+            btnName:'History', 
+            path: '/transaction history',
             btnIcon: <LocalShippingOutlinedIcon sx={{fontSize: 25}} />
         },
         

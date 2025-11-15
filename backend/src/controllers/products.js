@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const productService = require('../models/productsModel.js')
 
-authMiddleware = require("../middleware/authMiddleware.js");
+const authMiddleware = require("../middleware/authMiddleware.js");
 router.use(authMiddleware);
 
 router.get('/', async (req, res) => {

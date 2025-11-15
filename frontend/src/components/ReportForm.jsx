@@ -8,48 +8,48 @@ import html2canvas from "html2canvas";
 
 export default function ReportForm(props){
 
+    //total quantity
     const [totalPurchased, setTotalPurchase] = useState(0);
-    const [totalUnitPrice, setTotalUnitPrice] = useState(0);
-    const [totalCost, setTotalCost] = useState(0);
+    const [totalPrice, setTotalPrice] = useState(0);
+    const [totalPricePerQuantity, setTotalPricePerQuantity] = useState(0);
     
     const [CSVdata, setCSVdata] = useState([]);
     useEffect(() => {
         let purchased = 0;
-        let unitPrice = 0;
-        let cost = 0;
+        let totalPrice = 0;
+        let pricePerQuantity = 0;
 
         props.purchases?.forEach(item => {
             purchased += parseFloat(item.quantity);
-            unitPrice += parseFloat(item.perQuantity);
-            cost += parseFloat(item.quantity) * parseFloat(item.perQuantity);
+            totalPrice += parseFloat(item.price_sold);
+            pricePerQuantity += parseFloat(item.price_per_quantity);
 
         });
 
         setTotalPurchase(purchased);
-        setTotalUnitPrice(unitPrice);
-        setTotalCost(cost);
+        setTotalPrice(totalPrice);
+        setTotalPricePerQuantity(pricePerQuantity);
             
         const data = [];
         props.purchases?.forEach(item => { 
             data.push({
                 "Date": item.date, 
                 "Name": item.name,
-                "Qty Purchase": item.quantity,
-                "Order value": item.orderValue,
-                "Total Cost": (parseFloat(item.quantity) * parseFloat(item.perQuantity))
+                "Quantity": item.quantity,
+                "Price per quantity": item.price_per_quantity,
+                "Total price": item.price_sold
             })
         });
 
         data.push({
-            "Date": "Total",
+            "Date": "Total:",
             "Name": "",
-            "Qty Purchase": purchased,
-            "Order value": unitPrice,
-            "Total Cost": cost
+            "Quantity": "",
+            "Price per quantity": totalPricePerQuantity,
+            "Total price": totalPrice
         })
      
        setCSVdata(data);
-       console.log(data);
     }, [props.purchases]);
    
     function handleCloseForm(){
@@ -98,7 +98,6 @@ export default function ReportForm(props){
             head: headers,
             body: rows,
         });
-        console.log(CSVdata);
         doc.save(fileName);
     }
 
@@ -127,10 +126,10 @@ export default function ReportForm(props){
             <thead>
                 <tr>
                     <th>Date</th>
-                    <th>Material</th>
-                    <th>Qty Purchased</th>
-                    <th>Unit Price</th>
-                    <th>Total Cost</th>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Price per quantity</th>
+                    <th>Total price</th>
                 </tr>
             </thead>
             <tbody>
@@ -138,9 +137,9 @@ export default function ReportForm(props){
                     <tr key={index}>
                         <td>{item.date}</td>
                         <td>{item.name}</td>
-                        <td>{item.quantity.toLocaleString()}</td>
-                        <td>₱{parseFloat(item.perQuantity).toLocaleString()}</td>
-                        <td>₱{(parseFloat(item.quantity) * parseFloat(item.perQuantity)).toLocaleString()}</td>
+                        <td>{item.quantity}</td>
+                        <td>₱{item.price_per_quantity}</td>
+                        <td>₱{item.price_sold}</td>
                     </tr>
                 )}
             </tbody>
@@ -148,9 +147,9 @@ export default function ReportForm(props){
                 <tr>
                     <td><b>Total:</b></td>
                     <td></td>
-                    <td><b>{totalPurchased.toLocaleString()}</b></td>
-                    <td><b>₱{totalUnitPrice.toLocaleString()}</b></td>
-                    <td><b>₱{totalCost.toLocaleString()}</b></td>
+                    <td></td>
+                    <td><b>₱{totalPricePerQuantity.toLocaleString()}</b></td>
+                    <td><b>₱{totalPrice.toLocaleString()}</b></td>
                 </tr>
             </tfoot>
         </table>

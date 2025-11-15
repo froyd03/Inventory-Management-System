@@ -5,6 +5,7 @@ import Pagination from '../components/Pagination.jsx'
 import AddMaterial from '../components/AddMaterial.jsx';
 import '../styles/Supplier.css'
 import { useEffect, useState } from 'react';
+import axios from '../utils/axios.js';
 
 export default function Supplier(){
 
@@ -15,12 +16,19 @@ export default function Supplier(){
 
     const [suppliers, setSuppliers] = useState([]);
     useEffect(() => {
-        fetch("http://localhost/Inventory-Management-System/backend/pages/suppliers.php", {
-            method: "POST",
-            credentials: "include"
-        })
-        .then(response => response.json())
-        .then(value => setSuppliers(value));
+        
+        async function getAllSuppliers(){
+            try{
+                const {data} = await axios.get('/materials/suppliers');
+                setSuppliers(data)
+                console.log(data)
+            }
+            catch(error){
+                console.log(error)
+            }
+        }   
+        
+        getAllSuppliers();
     }, []);
 
     return(

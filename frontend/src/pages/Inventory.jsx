@@ -32,16 +32,12 @@ export default function Inventory(){
         setFilter(f => '');
     }
 
-    const [filter, setFilter] = useState('');
+    const [filter, setFilter] = useState('All');
     function handleFilter(e){
         const filterType = e.target.value;
-
-        if(filterType !== "All"){
-            setFilter(filterType);
-        }else{
-            setFilter('');
-        }
+        setFilter(filterType);
     }
+
     const [getLowStocks, setLowStocks] = useState(0);
     const [isShowAddProduct, setShowAddProduct] = useState(false);
 
@@ -51,7 +47,7 @@ export default function Inventory(){
     function getInventoryData(){
 
         if(tabContentActive[0]){
-            axios.get(`/materials/${filter}`)
+            axios.get(`/materials/filtering/${filter}`)
                 .then((response) => {
                     setMaterials(response.data);
 
@@ -60,7 +56,7 @@ export default function Inventory(){
                         item.availability.toLowerCase() === "out of stock").length
                     );
                 })
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err.message));
 
         }else if(tabContentActive[1]){
 
