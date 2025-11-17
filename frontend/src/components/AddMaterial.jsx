@@ -25,14 +25,14 @@ export default function AddMaterial(props){
     const [message, setMessage] = useState("");
     async function submitForm(e){
         e.preventDefault();
-
-        axios.post('/materials', inpValues)
-            .then(response => {
-                if(response.data.message === "success!"){
-                    location.reload();
-                }
-            })
-            .catch(error => setMessage("Error adding material:" + error));
+        
+        try{
+            const {data} = await axios.post('/materials', inpValues);
+            if(data.message === "success!") location.reload();
+        }
+        catch(error){
+            setMessage("Error adding material:" + error)
+        }
     }
 
     return(

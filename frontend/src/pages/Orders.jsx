@@ -11,8 +11,13 @@ export default function Orders(){
     const [orderRecords, setOrders] = useState();
     useEffect(() => {
        async function getHistoryRecords(){
-            const {data} = await axios.get('/history');
-            setOrders(data);
+            try{
+                const {data} = await axios.get('/history');
+                setOrders(data);
+            }
+            catch(error){
+                console.error("error from history page", error)
+            }
        }
 
        getHistoryRecords();

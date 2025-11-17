@@ -12,26 +12,22 @@ import axios from "../utils/axios";
 export default function Login(){
     const navigate = useNavigate();   
 
-    /*
     useEffect(() => {
-        fetch("http://localhost/Inventory-Management-System/backend/auth/session.php", {
-            method: "GET",
-            credentials: "include"
-        })
-        .then(response => response.json())
-        .then(value => {
-            if (value.isRedirect) {
-                navigate("/dashboard");
-            } else {
-                navigate("/");
+        async function redirectDashboard(){
+            try{
+                const {data} = await axios.get("/user/verifyUserToken");
+                if(data.isValid){
+                    navigate("/dashboard");
+                }
+            }   
+            catch(error){
+                if(error.response?.status === 401){
+                    navigate("/");
+                }
             }
-        })
-        .catch(error => {
-            console.error("Error checking session:", error);
-            navigate("/");
-        });
-    }, [navigate]);
-    */
+        }
+        redirectDashboard();
+    }, []);
     
     const [isShowPassword, setShowPassword] = useState(false);
     function handleShowPassword(){

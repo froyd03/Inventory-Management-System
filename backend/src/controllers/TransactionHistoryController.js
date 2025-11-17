@@ -3,7 +3,7 @@ const router = express.Router();
 const transactionHistoryModel = require('../models/transactionHistoryModel.js')
 
 const authMiddleware = require("../middleware/authMiddleware.js");
-//router.use(authMiddleware);
+router.use(authMiddleware);
 
 router.get('/', async (req, res) => {
     

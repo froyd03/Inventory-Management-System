@@ -33,7 +33,7 @@ An Inventory Management System (IMS) web application that allows users to track,
 
 ## Tech Stack  
 - **Frontend**: React JS, CSS 
-- **Backend / Server**: PHP, XAMPP server
+- **Backend / Server**: Node JS, Express JS
 - **Database**: MYsql
 - **Build Tools / Config**: Vite, ESLint, etc.  
 
@@ -126,3 +126,10 @@ Contributions, bug reports, and feature requests are welcome!
 ## Contact  
 Your Name — banataofroyd@gmail.com  
 Project Link: [https://github.com/froyd03/Inventory-Management-System](https://github.com/froyd03/Inventory-Management-System)  
+
+
+## Future updates
+1. Full info of product including materials used
+2. Date logic for reports and chart
+3. Edit features both material and product (delete optional)
+4. full info of selling a product

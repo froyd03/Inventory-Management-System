@@ -16,7 +16,6 @@ export default function Supplier(){
 
     const [suppliers, setSuppliers] = useState([]);
     useEffect(() => {
-        
         async function getAllSuppliers(){
             try{
                 const {data} = await axios.get('/materials/suppliers');

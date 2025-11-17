@@ -77,18 +77,28 @@ export default function AddProduct(props){
     }
 
     const [materials, setMaterials] = useState([]);
+
+    
     useEffect(() => {
-        axios.get("/materials")
-            .then(response => {
-                setMaterials(response.data);    
+        async function getMaterialsData(){
+            try{
+                const {data} = await axios.get("/materials");
+
+                setMaterials(data);    
                 setQuantity([]);
                 setDisabled([]);
 
-                response.data.forEach(() => {
+                data.forEach(() => {
                     setQuantity(q => [...q, 0]);
                     setDisabled(d => [...d, true]);
                 });
-            }).catch(error => console.error("Error fetching material data", error))
+            }
+            catch(error){
+                console.error("Error fetching material data", error)
+            }
+        }
+
+        getMaterialsData();
 
         document.querySelector('body').style.overflow = "hidden";
 

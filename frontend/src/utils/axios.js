@@ -33,8 +33,7 @@ instance.interceptors.response.use(
       }
       
       localStorage.removeItem("token");
-      const navigate = useNavigate();
-      navigate('/');
+   
     }
     return Promise.reject(error);
   }

@@ -44,25 +44,30 @@ export default function Inventory(){
     const [materials, setMaterials] = useState([]);
     const [products, setProducts] = useState([]);
 
-    function getInventoryData(){
+    async function getInventoryData(){
 
         if(tabContentActive[0]){
-            axios.get(`/materials/filtering/${filter}`)
-                .then((response) => {
-                    setMaterials(response.data);
+            try{
+                const {data} = await axios.get(`/materials/filtering/${filter}`)
+                setMaterials(data);
 
-                    setLowStocks(() => response.data.filter(item => 
-                        item.availability.toLowerCase() === "low stock" || 
-                        item.availability.toLowerCase() === "out of stock").length
-                    );
-                })
-            .catch((err) => console.log(err.message));
+                setLowStocks(() => data.filter(item => 
+                    item.availability.toLowerCase() === "low stock" || 
+                    item.availability.toLowerCase() === "out of stock").length
+                );
+            }
+            catch(error){
+                console.log(err.message)
+            }
 
         }else if(tabContentActive[1]){
-
-            axios.get(`/products/${filter}`)
-            .then((response) => setProducts(response.data))
-            .catch((err) => console.log(err));
+            try{
+                const {data} = await axios.get(`/products/${filter}`);
+                setProducts(data)
+            }
+            catch(error){
+                console.log(error)
+            }
         }
     }
 

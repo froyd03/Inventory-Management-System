@@ -34,13 +34,13 @@ export default function OrderForm(props){
             "productName": props.materials[props.index].material_name
         }
 
-        axios.post('http://localhost:5000/materials/restock', data)
-            .then(response => {
-                if(response.data.message === "success!"){
-                    location.reload();
-                }
-            })
-            .catch(error => setErrorMessage("Error restocking materials:" + error));
+        try{
+            const {data} = axios.post('/materials/restock', data)
+            if(response.data.message === "success!") location.reload();
+        }
+        catch(error){
+            setErrorMessage("Error restocking materials:" + error)
+        }
     }
 
     return(
