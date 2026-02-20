@@ -22,7 +22,7 @@ router.get('/filtering/:filterType', async (req, res) => {
         const filterType = req.params.filterType;
         const data = await materialService.getMaterialsByFilter(filterType);
         res.status(200).json(data);
-
+        console.log(data);
     } catch (error) {
         
         res.status(400).json({ message: `Error getting materials: ${error}` });

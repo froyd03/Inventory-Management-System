@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import '../styles/global.css'
 import '../styles/Inventory.css'
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleOutlinedIcon from '@mui/icons-material/RemoveCircleOutlined';

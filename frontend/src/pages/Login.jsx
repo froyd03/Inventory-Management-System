@@ -1,4 +1,3 @@
-import '../styles/global.css'
 import '../styles/Login.css'
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import HttpsOutlinedIcon from '@mui/icons-material/HttpsOutlined';

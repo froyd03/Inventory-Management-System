@@ -201,6 +201,10 @@ select{
         border-bottom: 1px solid #00000014;
     }
 
+    tr:hover{
+        background-color: #00000012;
+    }
+
     tfoot{
         background-color: #00000014;
     }
@@ -276,6 +280,13 @@ form{
     & > select{
         padding: 0;
     }
+}
+
+.inventory{
+    background-color: #FFFF;
+    flex-direction: column;
+    padding: 16px 10px;
+    border-radius: var(--borderRadius);
 }
 
 .messageError{

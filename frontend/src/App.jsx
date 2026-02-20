@@ -6,6 +6,7 @@ import Reports from './pages/Reports.jsx';
 import Supplier from './pages/Supplier.jsx';
 import Protected from './components/Protected.jsx';
 import Orders from './pages/Orders.jsx';
+import './styles/global.css'
 
 function App() {  
   return (

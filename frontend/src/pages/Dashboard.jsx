@@ -1,5 +1,4 @@
 import '../styles/Dashboard.css'
-import '../styles/global.css'
 import sales from '../assets/salesC.png';
 import revenue from '../assets/revenueC.png';
 import profit from '../assets/profitC.png';

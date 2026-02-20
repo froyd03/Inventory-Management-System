@@ -55,7 +55,7 @@ CREATE TABLE product_materials (
 CREATE TABLE production(
     INPID INT(11) PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL,
-    time_left TIME DEFAULT CURRENT_TIME(),
+    time_left TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     quantity INT(11) NOT NULL
 );
 
@@ -81,12 +81,12 @@ CREATE TABLE orders(
 );
 
 INSERT INTO products (
-    name, price, quantity, availability
+    name, price, quantity, availability, unit_type
 ) VALUES
-    ("Chair", 250, 20, "In-stock"),
-    ("Table", 500, 35, "In-stock"),
-    ("Desk", 300, 18, "Low stock"),
-    ("Shelves", 100, 35, "In-stock"),
+    ("Chair", 250, 20, "In-stock", "pcs"),
+    ("Table", 500, 35, "In-stock", "pcs"),
+    ("Desk", 300, 18, "Low stock", "pcs"),
+    ("Shelves", 100, 35, "In-stock", "pcs"),
     ("Picture Frame", 75, 0, "Out of stock");
 
 INSERT INTO materials (

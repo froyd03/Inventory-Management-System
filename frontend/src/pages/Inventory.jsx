@@ -1,4 +1,3 @@
-import '../styles/global.css'
 import '../styles/Inventory.css'
 import Nav from '../components/Nav.jsx'
 import Header from '../components/Header.jsx'
@@ -50,14 +49,14 @@ export default function Inventory(){
             try{
                 const {data} = await axios.get(`/materials/filtering/${filter}`)
                 setMaterials(data);
-
+                console.log(data);
                 setLowStocks(() => data.filter(item => 
                     item.availability.toLowerCase() === "low stock" || 
                     item.availability.toLowerCase() === "out of stock").length
                 );
             }
             catch(error){
-                console.log(err.message)
+                console.log(error.message)
             }
 
         }else if(tabContentActive[1]){
@@ -133,8 +132,11 @@ export default function Inventory(){
         }else{
             setShowSoldProductForm(!showSoldProductForm);
             setSoldIndex(index);
-            
         }
+    }
+
+    function handleTableRow(index){
+        console.log(index)
     }
 
     const dicardSoldForm = () => {
@@ -226,7 +228,7 @@ export default function Inventory(){
                                 </thead>
                                 <tbody>
                                     {materials?.map((item, index) => 
-                                    <tr key={index}>
+                                    <tr key={index} onClick={() => handleTableRow(index)}>
                                         <td>{item.material_name}</td>
                                         <td>{item.brand}</td>
                                         <td>₱{item.price}</td>

@@ -132,7 +132,7 @@ async function restockProduct({productName, restockQuantity, perQuantity}){
         //saved to transac history
         // await connection.query(
         //     "INSERT INTO history (inventory_type, name, quantity, price_per_quantity, price_sold, action_type) VALUES (?, ?, ?, ?, ?)",
-        //     ["product", productName, restockQuantity, `-`, "order"]
+        //     ["products", productName, restockQuantity, `-`, "order"]
         // );
 
         await connection.commit();

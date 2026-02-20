@@ -1,4 +1,3 @@
-import '../styles/global.css'
 import '../styles/Inventory.css'
 import { useEffect, useRef, useState } from 'react';
 

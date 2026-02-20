@@ -1,9 +1,4 @@
-.inventory{
-    background-color: #FFFF;
-    flex-direction: column;
-    padding: 16px 10px;
-    border-radius: var(--borderRadius);
-}
+
 
 .inventory-type{
     display: flex;

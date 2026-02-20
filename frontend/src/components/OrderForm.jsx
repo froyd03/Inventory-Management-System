@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import '../styles/global.css'
 import '../styles/Inventory.css'
 import axios from '../utils/axios';
 
