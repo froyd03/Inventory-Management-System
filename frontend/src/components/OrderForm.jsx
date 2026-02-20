@@ -26,7 +26,7 @@ export default function OrderForm(props){
     const [errorMessage, setErrorMessage] = useState();
 
     async function handleSubmitOrder(){
-        const data = {
+        const order = {
             "totalPrice": totalPrice || '',
             "totalQuantity": materialQuantity || '',
             "pricePerQuantity": props.materials[props.index].price,
@@ -34,8 +34,8 @@ export default function OrderForm(props){
         }
 
         try{
-            const {data} = axios.post('/materials/restock', data)
-            if(response.data.message === "success!") location.reload();
+            const {data} = await axios.post('/materials/restock', order);
+            if(data.message === "success!") location.reload();
         }
         catch(error){
             setErrorMessage("Error restocking materials:" + error)

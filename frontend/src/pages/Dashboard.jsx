@@ -109,7 +109,7 @@ export default function Dashboard(){
                             <p>Revenue</p>
                             <div className='sales'>
                                 <img width={'30px'} alt='error' height={'30px'} src={revenue}/>
-                                <h4>₱ {userData?.sales?.revenue}</h4>
+                                <h4>₱ {userData?.sales?.revenue || 0}</h4>
                             </div>
                         </div>
                         <span className="vl"></span>
@@ -117,7 +117,7 @@ export default function Dashboard(){
                             <p>Profit</p>
                             <div className='sales'>
                                 <img width={'30px'} alt='error' height={'30px'} src={profit}/>
-                                <h4>₱ {userData?.sales?.profit}</h4>
+                                <h4>₱ {userData?.sales?.profit || 0}</h4>
                             </div>
                         </div>
                     </div>
@@ -155,7 +155,7 @@ export default function Dashboard(){
                             <p>Cost</p>
                             <div className='sales'>
                                 <img width={'30px'} alt='error' height={'30px'} src={cost}/>
-                                <h4>₱ {userData?.purchase?.cost}</h4>
+                                <h4>₱ {userData?.purchase?.cost || 0}</h4>
                             </div>
                         </div>
                         <span className="vl"></span>
@@ -163,7 +163,7 @@ export default function Dashboard(){
                             <p>Return</p>
                             <div className='sales'>
                                 <img width={'30px'} alt='error' height={'30px'} src={retrn}/>
-                                <h4>₱ {userData?.purchase?.retrn}</h4>
+                                <h4>₱ {userData?.purchase?.retrn || 0}</h4>
                             </div>
                         </div>
                     </div>

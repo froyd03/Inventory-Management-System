@@ -103,7 +103,7 @@ export default function Orders(){
                                             {order.price_sold}
                                         </td>
                                         <td>{order.action_type}</td>
-                                        <td>{order.date}</td>
+                                        <td>{order.transact_date}</td>
                                     </tr>
                                 )}
                             </tbody>

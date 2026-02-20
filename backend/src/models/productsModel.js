@@ -195,6 +195,7 @@ async function soldProduct({productName, quantitySold, perPrice}){
     }
     catch(error){
         await connection.rollback()
+        console.log(error.message);
         return {"message": `Product ${productName} failed to sold!`, "status": false};
     }
     finally{

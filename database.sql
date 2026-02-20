@@ -76,8 +76,19 @@ CREATE TABLE orders(
     quantity INT(11) NOT NULL,
     per_quantity INT(11) NOT NULL,
     order_ID VARCHAR(50),
-    order_date DATE DEFAULT CURRENT_DATE(),
+    order_date DATE DEFAULT (CURRENT_DATE()),
     status VARCHAR(20) NOT NULL 
+);
+
+CREATE TABLE history(	
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	inventory_type enum('product', 'materials') NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    quantity INT NOT NULL,
+    price_per_quantity INT NOT NULL,
+    price_sold INT NOT NULL,
+    action_type enum('sold', 'restock', 'order') NOT NULL,
+    transact_date DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 INSERT INTO products (

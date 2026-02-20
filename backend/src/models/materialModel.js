@@ -91,7 +91,7 @@ async function restockMaterial({ totalPrice, totalQuantity, pricePerQuantity, pr
     const connection = await database.getConnection();
     
     try{
-         await connection.beginTransaction();
+        await connection.beginTransaction();
 
          // 1. Update purchase_overview
         const [overviewRows] = await connection.query("SELECT purchase, cost FROM purchase_overview WHERE id = 1");
@@ -134,6 +134,7 @@ async function restockMaterial({ totalPrice, totalQuantity, pricePerQuantity, pr
     }
     catch(error){
         await connection.rollback();
+        console.log(error.message);
         return {"message": `Material ${productName} failed to order!`, "status": false};
     }
     finally{

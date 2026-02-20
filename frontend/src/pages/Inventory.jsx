@@ -49,7 +49,7 @@ export default function Inventory(){
             try{
                 const {data} = await axios.get(`/materials/filtering/${filter}`)
                 setMaterials(data);
-                console.log(data);
+
                 setLowStocks(() => data.filter(item => 
                     item.availability.toLowerCase() === "low stock" || 
                     item.availability.toLowerCase() === "out of stock").length
