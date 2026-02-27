@@ -23,6 +23,7 @@ export default function Report(){
     const [startDate, setStartDate] = useState('');
     function handleStartDate(e){
         setStartDate(e.target.value);  
+        console.log(e.target.value);
     }
 
     const [endDate, setEndDate] = useState('');
@@ -40,7 +41,7 @@ export default function Report(){
     function getChartData(chartData){
         
         const data = chartData?.map(item => ({
-            date: item.date,
+            date: item.transact_date,
             cost: parseFloat(item.price_sold)
         }));
 

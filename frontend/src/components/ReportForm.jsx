@@ -135,7 +135,7 @@ export default function ReportForm(props){
             <tbody>
                 {props.purchases?.map((item, index) => 
                     <tr key={index}>
-                        <td>{item.date}</td>
+                        <td>{item.transact_date.split(' ')[0]}</td>
                         <td>{item.name}</td>
                         <td>{item.quantity}</td>
                         <td>₱{item.price_per_quantity}</td>

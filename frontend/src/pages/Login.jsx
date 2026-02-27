@@ -99,6 +99,7 @@ export default function Login(){
             }
         }catch(error){
             console.error("error submiting form try again!", error);
+            setMessage(error.response.data)
         }
     }
 
@@ -133,7 +134,8 @@ export default function Login(){
             }
             //navigate("/inventory");
         }catch(error){
-            console.log("from login.jsx: ", error);
+            console.log("from login.jsx: ", error.response.data);
+            setLoginMessage(error.response.data)
         }
     }
 

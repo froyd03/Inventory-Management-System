@@ -4,6 +4,7 @@ const cors = require('cors');
 
 app.use(express.json());
 app.use(cors());
+app.use(require('./src/middleware/rateLimitMiddleware.js'))
 
 app.use("/user", require("./src/controllers/userController.js"));
 app.use('/materials', require("./src/controllers/materials.js"))

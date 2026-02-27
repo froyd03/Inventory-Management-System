@@ -30,19 +30,21 @@ async function getReportData(startDate, endDate, reportType){
     try{
         const history = await getAllHistory();
         //get range of date
-        const filtered = history.filter(item => 
-            (reportType === 'sales') ?
-                item.action_type === "sold" && item.date >= startDate && item.date <= endDate 
+        const filtered = history.filter(item => {
+            const dateSplit = item.transact_date.split(' ')[0];
+        
+            return (reportType === 'sales') ?
+                item.action_type === "sold" && dateSplit >= startDate && dateSplit <= endDate 
 
             : (reportType === 'purchase') ? 
-                item.action_type === "order" && item.date >= startDate && item.date <= endDate
+                item.action_type === "order" && dateSplit >= startDate && dateSplit <= endDate
 
-            : item.date >= startDate && item.date <= endDate 
-        );
+            : dateSplit >= startDate && dateSplit <= endDate 
+        });
         return filtered;
     }
     catch(error){
-        return {"message": `failed to fetch history`};
+        return {"message": `failed to fetch history, ${error.message}`};
     }
 }
 
