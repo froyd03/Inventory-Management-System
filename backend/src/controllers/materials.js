@@ -2,11 +2,12 @@
 const express = require('express');
 const router = express.Router();
 const materialService = require('../models/materialModel.js');
-
 const authMiddleware = require("../middleware/authMiddleware.js");
+const authorize = require('../middleware/roleMiddleware.js')
+
 router.use(authMiddleware);
 
-router.get('/', async (req, res) => {
+router.get('/', authorize(['admin', 'manager', 'staff']), async (req, res) => {
     try {
         const data = await materialService.getAllMaterials();
         res.status(200).json(data);
@@ -17,7 +18,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/filtering/:filterType', async (req, res) => {
+router.get('/filtering/:filterType', authorize(['admin', 'manager', 'staff']), async (req, res) => {
     try {
         const filterType = req.params.filterType;
         const data = await materialService.getMaterialsByFilter(filterType);
@@ -29,8 +30,7 @@ router.get('/filtering/:filterType', async (req, res) => {
 
 });
 
-router.get('/search/:name', async (req, res) => {
-    
+router.get('/search/:name', authorize(['admin', 'manager', 'staff']), async (req, res) => {   
     try {
         const search = req.params.name;
         const data = await materialService.searchMaterials(search);
@@ -42,7 +42,7 @@ router.get('/search/:name', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', authorize(['admin', 'manager']), async (req, res) => {
 
     try {
         const result = await materialService.addMaterial(req.body);
@@ -54,7 +54,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.post('/restock', async (req, res) => {
+router.post('/restock', authorize(['admin', 'manager']), async (req, res) => {
 
     try {
         const result = await materialService.restockMaterial(req.body);
@@ -67,7 +67,7 @@ router.post('/restock', async (req, res) => {
     }
 });
 
-router.get('/suppliers', async (req, res) => {
+router.get('/suppliers', authorize(['admin', 'manager']), async (req, res) => {
  
     try {
         const data = await materialService.getAllSuppliers();

@@ -10,8 +10,12 @@ import AddMaterial from '../components/AddMaterial.jsx'
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import SoldProduct from '../components/SoldProduct.jsx'
 import axios from '../utils/axios.js'
+import { hasPermission } from '../utils/permisions.js'
+import { useAuth } from "../components/authContext.jsx";
 
 export default function Inventory(){
+
+    const  { user } = useAuth();
 
     const [tabContentActive, setTabContentActive] = useState([true, false, false]);
     function handleActiveTab(index){
@@ -135,10 +139,6 @@ export default function Inventory(){
         }
     }
 
-    function handleTableRow(index){
-        console.log(index)
-    }
-
     const dicardSoldForm = () => {
         setShowSoldProductForm(!showSoldProductForm);
     }
@@ -152,7 +152,7 @@ export default function Inventory(){
                 <h3>Overall Inventory</h3>
                 <div className="overview-item">
                     <div className="item">
-                        <p style={{color: '#1570ef'}}><b>On The Way </b></p>
+                        <p style={{color: '#1570ef'}}><b>In Transit</b></p>
                         <h4>{0}</h4>
                         <p>Last 7 Days</p>
                     </div>
@@ -198,11 +198,12 @@ export default function Inventory(){
                                 <SearchOutlinedIcon />
                             </div>
                             <div className="header-action">
-                                <button 
+                                {hasPermission(user, ["admin", "manager"]) && <button 
                                     className="addProduct" 
                                     onClick={() => showMaterialForm(p => !p)}
                                         >Add Material
-                                </button>
+                                </button>}
+                            
                                 <div className="filter">
                                     <FilterListIcon />
                                     <select onChange={handleFilter}>
@@ -236,10 +237,10 @@ export default function Inventory(){
                                         <td>{setStatusAvailability(item.availability)}</td>
                                         <td>
                                             
-                                            <button 
+                                            {hasPermission(user, ["admin", "manager"]) && <button 
                                                 onClick={() => handleOrderItem(index)} 
                                                 className="order">Request order
-                                            </button>
+                                            </button>}
                                         </td>
                                     </tr>
                                     )}
@@ -259,7 +260,10 @@ export default function Inventory(){
                                 <SearchOutlinedIcon />
                             </div>
                             <div className="header-action">
-                                <button onClick={() => setShowAddProduct(p => !p)} className="addProduct">Add Product</button>
+                                {hasPermission(user, ["admin", "manager"]) &&
+                                <button onClick={() => setShowAddProduct(p => !p)} className="addProduct">
+                                    Add Product
+                                </button>}
                                 <div className="filter">
                                     <FilterListIcon />
                                     <select onChange={handleFilter}>

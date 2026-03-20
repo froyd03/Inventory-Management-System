@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const productService = require('../models/productsModel.js')
-
+const authorize = require('../middleware/roleMiddleware.js')
 const authMiddleware = require("../middleware/authMiddleware.js");
 router.use(authMiddleware);
 
-router.get('/', async (req, res) => {
+router.get('/', authorize(["admin", "manager", "staff"]), async (req, res) => {
     
     try{
         const data = await productService.getAllProducts();
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/search/:name', async (req, res) => {
+router.get('/search/:name', authorize(["admin", "manager", "staff"]), async (req, res) => {
         
     try{
         const search = req.params.name;
@@ -30,7 +30,7 @@ router.get('/search/:name', async (req, res) => {
     }
 });
 
-router.get('/:filterType', async (req, res) => {
+router.get('/:filterType', authorize(["admin", "manager", "staff"]), async (req, res) => {
 
     try{
         const filter = req.params.filterType;
@@ -43,7 +43,7 @@ router.get('/:filterType', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', authorize(["admin", "manager"]), async (req, res) => {
 
     try{
         const requestData = req.body;
@@ -56,7 +56,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.post('/restock', async (req, res) => {
+router.post('/restock', authorize(["admin", "manager", "staff"]), async (req, res) => {
 
     try{
         const requestData = req.body;
@@ -69,7 +69,7 @@ router.post('/restock', async (req, res) => {
     }
 });
 
-router.post('/sellProduct', async (req, res) => {
+router.post('/sellProduct', authorize(["admin", "manager", "staff"]), async (req, res) => {
 
     try{
         const requestData = req.body;
@@ -83,7 +83,7 @@ router.post('/sellProduct', async (req, res) => {
 }
 );
 
-router.get('/:name/:quantity', async (req, res) => {
+router.get('/:name/:quantity', authorize(["admin", "manager", "staff"]), async (req, res) => {
     const quantity = parseInt(req.params.quantity);
     const productName = req.params.name;
     

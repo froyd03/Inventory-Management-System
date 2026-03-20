@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: "http://localhost:5000"
+    baseURL: "http://192.168.1.2:5000"
 });
 
 instance.interceptors.request.use(
@@ -24,15 +24,15 @@ instance.interceptors.response.use(
       const message = error.response.data.message;
 
       if (message === "Token expired") {
+        localStorage.removeItem("token");
         alert("Session expired. Please log in again.");
       } else if (message === "Invalid token") {
+        localStorage.removeItem("token");
         alert("Invalid session. Please log in again.");
       } else if (message.includes("No token")) {
+        localStorage.removeItem("token");
         alert("You need to log in first.");
-      }
-      
-      localStorage.removeItem("token");
-   
+      } 
     }
     return Promise.reject(error);
   }

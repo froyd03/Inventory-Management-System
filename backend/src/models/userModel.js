@@ -1,17 +1,14 @@
-const dotenv = require("dotenv");
-dotenv.config();
-
 const database = require("../config/database.js");
 const jwt = require("jsonwebtoken");
 const {compare, hash} = require("bcrypt");
 
-async function createUser(name, email, password) { //create
+async function createUser(name, role, email, password) { //create
     try{
         const hashedPassword = await hash(password, 10);
 
         await database.query(
-            "INSERT INTO users(name, email, password) VALUES (?, ?, ?)",
-            [name, email, hashedPassword]
+            "INSERT INTO users(name, role, email, password) VALUES (?, ?, ?, ?)",
+            [name, role, email, hashedPassword]
         );
 
         const result = await userAuthenticate(email, password);
@@ -31,7 +28,7 @@ async function userAuthenticate(email, password) { //read
 
         console.log(isPasswordMatch);
         if(email === user[0].email && isPasswordMatch){
-            const payload = {_id: user[0].id, email: user[0].email};
+            const payload = {_id: user[0].id, role: user[0].role, email: user[0].email};
             const token = jwt.sign(payload, process.env.JWTSECRET, {expiresIn: "1h"});
 
             if(token) return {"response": token, "status": true};  
