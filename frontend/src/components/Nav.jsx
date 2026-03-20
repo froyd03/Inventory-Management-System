@@ -7,47 +7,56 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import logo from '../assets/logo.png';
 import { Link } from "react-router-dom";
 import { useRef, useState, useEffect } from 'react';
+import { hasPermission } from '../utils/permisions.js'
+import { useAuth } from "../components/authContext.jsx";
+
 import '../styles/Nav.css';
 
 export default function Nav(props){
+    const { user } = useAuth();
+    const [userRole, setUser] = useState(user);
 
     const navigationBtn = [
         {
             btnName:'Dashboard', 
             path: '/dashboard',
-            btnIcon: <HomeOutlinedIcon sx={{fontSize: 25}}/>
+            btnIcon: <HomeOutlinedIcon sx={{fontSize: 25}}/>,
+            permission: ["admin", "manager", "staff"]
         },
         {
             btnName:'Inventory', 
             path: '/inventory',
-            btnIcon:  <Inventory2OutlinedIcon sx={{fontSize: 25}}/>
+            btnIcon:  <Inventory2OutlinedIcon sx={{fontSize: 25}}/>,
+            permission: ["admin", "manager", "staff"]
         },
         {
             btnName:'Reports', 
             path: '/reports',
-            btnIcon: <AssessmentOutlinedIcon sx={{fontSize: 25}}/>
+            btnIcon: <AssessmentOutlinedIcon sx={{fontSize: 25}}/>,
+            permission: ["admin", "manager"]
         },
         {
             btnName:'Suppliers', 
             path: '/supplier',
-            btnIcon: <AccountCircleOutlinedIcon sx={{fontSize: 25}} />
+            btnIcon: <AccountCircleOutlinedIcon sx={{fontSize: 25}} />,
+            permission: ["admin", "manager"]
         },
         {
             btnName:'History', 
             path: '/transaction history',
-            btnIcon: <LocalShippingOutlinedIcon sx={{fontSize: 25}} />
+            btnIcon: <LocalShippingOutlinedIcon sx={{fontSize: 25}} />,
+            permission: ["admin", "manager", "staff"]
         },
-        
     ]
 
     const activePageRef = useRef([]);
     const [clickedIndex, setClickedIndex] = useState(0);
 
     useEffect(() => {
+        setUser(user)
         handleActiveBtn(clickedIndex);
     }, [clickedIndex])
 
-    
     function handleActiveBtn(index){
         activePageRef.current.forEach(element => {
             if(element.classList.contains('active')){
@@ -73,15 +82,15 @@ export default function Nav(props){
            </div>
            {navigationBtn.map((item, index) => 
                 <Link key={index} to={item.path} onClick={() => handleActiveBtn(index)}>
-                    <div    className='navBtn'
-                            onClick={handleClose}
-                            ref={(el) => activePageRef.current[index] = el}>
-                            {item.btnIcon}
-                            <span>{item.btnName}</span>
-                    </div>
-                </Link>
+                    {hasPermission(userRole, item.permission) && 
+                    <div className='navBtn'
+                        onClick={handleClose}
+                        ref={(el) => activePageRef.current[index] = el}>
+                        {item.btnIcon}
+                        <span>{item.btnName}</span>
+                    </div>}
+                </Link> 
             )}
-           
         </nav>
     )
 }

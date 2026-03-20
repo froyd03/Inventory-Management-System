@@ -7,9 +7,11 @@ import logoBrand from '../assets/logo.png'
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "../utils/axios";
+import { useAuth } from "../components/authContext.jsx";
 
 export default function Login(){
     const navigate = useNavigate();   
+    const { fetchUser } = useAuth();
 
     useEffect(() => {
         async function redirectDashboard(){
@@ -128,6 +130,7 @@ export default function Login(){
 
             if(data.status){
                 localStorage.setItem("token", data.response);
+                await fetchUser();
                 navigate("/dashboard");
             }else{
                 setLoginMessage(data.response)

@@ -94,7 +94,6 @@ export default function Inventory(){
             .catch((err) => console.log(err));    
 
         }else{
-
             getInventoryData(); 
         }
     }, [search])
@@ -143,6 +142,13 @@ export default function Inventory(){
         setShowSoldProductForm(!showSoldProductForm);
     }
 
+    const [showMaterialDetails, setShowMaterialDetails] = useState(false);
+    function showDetails(details, isShow){
+        console.log(details)
+        console.log(isShow)
+        setShowMaterialDetails(isShow)
+    }
+
     return (
         <>
         <Header title="Inventory"/>
@@ -187,67 +193,79 @@ export default function Inventory(){
                 </div>
                 <div className="tab-content">
                     {tabContentActive[0] && <div className="tblInventory">
-                        <div className="tbl-header">
-                            <div className="input">
-                                <input 
-                                    type="text" 
-                                    value={search} 
-                                    onChange={handleSearch} 
-                                    placeholder='Search materials or brands'
-                                />
-                                <SearchOutlinedIcon />
+                        {showMaterialDetails ?
+                        <div>
+                            Hellooo
+                            <div>
+                                <button className='addProduct'>Cancel</button>
+                                <button>Save</button>
                             </div>
-                            <div className="header-action">
-                                {hasPermission(user, ["admin", "manager"]) && <button 
-                                    className="addProduct" 
-                                    onClick={() => showMaterialForm(p => !p)}
-                                        >Add Material
-                                </button>}
-                            
-                                <div className="filter">
-                                    <FilterListIcon />
-                                    <select onChange={handleFilter}>
-                                        <option value="All">All</option>
-                                        <option value="In-stock">In-stock</option>
-                                        <option value="Low stock">Low stock</option>
-                                        <option value="Out of Stock">Out of stock</option>
-                                    </select>
+                        </div> 
+                        :
+                        <>
+                            <div className="tbl-header">
+                                <div className="input">
+                                    <input 
+                                        type="text" 
+                                        value={search} 
+                                        onChange={handleSearch} 
+                                        placeholder='Search materials or brands'
+                                    />
+                                    <SearchOutlinedIcon />
+                                </div>
+                                <div className="header-action">
+                                    {hasPermission(user, ["admin", "manager"]) && <button 
+                                        className="addProduct" 
+                                        onClick={() => showMaterialForm(p => !p)}
+                                            >Add Material
+                                    </button>}
+                                
+                                    <div className="filter">
+                                        <FilterListIcon />
+                                        <select onChange={handleFilter}>
+                                            <option value="All">All</option>
+                                            <option value="In-stock">In-stock</option>
+                                            <option value="Low stock">Low stock</option>
+                                            <option value="Out of Stock">Out of stock</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="tblContainer">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Material Name</th>
-                                        <th>Brand Name</th>
-                                        <th>Buying Price</th>
-                                        <th>Quantity</th>
-                                        <th>Availability</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {materials?.map((item, index) => 
-                                    <tr key={index} onClick={() => handleTableRow(index)}>
-                                        <td>{item.material_name}</td>
-                                        <td>{item.brand}</td>
-                                        <td>₱{item.price}</td>
-                                        <td>{item.quantity}{item.measure_type}</td>
-                                        <td>{setStatusAvailability(item.availability)}</td>
-                                        <td>
-                                            
-                                            {hasPermission(user, ["admin", "manager"]) && <button 
-                                                onClick={() => handleOrderItem(index)} 
-                                                className="order">Request order
-                                            </button>}
-                                        </td>
-                                    </tr>
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
-                        <Pagination numberOfData={materials.length} maxPerPage={5}/>
+                            <div className="tblContainer">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Material Name</th>
+                                            <th>Brand Name</th>
+                                            <th>Buying Price</th>
+                                            <th>Quantity</th>
+                                            <th>Availability</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {materials?.map((item, index) => 
+                                        <tr key={index} onClick={() => showDetails(item, true)}>
+                                            <td>{item.material_name}</td>
+                                            <td>{item.brand}</td>
+                                            <td>₱{item.price}</td>
+                                            <td>{item.quantity}{item.measure_type}</td>
+                                            <td>{setStatusAvailability(item.availability)}</td>
+                                            <td>
+                                                
+                                                {hasPermission(user, ["admin", "manager"]) && <button 
+                                                    onClick={() => handleOrderItem(index)} 
+                                                    className="order">Request order
+                                                </button>}
+                                            </td>
+                                        </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <Pagination numberOfData={materials.length} maxPerPage={5}/>
+                        </>
+                        }
                     </div>}
                     {tabContentActive[1] && <div className="tblInventory">
                         <div className="tbl-header">

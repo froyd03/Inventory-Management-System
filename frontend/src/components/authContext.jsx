@@ -6,22 +6,24 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            try{
-                const {data} = await axios.get('/user/me');
-                setUser(data);
+    const fetchUser = async () => {
+        try{
+            const {data} = await axios.get('/user/me');
+            setUser(data);
+            console.log("FETCHED USER:", data);
                 console.log(data)
-            } catch(error) {
-                console.log(data)
-            }
+        } catch(error) {
+            console.log(error)
         }
 
+    }
+
+    useEffect(() => {
         fetchUser();
     }, []);
 
     return (
-        <AuthContext.Provider value={{ user }}>
+        <AuthContext.Provider value={{ user, fetchUser }}>
             {children}
         </AuthContext.Provider>
     );

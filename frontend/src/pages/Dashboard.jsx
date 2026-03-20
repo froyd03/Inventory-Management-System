@@ -47,7 +47,6 @@ export default function Dashboard(){
             try{
                 const {data} = await axios.get('/user');
                 setUserData(data);
-                console.log(data)
             }
             catch(error){
 
