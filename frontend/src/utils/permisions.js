@@ -1,3 +1,3 @@
 export function hasPermission(user, permission){
-    return permission.includes(user.role)
+    return permission.includes(user?.role)
 }

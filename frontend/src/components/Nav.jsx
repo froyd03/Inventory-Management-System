@@ -53,18 +53,18 @@ export default function Nav(props){
     const [clickedIndex, setClickedIndex] = useState(0);
 
     useEffect(() => {
-        setUser(user)
-        handleActiveBtn(clickedIndex);
+            setUser(user)
+            handleActiveBtn(clickedIndex);
     }, [clickedIndex])
 
     function handleActiveBtn(index){
-        activePageRef.current.forEach(element => {
+        activePageRef?.current?.forEach(element => {
             if(element.classList.contains('active')){
                 element.classList.remove('active')
             }
         })
         setClickedIndex(index);
-        activePageRef.current[props.index].classList.add('active');
+        activePageRef?.current[props.index]?.classList.add('active');
     }
 
     const closeIconRef = useRef();

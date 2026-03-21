@@ -101,7 +101,8 @@ export default function Inventory(){
     const [showOrderForm, setShOrderForm] = useState(false);
     const [OrderIndex, setOrderIndex] = useState(); 
     
-    function handleOrderItem(index) {
+    function handleOrderItem(index, event) {
+        event.stopPropagation()
         setShOrderForm(s => !s);
         setOrderIndex(index);
     }
@@ -127,8 +128,8 @@ export default function Inventory(){
 
     const [showSoldProductForm, setShowSoldProductForm] = useState(false);
     const [soldIndex, setSoldIndex] = useState(0);
-    function handleShowSoldForm(index){
-        
+    function handleShowSoldForm(index, event){
+        event.stopPropagation()
         if(products[index].quantity <= 0){
             console.log("cannot be sold 0 quantity: go to production tab to produce this product");
 
@@ -142,12 +143,13 @@ export default function Inventory(){
         setShowSoldProductForm(!showSoldProductForm);
     }
 
-    const [showMaterialDetails, setShowMaterialDetails] = useState(false);
-    function showDetails(details, isShow){
-        console.log(details)
-        console.log(isShow)
-        setShowMaterialDetails(isShow)
-    }
+    const [materialDetails, setMaterialDetails] = useState({item: {}, isShow: false});
+
+    const [productDetails, setProductDetails] = useState({});
+   
+    useEffect(() => {
+        console.log(productDetails)
+    }, [productDetails])
 
     return (
         <>
@@ -193,12 +195,47 @@ export default function Inventory(){
                 </div>
                 <div className="tab-content">
                     {tabContentActive[0] && <div className="tblInventory">
-                        {showMaterialDetails ?
+                        {materialDetails.isShow ?
                         <div>
-                            Hellooo
-                            <div>
-                                <button className='addProduct'>Cancel</button>
-                                <button>Save</button>
+                            <h3>{materialDetails.item.material_name}</h3>
+                            <div className="materialDetailsContainer">
+                                <h4>Primary Details</h4>
+                                <div className='itemDetails'>
+                                    <label>Material name</label> 
+                                    <span>{materialDetails.item.material_name}</span>
+                                </div> 
+                                <div className='itemDetails'>
+                                    <label>Material brand</label> 
+                                    <span>{materialDetails.item.brand}</span>
+                                </div> 
+                                <div className='itemDetails'>
+                                    <label>Quantity</label> 
+                                    <span>{materialDetails.item.quantity}</span>
+                                </div> 
+                                <div className='itemDetails'>
+                                    <label>Availability</label> 
+                                    <span>{materialDetails.item.availability}</span>
+                                </div> 
+                            </div>
+                            <div className="materialDetailsContainer">
+                                <h4>Supplier Details</h4>
+                                <div className='itemDetails'>
+                                    <label>Supplier name</label> 
+                                    <span>{materialDetails.item.supplier_name}</span>
+                                </div> 
+                                <div className='itemDetails'>
+                                    <label>Contact number</label> 
+                                    <span>{materialDetails.item.contact_number}</span>
+                                </div> 
+                            </div>
+                            <div className='materialDetailsFooter'>
+                                <button 
+                                    className='cancelBtn' 
+                                    onClick={() => setMaterialDetails(prev => ({...prev, item: null, isShow: false}))}
+                                >
+                                    Cancel
+                                </button>
+                                <button className='addProduct'>Save</button>
                             </div>
                         </div> 
                         :
@@ -245,7 +282,7 @@ export default function Inventory(){
                                     </thead>
                                     <tbody>
                                         {materials?.map((item, index) => 
-                                        <tr key={index} onClick={() => showDetails(item, true)}>
+                                        <tr key={index} onClick={() =>  setMaterialDetails(prev => ({...prev, item, isShow: true}))}>
                                             <td>{item.material_name}</td>
                                             <td>{item.brand}</td>
                                             <td>₱{item.price}</td>
@@ -254,7 +291,7 @@ export default function Inventory(){
                                             <td>
                                                 
                                                 {hasPermission(user, ["admin", "manager"]) && <button 
-                                                    onClick={() => handleOrderItem(index)} 
+                                                    onClick={(e) => handleOrderItem(index, e)} 
                                                     className="order">Request order
                                                 </button>}
                                             </td>
@@ -268,6 +305,20 @@ export default function Inventory(){
                         }
                     </div>}
                     {tabContentActive[1] && <div className="tblInventory">
+                        {productDetails.isShow ?
+                        <div>
+                            <div className='materialDetailsFooter'>
+                                <button 
+                                    className='cancelBtn' 
+                                    onClick={() => setProductDetails(prev => ({...prev, item: null, isShow: false}))}
+                                >
+                                    Cancel
+                                </button>
+                                <button className='addProduct'>Save</button>
+                            </div>
+                        </div>
+                        :
+                        <>
                         <div className="tbl-header">
                             <div className="input">
                                 <input 
@@ -306,14 +357,14 @@ export default function Inventory(){
                                 </thead>
                                 <tbody>
                                 {products?.map((item, index) => 
-                                    <tr key={index}>
+                                    <tr onClick={() => setProductDetails(prev => ({...prev, item, isShow:true}))} key={index}>
                                         <td>{item.name}</td>
                                         <td>₱{item.price}</td>
                                         <td>{item.quantity} {item.unit_type}</td>
                                         <td>{setStatusAvailability(item.availability)}</td>
                                         <td>
                                             <button className='sell'>restock</button>
-                                            <button className='sell' onClick={() => handleShowSoldForm(index)}>Sold</button>
+                                            <button className='sell' onClick={(e) => handleShowSoldForm(index, e)}>Sold</button>
                                         </td>
                                     </tr>
                                     )}
@@ -321,6 +372,8 @@ export default function Inventory(){
                             </table>
                         </div>
                         <Pagination numberOfData={products.length} maxPerPage={2}/>
+                        </>
+                        }
                     </div>}
                 </div>
             </div>

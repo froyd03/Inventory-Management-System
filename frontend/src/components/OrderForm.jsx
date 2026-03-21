@@ -54,15 +54,15 @@ export default function OrderForm(props){
                             </div>
                             <div className="inp-prod">
                                 <label>Per Quantity: </label>
-                                <label>₱{props.materials[props.index].price}</label>
+                                <span>₱{props.materials[props.index].price}</span>
                             </div>
                             <div className="inp-prod">
                                 <label>Total Price: </label>
-                                <label>₱{totalPrice ? totalToString : 0}</label>
+                                <span>₱{totalPrice ? totalToString : 0}</span>
                             </div>
                             <div className="inp-prod">
                                 <label>Delivery Time: </label>
-                                <label>2 to 5 days</label>
+                                <span>2 to 5 days</span>
                             </div>
                         </div>
                         <div className="line"></div>
@@ -71,15 +71,15 @@ export default function OrderForm(props){
                                 <h3>Supplier Details</h3>
                                 <div className='rbtn-container'>
                                     <label>Supplier Name: </label>
-                                    <label>{props.materials[props.index].supplier_name}</label>
+                                    <span>{props.materials[props.index].supplier_name}</span>
                                 </div>
                                 <div className='rbtn-container'>
                                     <label>Email: </label>
-                                    <label>{props.materials[props.index].email}</label>
+                                    <span>{props.materials[props.index].email}</span>
                                 </div>
                                 <div className='rbtn-container'>
                                     <label>Contact Number: </label>
-                                    <label>{props.materials[props.index].contact_number}</label>
+                                    <span>{props.materials[props.index].contact_number}</span>
                                 </div>
                             {errorMessage && <label style={{color: 'red', marginLeft: '10%'}}>{errorMessage}</label>}
                          {<div className="actions-btn">

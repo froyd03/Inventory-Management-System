@@ -3,8 +3,9 @@ CREATE DATABASE inventory_system;
 USE inventory_system;
 
 CREATE TABLE users (
-    id INT(11) PRIMARY KEY AUTO_INCREMENT,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(25) NOT NULL,
+    role enum('admin', 'manager', 'staff') NOT NULL,
     email VARCHAR(25) UNIQUE,
     password VARCHAR(255) NOT NULL
 );
