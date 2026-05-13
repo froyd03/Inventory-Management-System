@@ -2,7 +2,7 @@ import '../styles/Inventory.css'
 import Nav from '../components/Nav.jsx'
 import Header from '../components/Header.jsx'
 import Pagination from '../components/Pagination.jsx'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useReducer } from 'react'
 import FilterListIcon from '@mui/icons-material/FilterList';
 import AddProduct from '../components/AddProduct.jsx'
 import OrderForm from '../components/OrderForm.jsx'
@@ -47,7 +47,7 @@ export default function Inventory(){
     const [materials, setMaterials] = useState([]);
     const [products, setProducts] = useState([]);
 
-    async function getInventoryData(){
+    async function getInventoryData(){ //3
 
         if(tabContentActive[0]){
             try{
@@ -76,28 +76,24 @@ export default function Inventory(){
 
     useEffect(() => {
         getInventoryData();
-        setSearch("");
     }, [tabContentActive, filter]);
 
-    const [search, setSearch] = useState("");
-    function handleSearch(e){
-        setSearch(e.target.value);
-    }
+    async function handleSearch(e){
+        const search = e.target.value;
 
-    useEffect(() => {
-    
         if(search !== ""){
-            axios.get(`/${tabContentActive[0] ? "materials" : "products"}/search/${search}`)
-            .then((response) =>{
-                tabContentActive[0] ? setMaterials(response.data) : setProducts(response.data);
-            })
-            .catch((err) => console.log(err));    
-
+            try{
+                const { data } = await axios.get(`/${tabContentActive[0] ? "materials" : "products"}/search/${search}`);
+                tabContentActive[0] ? setMaterials(data) : setProducts(data);
+            }
+            catch(error){
+                console.log(error);
+            }
         }else{
             getInventoryData(); 
         }
-    }, [search])
-
+    }
+    
     const [showOrderForm, setShOrderForm] = useState(false);
     const [OrderIndex, setOrderIndex] = useState(); 
     
@@ -146,10 +142,6 @@ export default function Inventory(){
     const [materialDetails, setMaterialDetails] = useState({item: {}, isShow: false});
 
     const [productDetails, setProductDetails] = useState({});
-   
-    useEffect(() => {
-        console.log(productDetails)
-    }, [productDetails])
 
     return (
         <>
@@ -244,7 +236,6 @@ export default function Inventory(){
                                 <div className="input">
                                     <input 
                                         type="text" 
-                                        value={search} 
                                         onChange={handleSearch} 
                                         placeholder='Search materials or brands'
                                     />
@@ -324,7 +315,6 @@ export default function Inventory(){
                                 <input 
                                     type="text" 
                                     onChange={handleSearch}
-                                    value={search}
                                     placeholder='Search products' />
                                 <SearchOutlinedIcon />
                             </div>
